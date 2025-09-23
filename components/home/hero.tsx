@@ -2,7 +2,7 @@ import { Carousel, CarouselContent, CarouselIndicators, CarouselItem } from 'com
 
 export default function Hero() {
   return (
-    <section className="relative mx-auto mb-8 w-full max-w-(--breakpoint-2xl) overflow-hidden rounded-xl border border-neutral-200 bg-gradient-to-br from-neutral-50 to-white dark:border-neutral-800 dark:from-neutral-950 dark:to-black">
+    <section className="relative mx-auto mt-4 mb-8 w-9/10 max-w-(--breakpoint-2xl) overflow-hidden rounded-xl border border-neutral-200 bg-gradient-to-br from-neutral-50 to-white dark:border-neutral-800 dark:from-neutral-950 dark:to-black">
       <Carousel className="px-6 py-12 md:px-12 md:py-16">
         <CarouselContent>
           <CarouselItem>

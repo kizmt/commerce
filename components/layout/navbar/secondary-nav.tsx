@@ -8,7 +8,7 @@ import {
     NavigationMenuList,
     NavigationMenuTrigger,
     navigationMenuTriggerStyle
-} from 'components/ui/navigation-menu';
+} from '@/components/ui/navigation-menu';
 import Link from 'next/link';
 
 type DropdownItem = { label: string; href: string };
@@ -73,9 +73,9 @@ const navItems: NavItem[] = [
 
 export default function SecondaryNav() {
   return (
-    <div className="border-t border-neutral-200 bg-white dark:border-neutral-800 dark:bg-black">
+    <div className="border-t border-b border-neutral-200 bg-white dark:border-neutral-800 dark:bg-black">
       <div className="mx-auto max-w-(--breakpoint-2xl) px-4 py-3">
-        <NavigationMenu viewport={false}>
+        <NavigationMenu viewport={false} className="z-50">
           <NavigationMenuList>
             {navItems.map((item) =>
               item.type === 'link' ? (
