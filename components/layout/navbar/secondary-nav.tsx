@@ -68,7 +68,9 @@ const navItems: NavItem[] = [
       { label: 'Accessories', href: '/search?q=final%20fantasy%20accessories' }
     ]
   },
-  { type: 'link', label: 'OTHERS', href: '/search?q=tcg' }
+  { type: 'link', label: 'OTHER TCGs', href: '/search?q=tcg' },
+  { type: 'link', label: 'ACCESSORIES', href: '/search?q=tcg' },
+  { type: 'link', label: 'COLLECTIBLES', href: '/search?q=tcg' },
 ];
 
 export default function SecondaryNav() {
