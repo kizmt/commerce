@@ -52,10 +52,25 @@ export async function ThreeItemGrid() {
   const [firstProduct, secondProduct, thirdProduct] = homepageItems;
 
   return (
-    <section className="mx-auto grid max-w-(--breakpoint-2xl) gap-4 px-4 pb-4 md:grid-cols-6 md:grid-rows-2 lg:max-h-[calc(100vh-200px)]">
+    <>
+      <div className="mx-auto max-w-(--breakpoint-2xl) px-4">
+        <h2 className="mb-3 text-xl font-bold md:text-2xl">Japan Imports</h2>
+      </div>
+      <section className="mx-auto grid max-w-(--breakpoint-2xl) gap-4 px-4 pb-8 md:grid-cols-6 md:grid-rows-2 lg:max-h-[calc(100vh-200px)]">
       <ThreeItemGridItem size="full" item={firstProduct} priority={true} />
       <ThreeItemGridItem size="half" item={secondProduct} priority={true} />
       <ThreeItemGridItem size="half" item={thirdProduct} />
-    </section>
+      </section>
+      <div className="mx-auto max-w-(--breakpoint-2xl) px-4">
+        <div className=" mb-6 flex justify-center">
+          <a
+            href="/search/hidden-homepage-featured-items"
+            className="inline-flex items-center rounded-md border border-neutral-300 px-5 py-2.5 text-sm font-semibold text-neutral-900 transition-colors hover:bg-neutral-100 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-neutral-400 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-900"
+          >
+            View all
+          </a>
+        </div>
+      </div>
+    </>
   );
 }

@@ -1,19 +1,45 @@
-import { getCollectionProducts } from 'lib/shopify';
+import { getCollectionProducts, getProducts } from 'lib/shopify';
 import Link from 'next/link';
 import { GridTileImage } from './grid/tile';
 
-export async function Carousel() {
+export async function Carousel({
+  title,
+  source
+}: {
+  title?: string;
+  source?:
+    | { type: 'collection'; handle: string }
+    | { type: 'latest'; limit?: number }
+    | { type: 'preorder'; query?: string; limit?: number };
+}) {
   // Collections that start with `hidden-*` are hidden from the search page.
-  const products = await getCollectionProducts({ collection: 'hidden-homepage-carousel' });
+  let products = [] as Awaited<ReturnType<typeof getCollectionProducts>>;
+
+  if (!source || source.type === 'collection') {
+    const handle = source?.type === 'collection' ? source.handle : 'hidden-homepage-carousel';
+    products = await getCollectionProducts({ collection: handle });
+  } else if (source.type === 'latest') {
+    products = await getProducts({ sortKey: 'CREATED_AT', reverse: true });
+    if (source.limit) products = products.slice(0, source.limit);
+  } else if (source.type === 'preorder') {
+    const q = source.query ?? 'pre-order OR preorder OR "pre order"';
+    products = await getProducts({ query: q, sortKey: 'CREATED_AT', reverse: true });
+    if (source.limit) products = products.slice(0, source.limit);
+  }
 
   if (!products?.length) return null;
 
-  // Purposefully duplicating products to make the carousel loop and not run out of products on wide screens.
-  const carouselProducts = [...products, ...products, ...products];
+  // Duplicate exactly twice so the track is two identical halves; translateX(-50%) loops seamlessly.
+  const carouselProducts = [...products, ...products];
 
   return (
-    <div className="w-full overflow-x-auto pb-6 pt-1">
-      <ul className="flex animate-carousel gap-4">
+    <div className="w-full overflow-hidden pb-8 pt-1">
+      {title ? (
+        <h2 className="mx-auto mb-3 max-w-(--breakpoint-2xl) px-4 text-xl font-bold md:text-2xl">
+          {title}
+        </h2>
+      ) : null}
+      <ul className="flex animate-carousel gap-4 w-max">
         {carouselProducts.map((product, i) => (
           <li
             key={`${product.handle}${i}`}
