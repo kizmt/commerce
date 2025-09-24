@@ -8,6 +8,7 @@ import { Fragment, Suspense, useEffect, useState } from 'react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Menu } from 'lib/shopify/types';
 import Search, { SearchSkeleton } from './search';
+import { navItems } from './secondary-items';
 
 export default function MobileMenu({ menu }: { menu: Menu[] }) {
   const pathname = usePathname();
@@ -90,6 +91,58 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
                     ))}
                   </ul>
                 ) : null}
+
+                <div className="mt-6 border-t border-neutral-200 pt-4 dark:border-neutral-800">
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
+                    Browse
+                  </p>
+                  <ul className="flex w-full flex-col">
+                    {navItems.map((item) => (
+                      <li key={item.label} className="py-2">
+                        {item.type === 'link' ? (
+                          <Link
+                            href={item.href}
+                            prefetch={true}
+                            onClick={closeMobileMenu}
+                            className="text-lg text-black transition-colors hover:text-neutral-500 dark:text-white"
+                          >
+                            {item.label}
+                          </Link>
+                        ) : (
+                          <details>
+                            <summary className="cursor-pointer text-lg text-black transition-colors hover:text-neutral-500 dark:text-white">
+                              {item.label}
+                            </summary>
+                            <ul className="ml-4 mt-2 flex flex-col border-l border-neutral-200 pl-4 dark:border-neutral-800">
+                              <li className="py-1">
+                                <Link
+                                  href={item.href}
+                                  prefetch={true}
+                                  onClick={closeMobileMenu}
+                                  className="text-base text-neutral-700 transition-colors hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white"
+                                >
+                                  Shop All
+                                </Link>
+                              </li>
+                              {item.items.map((sub) => (
+                                <li key={sub.label} className="py-1">
+                                  <Link
+                                    href={sub.href}
+                                    prefetch={true}
+                                    onClick={closeMobileMenu}
+                                    className="text-base text-neutral-700 transition-colors hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white"
+                                  >
+                                    {sub.label}
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          </details>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </Dialog.Panel>
           </Transition.Child>
