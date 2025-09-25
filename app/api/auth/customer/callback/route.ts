@@ -13,9 +13,10 @@ export async function GET(req: NextRequest) {
 
   const stateCookie = req.cookies.get('shopify_oauth_state')?.value;
   const codeVerifier = req.cookies.get('shopify_pkce_verifier')?.value;
+  const nonceCookie = req.cookies.get('shopify_oauth_nonce')?.value;
 
-  if (!code || !state || !stateCookie || stateCookie !== state || !codeVerifier) {
-    return NextResponse.redirect('/?auth=error');
+  if (!code || !state || !stateCookie || stateCookie !== state || !codeVerifier || !nonceCookie) {
+    return NextResponse.redirect(new URL('/?auth=error', url.origin));
   }
 
   const body = new URLSearchParams([
@@ -33,12 +34,12 @@ export async function GET(req: NextRequest) {
   });
 
   if (!tokenRes.ok) {
-    return NextResponse.redirect('/?auth=token_error');
+    return NextResponse.redirect(new URL('/?auth=token_error', url.origin));
   }
 
   const tokenJson = await tokenRes.json();
 
-  const response = NextResponse.redirect('/');
+  const response = NextResponse.redirect(new URL('/', url.origin));
   response.cookies.set('customer_access_token', tokenJson.access_token, {
     httpOnly: true,
     sameSite: 'lax',
@@ -58,6 +59,7 @@ export async function GET(req: NextRequest) {
 
   response.cookies.delete('shopify_pkce_verifier');
   response.cookies.delete('shopify_oauth_state');
+  response.cookies.delete('shopify_oauth_nonce');
   return response;
 }
 

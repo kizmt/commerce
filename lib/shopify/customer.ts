@@ -1,3 +1,5 @@
+import { SHOPIFY_STOREFRONT_API_VERSION } from 'lib/constants';
+
 export async function customerFetch<T>({
   query,
   variables
@@ -5,7 +7,8 @@ export async function customerFetch<T>({
   query: string;
   variables?: Record<string, unknown>;
 }): Promise<T> {
-  const endpoint = 'https://shopify.com/account/customer/api/2024-10/graphql.json';
+  const version = process.env.SHOPIFY_CUSTOMER_API_VERSION || SHOPIFY_STOREFRONT_API_VERSION;
+  const endpoint = `https://shopify.com/account/customer/api/${version}/graphql.json`;
   const res = await fetch(endpoint, {
     method: 'POST',
     headers: {
