@@ -7,6 +7,7 @@ import { Suspense } from 'react';
 import MobileMenu from './mobile-menu';
 import Search, { SearchSkeleton } from './search';
 import SecondaryNav from './secondary-nav';
+import UserMenu from './user-menu';
 
 export async function Navbar() {
   const menu = await getMenu('next-js-frontend-header-menu');
@@ -50,6 +51,7 @@ export async function Navbar() {
             </Suspense>
           </div>
           <div className="flex justify-end md:w-1/3">
+            <UserMenu />
             <CartModal />
           </div>
         </div>

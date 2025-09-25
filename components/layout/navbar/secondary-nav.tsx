@@ -1,13 +1,13 @@
 "use client";
 
 import {
-    NavigationMenu,
-    NavigationMenuContent,
-    NavigationMenuItem,
-    NavigationMenuLink,
-    NavigationMenuList,
-    NavigationMenuTrigger,
-    navigationMenuTriggerStyle
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle
 } from '@/components/ui/navigation-menu';
 import Link from 'next/link';
 
@@ -77,7 +77,7 @@ export default function SecondaryNav() {
   return (
     <div className="hidden border-t border-b border-neutral-200 bg-white md:block dark:border-neutral-800 dark:bg-black">
       <div className="mx-auto max-w-(--breakpoint-2xl) px-4 py-3">
-        <NavigationMenu viewport={false} className="z-50">
+        <NavigationMenu viewport={false} className="z-50 c">
           <NavigationMenuList>
             {navItems.map((item) =>
               item.type === 'link' ? (
