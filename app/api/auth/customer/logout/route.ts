@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+export const runtime = 'nodejs';
+
 const { SHOPIFY_CUSTOMER_LOGOUT_URL } = process.env as Record<string, string>;
 
 export async function GET(req: NextRequest) {

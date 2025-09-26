@@ -1,4 +1,5 @@
 import { SHOPIFY_STOREFRONT_API_VERSION } from 'lib/constants';
+import { headers } from 'next/headers';
 
 export async function customerFetch<T>({
   query,
@@ -9,11 +10,12 @@ export async function customerFetch<T>({
 }): Promise<T> {
   const version = process.env.SHOPIFY_CUSTOMER_API_VERSION || SHOPIFY_STOREFRONT_API_VERSION;
   const endpoint = `https://shopify.com/account/customer/api/${version}/graphql.json`;
+  const token = await getCustomerAccessToken();
   const res = await fetch(endpoint, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${getCustomerAccessToken()}`
+      Authorization: `Bearer ${token}`
     },
     body: JSON.stringify({ query, variables })
   });
@@ -24,12 +26,16 @@ export async function customerFetch<T>({
   return json.data as T;
 }
 
-function getCustomerAccessToken(): string {
-  // This function is intended for server-side usage only.
-  // In Next.js route handlers and server components, use cookies() API.
-  // Here, we read from the request context via headers when available; fallback to empty.
-  // Implementers can replace this with a parameterized version passed from the route.
-  return '';
+async function getCustomerAccessToken(): Promise<string> {
+  try {
+    const h = await headers();
+    const cookieHeader = h.get('cookie') || h.get('Cookie');
+    if (!cookieHeader) return '';
+    const match = cookieHeader.match(/(?:^|; )customer_access_token=([^;]+)/);
+    return match ? decodeURIComponent(match[1]!) : '';
+  } catch {
+    return '';
+  }
 }
 
 

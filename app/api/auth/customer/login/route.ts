@@ -27,25 +27,26 @@ export async function GET(_req: NextRequest) {
   ]);
 
   const response = NextResponse.redirect(`${SHOPIFY_CUSTOMER_AUTH_URL}?${params.toString()}`);
+  const isProd = process.env.NODE_ENV === 'production';
   response.cookies.set('shopify_pkce_verifier', codeVerifier, {
     httpOnly: true,
     sameSite: 'lax',
     path: '/',
-    secure: true,
+    secure: isProd,
     maxAge: 60 * 10
   });
   response.cookies.set('shopify_oauth_state', state, {
     httpOnly: true,
     sameSite: 'lax',
     path: '/',
-    secure: true,
+    secure: isProd,
     maxAge: 60 * 10
   });
   response.cookies.set('shopify_oauth_nonce', nonce, {
     httpOnly: true,
     sameSite: 'lax',
     path: '/',
-    secure: true,
+    secure: isProd,
     maxAge: 60 * 10
   });
   return response;

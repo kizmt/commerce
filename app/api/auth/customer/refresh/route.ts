@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+export const runtime = 'nodejs';
+
 const {
   SHOPIFY_CUSTOMER_CLIENT_ID,
   SHOPIFY_CUSTOMER_TOKEN_URL
@@ -25,11 +27,12 @@ export async function POST(req: NextRequest) {
 
   const tokenJson = await tokenRes.json();
   const response = NextResponse.json({ ok: true });
+  const isProd = process.env.NODE_ENV === 'production';
   response.cookies.set('customer_access_token', tokenJson.access_token, {
     httpOnly: true,
     sameSite: 'lax',
     path: '/',
-    secure: true,
+    secure: isProd,
     maxAge: tokenJson.expires_in ?? 60 * 30
   });
   if (tokenJson.refresh_token) {
@@ -37,7 +40,7 @@ export async function POST(req: NextRequest) {
       httpOnly: true,
       sameSite: 'lax',
       path: '/',
-      secure: true,
+      secure: isProd,
       maxAge: 60 * 60 * 24 * 30
     });
   }
