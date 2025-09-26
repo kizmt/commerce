@@ -63,8 +63,13 @@ async function getCustomer(accessToken: string): Promise<Customer | null> {
   }
 }
 
-export default async function AccountPage() {
+export default async function AccountPage({
+  searchParams
+}: {
+  searchParams?: { auth?: string };
+}) {
   const token = (await cookies()).get('customer_access_token')?.value;
+  const authFlag = searchParams?.auth;
 
   if (!token) {
     return (
@@ -89,6 +94,16 @@ export default async function AccountPage() {
   return (
     <div className="mx-auto w-full max-w-3xl px-6 py-12">
       <h1 className="mb-4 text-2xl font-semibold">Account</h1>
+      {authFlag === 'ok' && (
+        <p className="mb-4 rounded-md border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700 dark:border-green-800 dark:bg-green-900/30 dark:text-green-300">
+          Signed in successfully.
+        </p>
+      )}
+      {authFlag === 'token_error' && (
+        <p className="mb-4 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-800 dark:bg-red-900/30 dark:text-red-300">
+          We couldn&apos;t sign you in. Please try again.
+        </p>
+      )}
       {!customer ? (
         <div className="space-y-4">
           <p className="text-neutral-600 dark:text-neutral-300">
