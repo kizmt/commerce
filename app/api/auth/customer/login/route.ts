@@ -39,7 +39,7 @@ export async function GET(req: NextRequest) {
   const state = Math.random().toString(36).slice(2);
   const nonce = Math.random().toString(36).slice(2);
   const origin = new URL(req.url).origin;
-  const redirectUri = `${origin}/api/auth/customer/callback`;
+  const redirectUri = process.env.SHOPIFY_CUSTOMER_REDIRECT_URI || `${origin}/api/auth/customer/callback`;
   // Discover authorization endpoint from the shop domain
   const shopDomain = (SHOPIFY_STORE_DOMAIN || '').replace(/^https?:\/\//, '');
   if (!shopDomain) {

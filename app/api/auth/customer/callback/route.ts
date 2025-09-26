@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
   }
 
   const origin = url.origin;
-  const redirectUri = `${origin}/api/auth/customer/callback`;
+  const redirectUri = process.env.SHOPIFY_CUSTOMER_REDIRECT_URI || `${origin}/api/auth/customer/callback`;
   const body = new URLSearchParams([
     ['grant_type', 'authorization_code'],
     ['client_id', SHOPIFY_CUSTOMER_CLIENT_ID!],
