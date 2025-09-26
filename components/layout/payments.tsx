@@ -15,7 +15,7 @@ const payments: Payment[] = [
   { alt: 'Google Pay', src: '/payments/google-pay.svg' },
   { alt: 'Shop Pay', src: '/payments/shop-pay.svg' },
   { alt: 'Afterpay', src: '/payments/afterpay.svg' },
-  { alt: 'NZD Bank Transfer', src: '/payments/bank-transfer.svg' }
+  { alt: 'NZD Bank Transfer', src: '/payments/bank-transfer.jpg' }
 ];
 
 export default function FooterPayments() {

@@ -42,8 +42,11 @@ export default async function CollectionRow({
     <section className="mx-auto max-w-(--breakpoint-2xl) px-4">
       <h2 className="mb-3 text-xl font-bold md:text-2xl">{title}</h2>
       <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
-        {top.map((product) => (
-          <li key={product.handle} className="relative aspect-square w-full">
+        {top.map((product, i) => (
+          <li
+            key={product.handle}
+            className={`relative aspect-square w-full ${i === 4 ? 'hidden sm:block' : ''}`}
+          >
             <Link href={`/product/${product.handle}`} className="relative block h-full w-full">
               <GridTileImage
                 alt={product.title}
