@@ -1,3 +1,4 @@
+import { baseUrl } from 'lib/utils';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 
@@ -31,7 +32,8 @@ async function getCustomer(accessToken: string): Promise<Customer | null> {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`
+        Authorization: `Bearer ${accessToken}`,
+        Origin: baseUrl
       },
       cache: 'no-store',
       body: JSON.stringify({ query })
@@ -90,7 +92,24 @@ export default async function AccountPage({
     );
   }
 
-  const customer = await getCustomer(token);
+  let customer = await getCustomer(token);
+  if (!customer) {
+    // Fallback: derive minimal profile from id_token if available
+    const idToken = (await cookies()).get('customer_id_token')?.value;
+    try {
+      if (idToken) {
+        const payload = JSON.parse(Buffer.from(idToken.split('.')[1] || '', 'base64').toString());
+        if (payload?.email) {
+          customer = {
+            id: payload.sub || 'me',
+            email: payload.email,
+            firstName: payload.given_name || null,
+            lastName: payload.family_name || null
+          };
+        }
+      }
+    } catch {}
+  }
 
   return (
     <div className="mx-auto w-full max-w-3xl px-6 py-12">
