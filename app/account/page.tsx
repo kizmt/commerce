@@ -10,8 +10,11 @@ type Customer = {
 
 async function getCustomer(accessToken: string): Promise<Customer | null> {
   try {
-    const version = process.env.SHOPIFY_CUSTOMER_API_VERSION || '2024-10';
-    const endpoint = `https://shopify.com/account/customer/api/${version}/graphql.json`;
+    const shopDomain = process.env.SHOPIFY_STORE_DOMAIN?.replace(/^https?:\/\//, '')!;
+    const apiDiscoveryUrl = `https://${shopDomain}/.well-known/customer-account-api`;
+    const apiRes = await fetch(apiDiscoveryUrl, { cache: 'no-store' });
+    const apiConfig = await apiRes.json().catch(() => null as any);
+    const endpoint = apiConfig?.graphql_api || `https://${shopDomain}/customer/api/graphql`;
     const query = `#graphql
       query Me {
         customer {

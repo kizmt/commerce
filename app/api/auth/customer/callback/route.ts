@@ -33,7 +33,11 @@ export async function GET(req: NextRequest) {
 
   const tokenRes = await fetch(SHOPIFY_CUSTOMER_TOKEN_URL!, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Origin': origin,
+      'User-Agent': 'Next.js Commerce'
+    },
     body
   });
 

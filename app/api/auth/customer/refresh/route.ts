@@ -17,9 +17,14 @@ export async function POST(req: NextRequest) {
     ['refresh_token', refresh]
   ]);
 
+  const origin = new URL(req.url).origin;
   const tokenRes = await fetch(SHOPIFY_CUSTOMER_TOKEN_URL!, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Origin': origin,
+      'User-Agent': 'Next.js Commerce'
+    },
     body
   });
 

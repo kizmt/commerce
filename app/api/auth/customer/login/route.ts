@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
     ['client_id', SHOPIFY_CUSTOMER_CLIENT_ID!],
     ['redirect_uri', redirectUri],
     ['response_type', 'code'],
-    ['scope', SHOPIFY_CUSTOMER_SCOPES || 'openid email'],
+    ['scope', SHOPIFY_CUSTOMER_SCOPES || 'openid email customer-account-api:full'],
     ['code_challenge', codeChallenge],
     ['code_challenge_method', 'S256'],
     ['state', state],
