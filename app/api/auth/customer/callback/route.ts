@@ -65,6 +65,16 @@ export async function GET(req: NextRequest) {
       maxAge: 60 * 60 * 24 * 30
     });
   }
+  if (tokenJson.id_token) {
+    // Store id_token for RP-initiated logout
+    response.cookies.set('customer_id_token', tokenJson.id_token, {
+      httpOnly: true,
+      sameSite: 'lax',
+      path: '/',
+      secure: isProd,
+      maxAge: 60 * 60 * 24 * 7
+    });
+  }
 
   response.cookies.delete('shopify_pkce_verifier');
   response.cookies.delete('shopify_oauth_state');
