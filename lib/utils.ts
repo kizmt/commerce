@@ -1,4 +1,8 @@
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
 import { ReadonlyURLSearchParams } from 'next/navigation';
+
 
 export const baseUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
   ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
@@ -49,3 +53,7 @@ export const validateEnvironmentVariables = () => {
     );
   }
 };
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}

@@ -102,5 +102,11 @@ export async function redirectToCheckout() {
 
 export async function createCartAndSetCookie() {
   let cart = await createCart();
-  (await cookies()).set('cartId', cart.id!);
+  (await cookies()).set('cartId', cart.id!, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'lax',
+    path: '/',
+    maxAge: 60 * 60 * 24 * 30
+  });
 }
