@@ -70,7 +70,7 @@ const navItems: NavItem[] = [
   },
   { type: 'link', label: 'OTHER TCGs', href: '/search?q=tcg' },
   { type: 'link', label: 'ACCESSORIES', href: '/search?q=tcg' },
-  { type: 'link', label: 'COLLECTIBLES', href: '/search?q=tcg' },
+  { type: 'link', label: 'COLLECTIBLES', href: '/search/collectibles' },
 ];
 
 export default function SecondaryNav() {
