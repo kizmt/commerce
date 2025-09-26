@@ -57,7 +57,7 @@ export default function FooterMenu({ menu }: { menu: Menu[] }) {
 
   return (
     <nav aria-label="Footer navigation" className="w-auto">
-      <div className="inline-grid grid-cols-1 gap-y-1 sm:grid-cols-2 sm:gap-x-6 md:gap-x-8">
+      <div className="inline-grid grid-cols-2 gap-x-4 gap-y-1 sm:grid-cols-2 sm:gap-x-6 md:gap-x-8">
         {columns.map((col, idx) => (
           <ul key={idx} className="space-y-1">
             {col.map((item: Menu) => (

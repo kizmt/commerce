@@ -3,7 +3,7 @@ import { Carousel, CarouselContent, CarouselIndicators, CarouselItem } from 'com
 export default function Hero() {
   return (
     <section className="relative mx-auto mt-4 mb-8 w-9/10 max-w-(--breakpoint-2xl) overflow-hidden rounded-xl border border-neutral-200 bg-gradient-to-br from-neutral-50 to-white dark:border-neutral-800 dark:from-neutral-950 dark:to-black">
-      <Carousel className="px-6 py-12 md:px-12 md:py-16">
+      <Carousel className="relative px-6 py-12 md:px-12 md:py-16 bg-gradient-to-br from-indigo-500/10 via-fuchsia-500/10 to-amber-500/10 dark:from-indigo-500/15 dark:via-fuchsia-500/15 dark:to-amber-500/15">
         <CarouselContent>
           <CarouselItem>
             <Slide
@@ -85,7 +85,7 @@ function Slide({
           </a>
         </div>
       </div>
-      <div className="pointer-events-none absolute -right-24 -top-24 aspect-square w-72 rounded-full bg-gradient-to-br from-indigo-500/10 via-fuchsia-500/10 to-amber-500/10 blur-3xl md:-right-16 md:-top-16 md:w-96 dark:from-indigo-500/15 dark:via-fuchsia-500/15 dark:to-amber-500/15" />
+      
     </div>
   );
 }
