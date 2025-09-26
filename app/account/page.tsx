@@ -81,13 +81,24 @@ export default async function AccountPage({
         <p className="mb-6 text-neutral-600 dark:text-neutral-300">
           You&apos;re not signed in.
         </p>
-        <Link
-          href="/api/auth/customer/login"
-          prefetch={false}
-          className="inline-flex items-center rounded-md border border-neutral-300 px-4 py-2 text-sm hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-900"
-        >
-          Sign in / Create account
-        </Link>
+        <div className="flex flex-wrap gap-3">
+          <Link
+            href="/api/auth/customer/login"
+            prefetch={false}
+            className="inline-flex items-center rounded-md border border-neutral-300 px-4 py-2 text-sm hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-900"
+          >
+            Sign in / Create account
+          </Link>
+          <Link
+            href="https://shopify.com/78378696954/account"
+            target="_blank"
+            rel="noopener noreferrer"
+            prefetch={false}
+            className="inline-flex items-center rounded-md border border-neutral-300 px-4 py-2 text-sm hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-900"
+          >
+            Open Shopify account portal
+          </Link>
+        </div>
       </div>
     );
   }
@@ -158,6 +169,15 @@ export default async function AccountPage({
             )}
           </div>
           <div className="flex gap-3">
+            <Link
+              href="https://shopify.com/78378696954/account"
+              target="_blank"
+              rel="noopener noreferrer"
+              prefetch={false}
+              className="inline-flex items-center rounded-md border border-neutral-300 px-4 py-2 text-sm hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-900"
+            >
+              Open Shopify account portal
+            </Link>
             <Link
               href="/api/auth/customer/logout"
               prefetch={false}
