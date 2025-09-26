@@ -10,7 +10,6 @@ import {
   unstable_cacheTag as cacheTag
 } from 'next/cache';
 import { cookies } from 'next/headers';
-// Note: Route handlers should implement their own logic and not import Node-only modules here.
 import {
   addToCartMutation,
   createCartMutation,
