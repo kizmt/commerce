@@ -5,7 +5,7 @@ export default async function SettingsPage() {
   return (
     <div className="space-y-4">
       {!token ? (
-        <p className="text-neutral-600 dark:text-neutral-300">Sign in to manage your settings.</p>
+        <p className="text-neutral-600 dark:text-neutral-300">Login to manage your settings.</p>
       ) : (
         <p className="text-neutral-600 dark:text-neutral-300">Your account settings will appear here.</p>
       )}

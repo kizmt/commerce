@@ -87,7 +87,7 @@ export default async function AccountPage({
             prefetch={false}
             className="inline-flex items-center rounded-md border border-neutral-300 px-4 py-2 text-sm hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-900"
           >
-            Sign in / Create account
+            Login
           </Link>
           <Link
             href="https://shopify.com/78378696954/account"
@@ -146,7 +146,7 @@ export default async function AccountPage({
               prefetch={false}
               className="inline-flex items-center rounded-md border border-neutral-300 px-4 py-2 text-sm hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-900"
             >
-              Sign in
+              Login
             </Link>
             <Link
               href="/api/auth/customer/logout"

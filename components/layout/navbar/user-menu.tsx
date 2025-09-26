@@ -36,7 +36,7 @@ export default function UserMenu({ signedIn }: { signedIn?: boolean }) {
                 prefetch={false}
                 className="block rounded px-3 py-2 data-[focus]:bg-neutral-100 dark:data-[focus]:bg-neutral-800"
               >
-                Sign in / Create account
+                Login
               </MenuItem>
             )}
             <MenuItem
