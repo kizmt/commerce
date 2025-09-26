@@ -21,10 +21,12 @@ export async function GET(req: NextRequest) {
     return NextResponse.redirect(new URL('/?auth=error', url.origin));
   }
 
+  const origin = url.origin;
+  const redirectUri = `${origin}/api/auth/customer/callback`;
   const body = new URLSearchParams([
     ['grant_type', 'authorization_code'],
     ['client_id', SHOPIFY_CUSTOMER_CLIENT_ID!],
-    ['redirect_uri', SHOPIFY_CUSTOMER_REDIRECT_URI!],
+    ['redirect_uri', redirectUri],
     ['code', code],
     ['code_verifier', codeVerifier]
   ]);

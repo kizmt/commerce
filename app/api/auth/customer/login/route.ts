@@ -10,14 +10,16 @@ const {
   SHOPIFY_CUSTOMER_SCOPES
 } = process.env as Record<string, string>;
 
-export async function GET(_req: NextRequest) {
+export async function GET(req: NextRequest) {
   const { codeVerifier, codeChallenge } = await createPkcePair();
 
   const state = Math.random().toString(36).slice(2);
   const nonce = Math.random().toString(36).slice(2);
+  const origin = new URL(req.url).origin;
+  const redirectUri = `${origin}/api/auth/customer/callback`;
   const params = new URLSearchParams([
     ['client_id', SHOPIFY_CUSTOMER_CLIENT_ID!],
-    ['redirect_uri', SHOPIFY_CUSTOMER_REDIRECT_URI!],
+    ['redirect_uri', redirectUri],
     ['response_type', 'code'],
     ['scope', SHOPIFY_CUSTOMER_SCOPES || 'openid email'],
     ['code_challenge', codeChallenge],
