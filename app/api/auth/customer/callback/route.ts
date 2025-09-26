@@ -38,12 +38,16 @@ export async function GET(req: NextRequest) {
   });
 
   if (!tokenRes.ok) {
-    return NextResponse.redirect(new URL('/?auth=token_error', url.origin));
+    try {
+      const errText = await tokenRes.text();
+      console.error('Shopify token exchange failed', tokenRes.status, errText);
+    } catch {}
+    return NextResponse.redirect(new URL('/account?auth=token_error', url.origin));
   }
 
   const tokenJson = await tokenRes.json();
 
-  const response = NextResponse.redirect(new URL('/', url.origin));
+  const response = NextResponse.redirect(new URL('/account?auth=ok', url.origin));
   const isProd = process.env.NODE_ENV === 'production';
   response.cookies.set('customer_access_token', tokenJson.access_token, {
     httpOnly: true,

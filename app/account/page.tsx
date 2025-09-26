@@ -10,7 +10,7 @@ type Customer = {
 
 async function getCustomer(accessToken: string): Promise<Customer | null> {
   try {
-    const version = process.env.SHOPIFY_CUSTOMER_API_VERSION || '2025-07';
+    const version = process.env.SHOPIFY_CUSTOMER_API_VERSION || '2024-10';
     const endpoint = `https://shopify.com/account/customer/api/${version}/graphql.json`;
     const query = `#graphql
       query Me {
@@ -33,9 +33,18 @@ async function getCustomer(accessToken: string): Promise<Customer | null> {
       body: JSON.stringify({ query })
     });
 
-    if (!res.ok) return null;
+    if (!res.ok) {
+      try {
+        const text = await res.text();
+        console.error('Customer API /customer query failed', res.status, text);
+      } catch {}
+      return null;
+    }
     const json = await res.json();
-    if (json?.errors) return null;
+    if (json?.errors) {
+      console.error('Customer API /customer returned errors', json.errors);
+      return null;
+    }
     return json?.data?.customer ?? null;
   } catch {
     return null;
