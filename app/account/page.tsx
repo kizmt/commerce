@@ -20,6 +20,7 @@ async function getCustomer(accessToken: string): Promise<Customer | null> {
         customer {
           id
           email
+          emailAddress { emailAddress }
           firstName
           lastName
         }
@@ -48,7 +49,15 @@ async function getCustomer(accessToken: string): Promise<Customer | null> {
       console.error('Customer API /customer returned errors', json.errors);
       return null;
     }
-    return json?.data?.customer ?? null;
+    const raw = json?.data?.customer;
+    if (!raw) return null;
+    const mapped: Customer = {
+      id: raw.id,
+      email: raw.email ?? raw.emailAddress?.emailAddress ?? null,
+      firstName: raw.firstName ?? null,
+      lastName: raw.lastName ?? null
+    };
+    return mapped;
   } catch {
     return null;
   }
