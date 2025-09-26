@@ -83,7 +83,7 @@ export default async function AccountPage({
         </p>
         <div className="flex flex-wrap gap-3">
           <Link
-            href="/api/auth/customer/login"
+            href="/api/auth/customer/login?force=1"
             prefetch={false}
             className="inline-flex items-center rounded-md border border-neutral-300 px-4 py-2 text-sm hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-900"
           >
@@ -142,7 +142,7 @@ export default async function AccountPage({
           </p>
           <div className="flex gap-3">
             <Link
-              href="/api/auth/customer/login"
+              href="/api/auth/customer/login?force=1"
               prefetch={false}
               className="inline-flex items-center rounded-md border border-neutral-300 px-4 py-2 text-sm hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-900"
             >
