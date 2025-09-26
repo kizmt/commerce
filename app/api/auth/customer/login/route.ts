@@ -18,13 +18,14 @@ export async function GET(req: NextRequest) {
       const origin = new URL(req.url).origin;
       const idToken = req.cookies.get('customer_id_token')?.value;
       const shopDomain = (SHOPIFY_STORE_DOMAIN || '').replace(/^https?:\/\//, '');
-      if (shopDomain) {
+      // Only attempt RP-initiated logout when we have an id_token
+      if (shopDomain && idToken) {
         const discovery = await fetch(`https://${shopDomain}/.well-known/openid-configuration`, { cache: 'no-store' });
         const conf = await discovery.json();
         const endSession = conf?.end_session_endpoint as string | undefined;
         if (endSession) {
           const logoutUrl = new URL(endSession);
-          if (idToken) logoutUrl.searchParams.set('id_token_hint', idToken);
+          logoutUrl.searchParams.set('id_token_hint', idToken);
           logoutUrl.searchParams.set('post_logout_redirect_uri', `${origin}/api/auth/customer/login`);
           return NextResponse.redirect(logoutUrl.toString());
         }
