@@ -32,7 +32,7 @@ export default function UserMenu({ signedIn }: { signedIn?: boolean }) {
             {!signedIn && (
               <MenuItem
                 as={Link}
-                href="/api/auth/customer/login"
+                href="/api/auth/customer/login?force=1"
                 prefetch={false}
                 className="block rounded px-3 py-2 data-[focus]:bg-neutral-100 dark:data-[focus]:bg-neutral-800"
               >
