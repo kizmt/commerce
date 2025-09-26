@@ -2,6 +2,7 @@ import CartModal from 'components/cart/modal';
 import LogoTextIcon from 'components/icons/logo-text';
 import { getMenu } from 'lib/shopify';
 import { Menu } from 'lib/shopify/types';
+import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import MobileMenu from './mobile-menu';
@@ -11,6 +12,7 @@ import UserMenu from './user-menu';
 
 export async function Navbar() {
   const menu = await getMenu('next-js-frontend-header-menu');
+  const signedIn = Boolean((await cookies()).get('customer_access_token')?.value);
 
   return (
     <>
@@ -51,7 +53,7 @@ export async function Navbar() {
             </Suspense>
           </div>
           <div className="flex justify-end md:w-1/3">
-            <UserMenu />
+            <UserMenu signedIn={signedIn} />
             <CartModal />
           </div>
         </div>
