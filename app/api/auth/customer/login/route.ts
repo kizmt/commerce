@@ -5,11 +5,10 @@ export const runtime = 'nodejs';
 
 const {
   SHOPIFY_CUSTOMER_CLIENT_ID,
-  SHOPIFY_CUSTOMER_AUTH_URL,
   SHOPIFY_CUSTOMER_REDIRECT_URI,
-  SHOPIFY_CUSTOMER_SCOPES
+  SHOPIFY_CUSTOMER_SCOPES,
+  SHOPIFY_STORE_DOMAIN
 } = process.env as Record<string, string>;
-const { SHOPIFY_STORE_DOMAIN } = process.env as Record<string, string>;
 
 export async function GET(req: NextRequest) {
   // Optional: force fresh Shopify login by clearing the upstream session first
@@ -40,6 +39,18 @@ export async function GET(req: NextRequest) {
   const nonce = Math.random().toString(36).slice(2);
   const origin = new URL(req.url).origin;
   const redirectUri = `${origin}/api/auth/customer/callback`;
+  // Discover authorization endpoint from the shop domain
+  const shopDomain = (SHOPIFY_STORE_DOMAIN || '').replace(/^https?:\/\//, '');
+  if (!shopDomain) {
+    return NextResponse.redirect(new URL('/account?auth=token_error', origin));
+  }
+  let authorizationEndpoint = '';
+  try {
+    const discovery = await fetch(`https://${shopDomain}/.well-known/openid-configuration`, { cache: 'no-store' });
+    const conf = await discovery.json();
+    authorizationEndpoint = conf?.authorization_endpoint || '';
+  } catch {}
+
   const params = new URLSearchParams([
     ['client_id', SHOPIFY_CUSTOMER_CLIENT_ID!],
     ['redirect_uri', redirectUri],
@@ -53,7 +64,8 @@ export async function GET(req: NextRequest) {
     ['max_age', '0']
   ]);
 
-  const response = NextResponse.redirect(`${SHOPIFY_CUSTOMER_AUTH_URL}?${params.toString()}`);
+  const authorizeUrl = authorizationEndpoint || `https://${shopDomain}/authentication/oauth/authorize`;
+  const response = NextResponse.redirect(`${authorizeUrl}?${params.toString()}`);
   const isProd = process.env.NODE_ENV === 'production';
   response.cookies.set('shopify_pkce_verifier', codeVerifier, {
     httpOnly: true,

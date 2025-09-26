@@ -5,7 +5,8 @@ export const runtime = 'nodejs';
 const {
   SHOPIFY_CUSTOMER_CLIENT_ID,
   SHOPIFY_CUSTOMER_TOKEN_URL,
-  SHOPIFY_CUSTOMER_REDIRECT_URI
+  SHOPIFY_CUSTOMER_REDIRECT_URI,
+  SHOPIFY_STORE_DOMAIN
 } = process.env as Record<string, string>;
 
 export async function GET(req: NextRequest) {
@@ -31,7 +32,20 @@ export async function GET(req: NextRequest) {
     ['code_verifier', codeVerifier]
   ]);
 
-  const tokenRes = await fetch(SHOPIFY_CUSTOMER_TOKEN_URL!, {
+  // Discover token endpoint from the shop domain if not provided
+  let tokenEndpoint = SHOPIFY_CUSTOMER_TOKEN_URL;
+  try {
+    if (!tokenEndpoint) {
+      const shopDomain = (SHOPIFY_STORE_DOMAIN || '').replace(/^https?:\/\//, '');
+      if (shopDomain) {
+        const discovery = await fetch(`https://${shopDomain}/.well-known/openid-configuration`, { cache: 'no-store' });
+        const conf = await discovery.json();
+        tokenEndpoint = conf?.token_endpoint || tokenEndpoint;
+      }
+    }
+  } catch {}
+
+  const tokenRes = await fetch(tokenEndpoint!, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
