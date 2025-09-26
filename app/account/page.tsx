@@ -66,10 +66,11 @@ async function getCustomer(accessToken: string): Promise<Customer | null> {
 export default async function AccountPage({
   searchParams
 }: {
-  searchParams?: { auth?: string };
+  searchParams?: Promise<Record<string, string>>;
 }) {
   const token = (await cookies()).get('customer_access_token')?.value;
-  const authFlag = searchParams?.auth;
+  const sp = searchParams ? await searchParams : undefined;
+  const authFlag = sp?.auth;
 
   if (!token) {
     return (
