@@ -8,6 +8,15 @@ export async function GET(req: NextRequest) {
   const origin = new URL(req.url).origin;
   const idToken = req.cookies.get('customer_id_token')?.value;
   const postLogout = `${origin}/`;
+  // If no id_token, do local logout only to avoid Shopify error page
+  if (!idToken) {
+    const response = NextResponse.redirect(postLogout);
+    response.cookies.delete('customer_access_token');
+    response.cookies.delete('customer_refresh_token');
+    response.cookies.delete('customer_id_token');
+    return response;
+  }
+
   // Discover end_session_endpoint from the shop's domain if available
   let discoveredLogout = '';
   try {
@@ -21,13 +30,8 @@ export async function GET(req: NextRequest) {
 
   const chosenLogout = discoveredLogout || SHOPIFY_CUSTOMER_LOGOUT_URL || postLogout;
   const logoutUrl = new URL(chosenLogout);
-  // If targeting Shopify logout endpoint, include OIDC params
-  if (idToken && chosenLogout !== postLogout) {
-    logoutUrl.searchParams.set('id_token_hint', idToken);
-  }
-  if (chosenLogout !== postLogout) {
-    logoutUrl.searchParams.set('post_logout_redirect_uri', postLogout);
-  }
+  logoutUrl.searchParams.set('id_token_hint', idToken);
+  logoutUrl.searchParams.set('post_logout_redirect_uri', postLogout);
 
   const response = NextResponse.redirect(logoutUrl.toString());
   response.cookies.delete('customer_access_token');
