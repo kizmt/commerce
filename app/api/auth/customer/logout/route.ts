@@ -28,7 +28,8 @@ export async function GET(req: NextRequest) {
     }
   } catch {}
 
-  const chosenLogout = discoveredLogout || SHOPIFY_CUSTOMER_LOGOUT_URL || postLogout;
+  // Prefer global logout URL from env to avoid storefront password issues
+  const chosenLogout = SHOPIFY_CUSTOMER_LOGOUT_URL || discoveredLogout || postLogout;
   const logoutUrl = new URL(chosenLogout);
   logoutUrl.searchParams.set('id_token_hint', idToken);
   logoutUrl.searchParams.set('post_logout_redirect_uri', postLogout);
