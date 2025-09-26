@@ -49,7 +49,8 @@ export async function GET(req: NextRequest) {
     ['code_challenge_method', 'S256'],
     ['state', state],
     ['nonce', nonce],
-    ['prompt', 'login']
+    ['prompt', 'login'],
+    ['max_age', '0']
   ]);
 
   const response = NextResponse.redirect(`${SHOPIFY_CUSTOMER_AUTH_URL}?${params.toString()}`);
