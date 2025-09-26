@@ -17,7 +17,7 @@ type NavItem =
   | { type: 'dropdown'; label: string; href: string; items: DropdownItem[] };
 
 const navItems: NavItem[] = [
-  { type: 'link', label: 'PRE ORDER', href: '/search?q=pre-order' },
+  { type: 'link', label: 'PRE ORDER', href: '/search/pre-order' },
   {
     type: 'dropdown',
     label: 'MTG',
