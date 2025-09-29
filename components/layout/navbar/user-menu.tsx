@@ -1,10 +1,15 @@
+"use client";
 
-'use client';
-
-import { Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react';
-import { UserIcon } from '@heroicons/react/24/outline';
-import Link from 'next/link';
-import { Fragment } from 'react';
+import {
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems,
+  Transition,
+} from "@headlessui/react";
+import { UserIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
+import { Fragment } from "react";
 
 export default function UserMenu({ signedIn }: { signedIn?: boolean }) {
   return (
@@ -63,5 +68,3 @@ export default function UserMenu({ signedIn }: { signedIn?: boolean }) {
     </Menu>
   );
 }
-
-

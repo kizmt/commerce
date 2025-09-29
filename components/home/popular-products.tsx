@@ -1,9 +1,12 @@
-import { GridTileImage } from 'components/grid/tile';
-import { getProducts } from 'lib/shopify';
-import Link from 'next/link';
+import { GridTileImage } from "components/grid/tile";
+import { getProducts } from "lib/shopify";
+import Link from "next/link";
 
 export default async function PopularProducts() {
-  const products = await getProducts({ sortKey: 'BEST_SELLING', reverse: false });
+  const products = await getProducts({
+    sortKey: "BEST_SELLING",
+    reverse: false,
+  });
   const top = products.slice(0, 5);
 
   if (!top.length) return null;
@@ -14,13 +17,16 @@ export default async function PopularProducts() {
       <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
         {top.map((product) => (
           <li key={product.handle} className="relative aspect-square w-full">
-            <Link href={`/product/${product.handle}`} className="relative block h-full w-full">
+            <Link
+              href={`/product/${product.handle}`}
+              className="relative block h-full w-full"
+            >
               <GridTileImage
                 alt={product.title}
                 label={{
                   title: product.title,
                   amount: product.priceRange.maxVariantPrice.amount,
-                  currencyCode: product.priceRange.maxVariantPrice.currencyCode
+                  currencyCode: product.priceRange.maxVariantPrice.currencyCode,
                 }}
                 src={product.featuredImage?.url}
                 fill
@@ -41,5 +47,3 @@ export default async function PopularProducts() {
     </section>
   );
 }
-
-

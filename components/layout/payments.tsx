@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
+import Image from "next/image";
 
 type Payment = {
   alt: string;
@@ -8,14 +8,14 @@ type Payment = {
 };
 
 const payments: Payment[] = [
-  { alt: 'Visa', src: '/payments/visa.svg' },
-  { alt: 'MasterCard', src: '/payments/mastercard.svg' },
-  { alt: 'PayPal', src: '/payments/paypal.svg' },
-  { alt: 'Apple Pay', src: '/payments/apple-pay.svg' },
-  { alt: 'Google Pay', src: '/payments/google-pay.svg' },
-  { alt: 'Shop Pay', src: '/payments/shop-pay.svg' },
-  { alt: 'Afterpay', src: '/payments/afterpay.svg' },
-  { alt: 'NZD Bank Transfer', src: '/payments/bank-transfer.jpg' }
+  { alt: "Visa", src: "/payments/visa.svg" },
+  { alt: "MasterCard", src: "/payments/mastercard.svg" },
+  { alt: "PayPal", src: "/payments/paypal.svg" },
+  { alt: "Apple Pay", src: "/payments/apple-pay.svg" },
+  { alt: "Google Pay", src: "/payments/google-pay.svg" },
+  { alt: "Shop Pay", src: "/payments/shop-pay.svg" },
+  { alt: "Afterpay", src: "/payments/afterpay.svg" },
+  { alt: "NZD Bank Transfer", src: "/payments/bank-transfer.jpg" },
 ];
 
 export default function FooterPayments() {
@@ -41,5 +41,3 @@ export default function FooterPayments() {
     </div>
   );
 }
-
-

@@ -1,7 +1,7 @@
 "use client";
 
-import clsx from 'clsx';
-import * as React from 'react';
+import clsx from "clsx";
+import * as React from "react";
 
 type CarouselContextType = {
   index: number;
@@ -15,7 +15,7 @@ export function Carousel({
   children,
   autoPlay = true,
   intervalMs = 5000,
-  className
+  className,
 }: {
   children: React.ReactNode;
   autoPlay?: boolean;
@@ -40,17 +40,29 @@ export function Carousel({
   );
 }
 
-export function CarouselContent({ children, className }: { children: React.ReactNode; className?: string }) {
+export function CarouselContent({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   const ctx = React.useContext(CarouselContext)!;
   const widthPercent = 100 * ctx.count;
   return (
     <div className={clsx("overflow-hidden", className)}>
       <div
         className="flex transition-transform duration-500 ease-out"
-        style={{ width: `${widthPercent}%`, transform: `translateX(-${(100 / ctx.count) * ctx.index}%)` }}
+        style={{
+          width: `${widthPercent}%`,
+          transform: `translateX(-${(100 / ctx.count) * ctx.index}%)`,
+        }}
       >
         {React.Children.map(children, (child) => (
-          <div className="w-full flex-none" style={{ width: `${100 / ctx.count}%` }}>
+          <div
+            className="w-full flex-none"
+            style={{ width: `${100 / ctx.count}%` }}
+          >
             {child}
           </div>
         ))}
@@ -59,7 +71,13 @@ export function CarouselContent({ children, className }: { children: React.React
   );
 }
 
-export function CarouselItem({ children, className }: { children: React.ReactNode; className?: string }) {
+export function CarouselItem({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   return <div className={clsx("h-full", className)}>{children}</div>;
 }
 
@@ -77,7 +95,7 @@ export function CarouselPrevious({ className }: { className?: string }) {
       onClick={() => setIndex((index - 1 + count) % count)}
       className={clsx(
         "absolute left-2 top-1/2 -translate-y-1/2 rounded-full border border-neutral-300 bg-white/80 px-3 py-2 text-sm backdrop-blur transition hover:bg-white dark:border-neutral-700 dark:bg-black/60 dark:hover:bg-black",
-        className
+        className,
       )}
     >
       ‹
@@ -93,7 +111,7 @@ export function CarouselNext({ className }: { className?: string }) {
       onClick={() => setIndex((index + 1) % count)}
       className={clsx(
         "absolute right-2 top-1/2 -translate-y-1/2 rounded-full border border-neutral-300 bg-white/80 px-3 py-2 text-sm backdrop-blur transition hover:bg-white dark:border-neutral-700 dark:bg-black/60 dark:hover:bg-black",
-        className
+        className,
       )}
     >
       ›
@@ -104,17 +122,25 @@ export function CarouselNext({ className }: { className?: string }) {
 export function CarouselIndicators({ className }: { className?: string }) {
   const { index, setIndex, count } = useCarousel();
   return (
-    <div className={clsx("absolute bottom-3 left-0 right-0 flex justify-center gap-2", className)}>
+    <div
+      className={clsx(
+        "absolute bottom-3 left-0 right-0 flex justify-center gap-2",
+        className,
+      )}
+    >
       {Array.from({ length: count }).map((_, i) => (
         <button
           key={i}
           aria-label={`Go to slide ${i + 1}`}
           onClick={() => setIndex(i)}
-          className={clsx("h-1.5 w-6 rounded-full transition", i === index ? "bg-neutral-900 dark:bg-neutral-200" : "bg-neutral-300 dark:bg-neutral-700")}
-        />)
-      )}
+          className={clsx(
+            "h-1.5 w-6 rounded-full transition",
+            i === index
+              ? "bg-neutral-900 dark:bg-neutral-200"
+              : "bg-neutral-300 dark:bg-neutral-700",
+          )}
+        />
+      ))}
     </div>
   );
 }
-
-

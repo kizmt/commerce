@@ -1,44 +1,59 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from "next/server";
 
-export const runtime = 'nodejs';
+export const runtime = "nodejs";
 
 const {
   SHOPIFY_CUSTOMER_CLIENT_ID,
   SHOPIFY_CUSTOMER_TOKEN_URL,
   SHOPIFY_CUSTOMER_REDIRECT_URI,
-  SHOPIFY_STORE_DOMAIN
+  SHOPIFY_STORE_DOMAIN,
 } = process.env as Record<string, string>;
 
 export async function GET(req: NextRequest) {
   const url = new URL(req.url);
-  const code = url.searchParams.get('code');
-  const state = url.searchParams.get('state');
+  const code = url.searchParams.get("code");
+  const state = url.searchParams.get("state");
 
-  const stateCookie = req.cookies.get('shopify_oauth_state')?.value;
-  const codeVerifier = req.cookies.get('shopify_pkce_verifier')?.value;
-  const nonceCookie = req.cookies.get('shopify_oauth_nonce')?.value;
+  const stateCookie = req.cookies.get("shopify_oauth_state")?.value;
+  const codeVerifier = req.cookies.get("shopify_pkce_verifier")?.value;
+  const nonceCookie = req.cookies.get("shopify_oauth_nonce")?.value;
 
-  if (!code || !state || !stateCookie || stateCookie !== state || !codeVerifier || !nonceCookie) {
-    return NextResponse.redirect(new URL('/?auth=error', url.origin));
+  if (
+    !code ||
+    !state ||
+    !stateCookie ||
+    stateCookie !== state ||
+    !codeVerifier ||
+    !nonceCookie
+  ) {
+    return NextResponse.redirect(new URL("/?auth=error", url.origin));
   }
 
   const origin = url.origin;
-  const redirectUri = process.env.SHOPIFY_CUSTOMER_REDIRECT_URI || `${origin}/api/auth/customer/callback`;
+  const redirectUri =
+    process.env.SHOPIFY_CUSTOMER_REDIRECT_URI ||
+    `${origin}/api/auth/customer/callback`;
   const body = new URLSearchParams([
-    ['grant_type', 'authorization_code'],
-    ['client_id', SHOPIFY_CUSTOMER_CLIENT_ID!],
-    ['redirect_uri', redirectUri],
-    ['code', code],
-    ['code_verifier', codeVerifier]
+    ["grant_type", "authorization_code"],
+    ["client_id", SHOPIFY_CUSTOMER_CLIENT_ID!],
+    ["redirect_uri", redirectUri],
+    ["code", code],
+    ["code_verifier", codeVerifier],
   ]);
 
   // Discover token endpoint from the shop domain if not provided
   let tokenEndpoint = SHOPIFY_CUSTOMER_TOKEN_URL;
   try {
     if (!tokenEndpoint) {
-      const shopDomain = (SHOPIFY_STORE_DOMAIN || '').replace(/^https?:\/\//, '');
+      const shopDomain = (SHOPIFY_STORE_DOMAIN || "").replace(
+        /^https?:\/\//,
+        "",
+      );
       if (shopDomain) {
-        const discovery = await fetch(`https://${shopDomain}/.well-known/openid-configuration`, { cache: 'no-store' });
+        const discovery = await fetch(
+          `https://${shopDomain}/.well-known/openid-configuration`,
+          { cache: "no-store" },
+        );
         const conf = await discovery.json();
         tokenEndpoint = conf?.token_endpoint || tokenEndpoint;
       }
@@ -46,58 +61,60 @@ export async function GET(req: NextRequest) {
   } catch {}
 
   const tokenRes = await fetch(tokenEndpoint!, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Origin': origin,
-      'User-Agent': 'Next.js Commerce'
+      "Content-Type": "application/x-www-form-urlencoded",
+      Origin: origin,
+      "User-Agent": "Next.js Commerce",
     },
-    body
+    body,
   });
 
   if (!tokenRes.ok) {
     try {
       const errText = await tokenRes.text();
-      console.error('Shopify token exchange failed', tokenRes.status, errText);
+      console.error("Shopify token exchange failed", tokenRes.status, errText);
     } catch {}
-    return NextResponse.redirect(new URL('/account?auth=token_error', url.origin));
+    return NextResponse.redirect(
+      new URL("/account?auth=token_error", url.origin),
+    );
   }
 
   const tokenJson = await tokenRes.json();
 
-  const response = NextResponse.redirect(new URL('/account?auth=ok', url.origin));
-  const isProd = process.env.NODE_ENV === 'production';
-  response.cookies.set('customer_access_token', tokenJson.access_token, {
+  const response = NextResponse.redirect(
+    new URL("/account?auth=ok", url.origin),
+  );
+  const isProd = process.env.NODE_ENV === "production";
+  response.cookies.set("customer_access_token", tokenJson.access_token, {
     httpOnly: true,
-    sameSite: 'lax',
-    path: '/',
+    sameSite: "lax",
+    path: "/",
     secure: isProd,
-    maxAge: tokenJson.expires_in ?? 60 * 30
+    maxAge: tokenJson.expires_in ?? 60 * 30,
   });
   if (tokenJson.refresh_token) {
-    response.cookies.set('customer_refresh_token', tokenJson.refresh_token, {
+    response.cookies.set("customer_refresh_token", tokenJson.refresh_token, {
       httpOnly: true,
-      sameSite: 'lax',
-      path: '/',
+      sameSite: "lax",
+      path: "/",
       secure: isProd,
-      maxAge: 60 * 60 * 24 * 30
+      maxAge: 60 * 60 * 24 * 30,
     });
   }
   if (tokenJson.id_token) {
     // Store id_token for RP-initiated logout
-    response.cookies.set('customer_id_token', tokenJson.id_token, {
+    response.cookies.set("customer_id_token", tokenJson.id_token, {
       httpOnly: true,
-      sameSite: 'lax',
-      path: '/',
+      sameSite: "lax",
+      path: "/",
       secure: isProd,
-      maxAge: 60 * 60 * 24 * 7
+      maxAge: 60 * 60 * 24 * 7,
     });
   }
 
-  response.cookies.delete('shopify_pkce_verifier');
-  response.cookies.delete('shopify_oauth_state');
-  response.cookies.delete('shopify_oauth_nonce');
+  response.cookies.delete("shopify_pkce_verifier");
+  response.cookies.delete("shopify_oauth_state");
+  response.cookies.delete("shopify_oauth_nonce");
   return response;
 }
-
-

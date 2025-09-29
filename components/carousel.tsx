@@ -1,29 +1,36 @@
-import { getCollectionProducts, getProducts } from 'lib/shopify';
-import Link from 'next/link';
-import { GridTileImage } from './grid/tile';
+import { getCollectionProducts, getProducts } from "lib/shopify";
+import Link from "next/link";
+import { GridTileImage } from "./grid/tile";
 
 export async function Carousel({
   title,
-  source
+  source,
 }: {
   title?: string;
   source?:
-    | { type: 'collection'; handle: string }
-    | { type: 'latest'; limit?: number }
-    | { type: 'preorder'; query?: string; limit?: number };
+    | { type: "collection"; handle: string }
+    | { type: "latest"; limit?: number }
+    | { type: "preorder"; query?: string; limit?: number };
 }) {
   // Collections that start with `hidden-*` are hidden from the search page.
   let products = [] as Awaited<ReturnType<typeof getCollectionProducts>>;
 
-  if (!source || source.type === 'collection') {
-    const handle = source?.type === 'collection' ? source.handle : 'hidden-homepage-carousel';
+  if (!source || source.type === "collection") {
+    const handle =
+      source?.type === "collection"
+        ? source.handle
+        : "hidden-homepage-carousel";
     products = await getCollectionProducts({ collection: handle });
-  } else if (source.type === 'latest') {
-    products = await getProducts({ sortKey: 'CREATED_AT', reverse: true });
+  } else if (source.type === "latest") {
+    products = await getProducts({ sortKey: "CREATED_AT", reverse: true });
     if (source.limit) products = products.slice(0, source.limit);
-  } else if (source.type === 'preorder') {
+  } else if (source.type === "preorder") {
     const q = source.query ?? 'pre-order OR preorder OR "pre order"';
-    products = await getProducts({ query: q, sortKey: 'CREATED_AT', reverse: true });
+    products = await getProducts({
+      query: q,
+      sortKey: "CREATED_AT",
+      reverse: true,
+    });
     if (source.limit) products = products.slice(0, source.limit);
   }
 
@@ -45,13 +52,16 @@ export async function Carousel({
             key={`${product.handle}${i}`}
             className="relative aspect-square h-[30vh] max-h-[275px] w-2/3 max-w-[475px] flex-none md:w-1/3"
           >
-            <Link href={`/product/${product.handle}`} className="relative h-full w-full">
+            <Link
+              href={`/product/${product.handle}`}
+              className="relative h-full w-full"
+            >
               <GridTileImage
                 alt={product.title}
                 label={{
                   title: product.title,
                   amount: product.priceRange.maxVariantPrice.amount,
-                  currencyCode: product.priceRange.maxVariantPrice.currencyCode
+                  currencyCode: product.priceRange.maxVariantPrice.currencyCode,
                 }}
                 src={product.featuredImage?.url}
                 fill

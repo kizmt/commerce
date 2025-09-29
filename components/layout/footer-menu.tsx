@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import clsx from 'clsx';
-import { Menu } from 'lib/shopify/types';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import clsx from "clsx";
+import { Menu } from "lib/shopify/types";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export function FooterMenuItem({ item }: { item: Menu }) {
   const pathname = usePathname();
@@ -19,12 +19,12 @@ export function FooterMenuItem({ item }: { item: Menu }) {
       <Link
         href={item.path}
         className={clsx(
-          'block py-1.5 text-lg text-neutral-600 underline-offset-4 transition-colors hover:text-black hover:underline md:inline-block md:text-sm dark:text-neutral-300 dark:hover:text-neutral-100',
+          "block py-1.5 text-lg text-neutral-600 underline-offset-4 transition-colors hover:text-black hover:underline md:inline-block md:text-sm dark:text-neutral-300 dark:hover:text-neutral-100",
           {
-            'text-black dark:text-neutral-100': active
-          }
+            "text-black dark:text-neutral-100": active,
+          },
         )}
-        aria-current={active ? 'page' : undefined}
+        aria-current={active ? "page" : undefined}
       >
         {item.title}
       </Link>
@@ -34,14 +34,14 @@ export function FooterMenuItem({ item }: { item: Menu }) {
 
 export default function FooterMenu({ menu }: { menu: Menu[] }) {
   const staticLinks: Menu[] = [
-    { title: 'Home', path: '/' },
-    { title: 'About', path: '/about' },
-    { title: 'Shipping', path: '/shipping' },
-    { title: 'FAQ', path: '/faq' },
-    { title: 'Terms', path: '/terms' },
-    { title: 'Privacy', path: '/privacy' },
-    { title: 'Returns', path: '/returns' },
-    { title: 'Contact', path: '/contact' }
+    { title: "Home", path: "/" },
+    { title: "About", path: "/about" },
+    { title: "Shipping", path: "/shipping" },
+    { title: "FAQ", path: "/faq" },
+    { title: "Terms", path: "/terms" },
+    { title: "Privacy", path: "/privacy" },
+    { title: "Returns", path: "/returns" },
+    { title: "Contact", path: "/contact" },
   ];
 
   // Show only the curated footer links in the specified order

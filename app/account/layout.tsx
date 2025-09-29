@@ -1,14 +1,14 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 export default function AccountLayout({
-  children
+  children,
 }: {
   children: React.ReactNode;
 }) {
   const tabs = [
-    { href: '/account/profile', label: 'Profile' },
-    { href: '/account/orders', label: 'Orders' },
-    { href: '/account/settings', label: 'Settings' }
+    { href: "/account/profile", label: "Profile" },
+    { href: "/account/orders", label: "Orders" },
+    { href: "/account/settings", label: "Settings" },
   ];
 
   return (
@@ -30,5 +30,3 @@ export default function AccountLayout({
     </div>
   );
 }
-
-

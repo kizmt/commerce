@@ -1,4 +1,9 @@
-import { Carousel, CarouselContent, CarouselIndicators, CarouselItem } from 'components/ui/carousel';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselIndicators,
+  CarouselItem,
+} from "components/ui/carousel";
 
 export default function Hero() {
   return (
@@ -52,7 +57,7 @@ function Slide({
   ctaHref,
   ctaText,
   secondaryHref,
-  secondaryText
+  secondaryText,
 }: {
   eyebrow: string;
   title: string;
@@ -68,8 +73,12 @@ function Slide({
         <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-neutral-500 md:text-sm dark:text-neutral-400">
           {eyebrow}
         </p>
-        <h1 className="mb-4 text-4xl font-extrabold leading-tight tracking-tight md:text-5xl">{title}</h1>
-        <p className="mb-6 max-w-prose text-neutral-600 md:text-lg dark:text-neutral-300">{description}</p>
+        <h1 className="mb-4 text-4xl font-extrabold leading-tight tracking-tight md:text-5xl">
+          {title}
+        </h1>
+        <p className="mb-6 max-w-prose text-neutral-600 md:text-lg dark:text-neutral-300">
+          {description}
+        </p>
         <div className="flex flex-wrap gap-3">
           <a
             href={ctaHref}
@@ -85,9 +94,6 @@ function Slide({
           </a>
         </div>
       </div>
-      
     </div>
   );
 }
-
-

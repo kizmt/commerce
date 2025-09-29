@@ -7,70 +7,71 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle
-} from '@/components/ui/navigation-menu';
-import Link from 'next/link';
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
+import Link from "next/link";
 
 type DropdownItem = { label: string; href: string };
 type NavItem =
-  | { type: 'link'; label: string; href: string }
-  | { type: 'dropdown'; label: string; href: string; items: DropdownItem[] };
+  | { type: "link"; label: string; href: string }
+  | { type: "dropdown"; label: string; href: string; items: DropdownItem[] };
 
 const navItems: NavItem[] = [
-  { type: 'link', label: 'PRE ORDER', href: '/search/pre-order' },
+  { type: "link", label: "PRE ORDER", href: "/search/pre-order" },
   {
-    type: 'dropdown',
-    label: 'MTG',
-    href: '/search/magic-the-gathering',
+    type: "dropdown",
+    label: "MTG",
+    href: "/search/magic-the-gathering",
     items: [
-      { label: 'Singles', href: '/search/magic-the-gathering-singles' },
-      { label: 'Sealed', href: '/search/magic-the-gathering-sealed' },
-      { label: 'Accessories', href: '/search/magic-the-gathering-accessories' }
-    ]
+      { label: "Singles", href: "/search/magic-the-gathering-singles" },
+      { label: "Sealed", href: "/search/magic-the-gathering-sealed" },
+      { label: "Accessories", href: "/search/magic-the-gathering-accessories" },
+    ],
   },
   {
-    type: 'dropdown',
-    label: 'POKEMON',
-    href: '/search/pokemon',
+    type: "dropdown",
+    label: "POKEMON",
+    href: "/search/pokemon",
     items: [
-      { label: 'Singles', href: '/search/pokemon-singles' },
-      { label: 'Sealed', href: '/search/pokemon-sealed' },
-      { label: 'Accessories', href: '/search/pokemon-accessories' }
-    ]
+      { label: "Singles", href: "/search/pokemon-singles" },
+      { label: "Sealed", href: "/search/pokemon-sealed" },
+      { label: "Accessories", href: "/search/pokemon-accessories" },
+    ],
   },
   {
-    type: 'dropdown',
-    label: 'ONE PIECE',
-    href: '/search/one-piece',
+    type: "dropdown",
+    label: "ONE PIECE",
+    href: "/search/one-piece",
     items: [
-      { label: 'Singles', href: '/search/one-piece-singles' },
-      { label: 'Sealed', href: '/search/one-piece-sealed' },
-      { label: 'Accessories', href: '/search/one-piece-accessories' }
-    ]
+      { label: "Singles", href: "/search/one-piece-singles" },
+      { label: "Sealed", href: "/search/one-piece-sealed" },
+      { label: "Accessories", href: "/search/one-piece-accessories" },
+    ],
   },
   {
-    type: 'dropdown',
-    label: 'DRAGON BALL',
-    href: '/search/dragon-ball',
+    type: "dropdown",
+    label: "DRAGON BALL",
+    href: "/search/dragon-ball",
     items: [
-      { label: 'Singles', href: '/search/dragon-ball-singles' },
-      { label: 'Sealed', href: '/search/dragon-ball-sealed' },
-      { label: 'Accessories', href: '/search/dragon-ball-accessories' }
-    ]
+      { label: "Singles", href: "/search/dragon-ball-singles" },
+      { label: "Sealed", href: "/search/dragon-ball-sealed" },
+      { label: "Accessories", href: "/search/dragon-ball-accessories" },
+    ],
   },
   {
-    type: 'dropdown',
-    label: 'FINAL FANTASY',
-    href: '/search/final-fantasy',
+    type: "dropdown",
+    label: "FINAL FANTASY",
+    href: "/search/final-fantasy",
     items: [
-      { label: 'Singles', href: '/search/final-fantasy-singles' },
-      { label: 'Sealed', href: '/search/final-fantasy-sealed' },
-      { label: 'Accessories', href: '/search/final-fantasy-accessories' }
-    ]
+      { label: "Singles", href: "/search/final-fantasy-singles" },
+      { label: "Sealed", href: "/search/final-fantasy-sealed" },
+      { label: "Accessories", href: "/search/final-fantasy-accessories" },
+    ],
   },
-  { type: 'link', label: 'OTHER TCGs', href: '/search/other-tcgs' },
-  { type: 'link', label: 'ACCESSORIES', href: '/search/accessories' },
-  { type: 'link', label: 'COLLECTIBLES', href: '/search/collectibles' },
+  { type: "link", label: "JAPAN IMPORTS", href: "/search/japan-imports" },
+  { type: "link", label: "OTHER TCGs", href: "/search/other-tcgs" },
+  { type: "link", label: "ACCESSORIES", href: "/search/accessories" },
+  { type: "link", label: "COLLECTIBLES", href: "/search/collectibles" },
 ];
 
 export default function SecondaryNav() {
@@ -80,9 +81,12 @@ export default function SecondaryNav() {
         <NavigationMenu viewport={false} className="z-50 c">
           <NavigationMenuList>
             {navItems.map((item) =>
-              item.type === 'link' ? (
+              item.type === "link" ? (
                 <NavigationMenuItem key={item.label}>
-                  <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                  <NavigationMenuLink
+                    asChild
+                    className={navigationMenuTriggerStyle()}
+                  >
                     <Link href={item.href} prefetch={true}>
                       {item.label}
                     </Link>
@@ -120,7 +124,7 @@ export default function SecondaryNav() {
                     </ul>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
-              )
+              ),
             )}
           </NavigationMenuList>
         </NavigationMenu>
@@ -128,5 +132,3 @@ export default function SecondaryNav() {
     </div>
   );
 }
-
-
