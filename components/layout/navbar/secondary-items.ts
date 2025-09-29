@@ -4,15 +4,15 @@ export type NavItem =
   | { type: 'dropdown'; label: string; href: string; items: DropdownItem[] };
 
 export const navItems: NavItem[] = [
-  { type: 'link', label: 'PRE ORDER', href: '/search?q=pre-order' },
+  { type: 'link', label: 'PRE ORDER', href: '/search/pre-order' },
   {
     type: 'dropdown',
     label: 'MTG',
     href: '/search/magic-the-gathering',
     items: [
-      { label: 'Singles', href: '/search?q=mtg%20singles' },
-      { label: 'Sealed', href: '/search?q=mtg%20sealed' },
-      { label: 'Accessories', href: '/search?q=mtg%20accessories' }
+      { label: 'Singles', href: '/search/magic-the-gathering-singles' },
+      { label: 'Sealed', href: '/search/magic-the-gathering-sealed' },
+      { label: 'Accessories', href: '/search/magic-the-gathering-accessories' }
     ]
   },
   {
@@ -20,9 +20,9 @@ export const navItems: NavItem[] = [
     label: 'POKEMON',
     href: '/search/pokemon',
     items: [
-      { label: 'Singles', href: '/search?q=pokemon%20singles' },
-      { label: 'Sealed', href: '/search?q=pokemon%20sealed' },
-      { label: 'Accessories', href: '/search?q=pokemon%20accessories' }
+      { label: 'Singles', href: '/search/pokemon-singles' },
+      { label: 'Sealed', href: '/search/pokemon-sealed' },
+      { label: 'Accessories', href: '/search/pokemon-accessories' }
     ]
   },
   {
@@ -30,9 +30,9 @@ export const navItems: NavItem[] = [
     label: 'ONE PIECE',
     href: '/search/one-piece',
     items: [
-      { label: 'Singles', href: '/search?q=one%20piece%20singles' },
-      { label: 'Sealed', href: '/search?q=one%20piece%20sealed' },
-      { label: 'Accessories', href: '/search?q=one%20piece%20accessories' }
+      { label: 'Singles', href: '/search/one-piece-singles' },
+      { label: 'Sealed', href: '/search/one-piece-sealed' },
+      { label: 'Accessories', href: '/search/one-piece-accessories' }
     ]
   },
   {
@@ -40,9 +40,9 @@ export const navItems: NavItem[] = [
     label: 'DRAGON BALL',
     href: '/search/dragon-ball',
     items: [
-      { label: 'Singles', href: '/search?q=dragon%20ball%20singles' },
-      { label: 'Sealed', href: '/search?q=dragon%20ball%20sealed' },
-      { label: 'Accessories', href: '/search?q=dragon%20ball%20accessories' }
+      { label: 'Singles', href: '/search/dragon-ball-singles' },
+      { label: 'Sealed', href: '/search/dragon-ball-sealed' },
+      { label: 'Accessories', href: '/search/dragon-ball-accessories' }
     ]
   },
   {
@@ -50,14 +50,14 @@ export const navItems: NavItem[] = [
     label: 'FINAL FANTASY',
     href: '/search/final-fantasy',
     items: [
-      { label: 'Singles', href: '/search?q=final%20fantasy%20singles' },
-      { label: 'Sealed', href: '/search?q=final%20fantasy%20sealed' },
-      { label: 'Accessories', href: '/search?q=final%20fantasy%20accessories' }
+      { label: 'Singles', href: '/search/final-fantasy-singles' },
+      { label: 'Sealed', href: '/search/final-fantasy-sealed' },
+      { label: 'Accessories', href: '/search/final-fantasy-accessories' }
     ]
   },
-  { type: 'link', label: 'OTHER TCGs', href: '/search?q=tcg' },
-  { type: 'link', label: 'ACCESSORIES', href: '/search?q=tcg' },
-  { type: 'link', label: 'COLLECTIBLES', href: '/search?q=tcg' }
+  { type: 'link', label: 'OTHER TCGs', href: '/search/other-tcgs' },
+  { type: 'link', label: 'ACCESSORIES', href: '/search/accessories' },
+  { type: 'link', label: 'COLLECTIBLES', href: '/search/collectibles' }
 ];
 
 
