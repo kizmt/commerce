@@ -78,7 +78,7 @@ export default function SecondaryNav() {
   return (
     <div className="hidden border-t border-b border-neutral-200 bg-white md:block dark:border-neutral-800 dark:bg-black">
       <div className="mx-auto max-w-(--breakpoint-2xl) px-4 py-3">
-        <NavigationMenu viewport={false} className="z-50 c">
+        <NavigationMenu viewport={false} className="z-40">
           <NavigationMenuList>
             {navItems.map((item) =>
               item.type === "link" ? (
