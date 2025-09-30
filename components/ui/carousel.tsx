@@ -49,27 +49,28 @@ export function CarouselContent({
   className?: string;
 }) {
   const ctx = React.useContext(CarouselContext)!;
-  const widthPercent = 100 * ctx.count;
+  const slides = React.Children.count(children);
+  const safeSlides = Math.max(1, slides);
+  const widthPercent = 100 * safeSlides;
   // Ensure the provider knows the actual number of slides inside CarouselContent
   React.useEffect(() => {
-    const slides = React.Children.count(children);
     if (slides && slides !== ctx.count) {
       ctx.setCount(slides);
     }
-  }, [children, ctx]);
+  }, [slides, ctx]);
   return (
     <div className={clsx("overflow-hidden", className)}>
       <div
         className="flex transition-transform duration-500 ease-out"
         style={{
           width: `${widthPercent}%`,
-          transform: `translateX(-${(100 / ctx.count) * ctx.index}%)`,
+          transform: `translateX(-${(100 / safeSlides) * ctx.index}%)`,
         }}
       >
         {React.Children.map(children, (child) => (
           <div
             className="w-full flex-none"
-            style={{ width: `${100 / ctx.count}%` }}
+            style={{ width: `${100 / safeSlides}%` }}
           >
             {child}
           </div>
