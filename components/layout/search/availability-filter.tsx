@@ -45,9 +45,9 @@ export default function AvailabilityFilter() {
           </Link>
           <Checkbox
             checked={inActive}
-            onCheckedChange={() => {
-              const next =
-                inActive && !outActive ? null : outActive ? "both" : "in";
+            onCheckedChange={(checked) => {
+              const isOn = checked === true;
+              const next = isOn ? (outActive ? "both" : "in") : (outActive ? "out" : null);
               router.push(hrefFor(next));
             }}
           />
@@ -68,9 +68,9 @@ export default function AvailabilityFilter() {
           </Link>
           <Checkbox
             checked={outActive}
-            onCheckedChange={() => {
-              const next =
-                outActive && !inActive ? null : inActive ? "both" : "out";
+            onCheckedChange={(checked) => {
+              const isOn = checked === true;
+              const next = isOn ? (inActive ? "both" : "out") : (inActive ? "in" : null);
               router.push(hrefFor(next));
             }}
           />
