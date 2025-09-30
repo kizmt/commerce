@@ -14,7 +14,9 @@ export default function SearchLayout({
     <>
       <div className="mx-auto flex max-w-(--breakpoint-2xl) flex-col gap-8 mt-5 px-4 pb-5 text-black md:flex-row dark:text-white">
         <div className="order-first w-full flex-none md:max-w-[125px] space-y-4">
-          <AvailabilityFilter />
+          <Suspense fallback={null}>
+            <AvailabilityFilter />
+          </Suspense>
         </div>
         <div className="order-last min-h-screen w-full md:order-none">
           <Suspense fallback={null}>
