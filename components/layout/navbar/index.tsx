@@ -31,7 +31,7 @@ export async function Navbar() {
               prefetch={true}
               className="mr-2 flex w-full items-center justify-center md:w-auto lg:mr-6"
             >
-              <LogoTextIcon className="h-6 w-auto md:h-8 lg:h-10" />
+              <LogoTextIcon className="h-10 w-auto md:h-8 lg:h-10" />
             </Link>
             {menu.length ? (
               <ul className="hidden gap-6 text-sm md:flex md:items-center">
