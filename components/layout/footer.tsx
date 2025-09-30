@@ -27,9 +27,15 @@ export default async function Footer() {
           >
             <FooterLogo className="h-16 w-auto md:h-20 lg:h-30" />
           </Link>
-          <p className="hidden max-w-xs text-sm text-neutral-600 sm:ml-4 md:block dark:text-neutral-300">
-            {`${SITE_NAME || "Turtle Island"} offers curated TCGs, sealed products, and accessories. Proudly based in Auckland, New Zealand, building community through events and giveaways.`}
-          </p>
+          <div className="hidden max-w-xs sm:ml-4 md:block">
+            <p className="text-sm text-neutral-600 dark:text-neutral-300">
+              {`${SITE_NAME || "Turtle Island"} offers curated TCGs, sealed products, and accessories. Proudly based in Auckland, New Zealand, building community through events and giveaways.`}
+            </p>
+            <br />
+            <p className="text-sm text-neutral-600 dark:text-neutral-300">
+              <a href="mailto:turtleislandcards@gmail.com" className="underline">turtleislandcards@gmail.com</a>
+            </p>
+          </div>
         </div>
         <div className="flex-1">
           <Suspense

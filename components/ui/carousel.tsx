@@ -7,6 +7,7 @@ type CarouselContextType = {
   index: number;
   setIndex: (i: number) => void;
   count: number;
+  setCount: (c: number) => void;
 };
 
 const CarouselContext = React.createContext<CarouselContextType | null>(null);
@@ -23,7 +24,7 @@ export function Carousel({
   className?: string;
 }) {
   const [index, setIndex] = React.useState(0);
-  const count = React.Children.count(children);
+  const [count, setCount] = React.useState(React.Children.count(children));
 
   React.useEffect(() => {
     if (!autoPlay || count <= 1) return;
@@ -34,7 +35,7 @@ export function Carousel({
   }, [autoPlay, intervalMs, count]);
 
   return (
-    <CarouselContext.Provider value={{ index, setIndex, count }}>
+    <CarouselContext.Provider value={{ index, setIndex, count, setCount }}>
       <div className={clsx("relative", className)}>{children}</div>
     </CarouselContext.Provider>
   );
@@ -49,6 +50,13 @@ export function CarouselContent({
 }) {
   const ctx = React.useContext(CarouselContext)!;
   const widthPercent = 100 * ctx.count;
+  // Ensure the provider knows the actual number of slides inside CarouselContent
+  React.useEffect(() => {
+    const slides = React.Children.count(children);
+    if (slides && slides !== ctx.count) {
+      ctx.setCount(slides);
+    }
+  }, [children, ctx]);
   return (
     <div className={clsx("overflow-hidden", className)}>
       <div

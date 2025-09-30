@@ -40,22 +40,22 @@ function Instagram() {
   );
 }
 
-function TikTok() {
+function TwitterX() {
   return (
     <svg
-      viewBox="0 0 48 48"
+      viewBox="0 0 24 24"
       aria-hidden="true"
       className="h-5 w-5 fill-current"
     >
-      <path d="M41 16.5c-3.7 0-7.1-1.2-10-3.3v15.4c0 6.9-5.6 12.5-12.5 12.5S6 35.5 6 28.6 11.6 16 18.5 16c.9 0 1.8.1 2.6.3v5.8c-.8-.3-1.7-.5-2.6-.5-3.6 0-6.5 2.9-6.5 6.5S15 34.6 18.6 34.6s6.5-2.9 6.5-6.5V6h5.3c2.1 3.2 5.5 5.6 9.4 6.5v4z" />
+      <path d="M18.244 2H21l-6.65 7.59L22.5 22h-5.5l-4.3-5.61L7 22H3l7.16-8.18L1.5 2h5.5l3.9 5.2L18.244 2z" />
     </svg>
   );
 }
 
 const socials: Social[] = [
-  { label: "Facebook", href: "https://facebook.com", icon: <Facebook /> },
-  { label: "Instagram", href: "https://instagram.com", icon: <Instagram /> },
-  { label: "TikTok", href: "https://tiktok.com", icon: <TikTok /> },
+  { label: "Facebook", href: "", icon: <Facebook /> },
+  { label: "Instagram", href: "", icon: <Instagram /> },
+  { label: "X", href: "https://x.com/turtleislandtcg", icon: <TwitterX /> },
 ];
 
 export default function FooterSocials() {
