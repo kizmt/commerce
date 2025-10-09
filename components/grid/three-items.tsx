@@ -68,7 +68,7 @@ export async function ThreeItemGrid() {
         <ThreeItemGridItem size="half" item={thirdProduct} />
       </section>
       <div className="mx-auto max-w-(--breakpoint-2xl) px-4">
-        <div className=" mb-6 flex justify-center">
+        <div className="mb-4 flex justify-center">
           <a
             href="/search/hidden-homepage-featured-items"
             className="inline-flex items-center rounded-md border border-neutral-300 px-5 py-2.5 text-sm font-semibold text-neutral-900 transition-colors hover:bg-neutral-100 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-neutral-400 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-900"
