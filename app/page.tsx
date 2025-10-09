@@ -27,7 +27,7 @@ export default function HomePage() {
           title="Latest Arrivals"
           source={{ type: "latest", limit: 20 }}
         />
-        <div className="flex h-20 py-7 mt-2 mb-8 justify-center items-center border border-neutral-200 bg-gradient-to-r from-[#C9E3BB] to-[#C9E3BB] px-4 py-3 text-sm text-neutral-800 dark:border-neutral-800 dark:from-emerald-900/20 dark:to-cyan-900/20 dark:text-neutral-200">
+        <div className="flex h-20 py-7 mt-2 mb-8 justify-center items-center border border-neutral-200 bg-gradient-to-r from-[#C9E3BB] to-[#C9E3BB] px-4 text-sm text-neutral-800 dark:border-neutral-800 dark:from-emerald-900/20 dark:to-cyan-900/20 dark:text-neutral-200">
           {/* Mobile: carousel banner */}
           <div className="w-full md:hidden">
             <BannerCarousel intervalMs={3500} className="w-full">
