@@ -32,7 +32,7 @@ export default function UserMenu({ signedIn }: { signedIn?: boolean }) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <MenuItems className="absolute right-0 z-50 mt-2 w-44 origin-top-right overflow-hidden rounded-md border border-neutral-200 bg-white p-1 text-sm shadow-lg focus:outline-none dark:border-neutral-700 dark:bg-neutral-900">
+        <MenuItems className="absolute right-0 z-[60] mt-2 w-44 origin-top-right overflow-hidden rounded-md border border-neutral-200 bg-white p-1 text-sm shadow-lg focus:outline-none dark:border-neutral-700 dark:bg-neutral-900">
           <div className="py-1">
             {!signedIn && (
               <MenuItem
