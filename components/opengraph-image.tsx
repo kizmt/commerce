@@ -6,7 +6,9 @@ export type Props = {
   title?: string;
 };
 
-export default async function OpengraphImage(): Promise<ImageResponse> {
+export default async function OpengraphImage({
+  title,
+}: Props = {}): Promise<ImageResponse> {
   const imageFile = await readFile(
     join(process.cwd(), "./public/turtleog.jpg"),
   );
@@ -14,8 +16,13 @@ export default async function OpengraphImage(): Promise<ImageResponse> {
 
   return new ImageResponse(
     (
-      <div tw="flex h-full w-full">
+      <div tw="flex h-full w-full relative">
         <img src={imageSrc} tw="h-full w-full object-cover" />
+        {title ? (
+          <div tw="absolute bottom-8 left-8 text-white text-6xl font-bold drop-shadow-lg">
+            {title}
+          </div>
+        ) : null}
       </div>
     ),
     {
