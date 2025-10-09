@@ -1,12 +1,83 @@
+import imageFragment from "../fragments/image";
 import productFragment from "../fragments/product";
+import seoFragment from "../fragments/seo";
 
 export const getProductQuery = /* GraphQL */ `
   query getProduct($handle: String!) {
     product(handle: $handle) {
-      ...product
+      id
+      handle
+      availableForSale
+      title
+      vendor
+      description
+      descriptionHtml
+      options {
+        id
+        name
+        values
+      }
+      priceRange {
+        maxVariantPrice {
+          amount
+          currencyCode
+        }
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+      }
+      compareAtPriceRange {
+        maxVariantPrice {
+          amount
+          currencyCode
+        }
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+      }
+      variants(first: 250) {
+        edges {
+          node {
+            id
+            title
+            availableForSale
+            quantityAvailable
+            selectedOptions {
+              name
+              value
+            }
+            price {
+              amount
+              currencyCode
+            }
+            compareAtPrice {
+              amount
+              currencyCode
+            }
+          }
+        }
+      }
+      featuredImage {
+        ...image
+      }
+      images(first: 20) {
+        edges {
+          node {
+            ...image
+          }
+        }
+      }
+      seo {
+        ...seo
+      }
+      tags
+      updatedAt
     }
   }
-  ${productFragment}
+  ${imageFragment}
+  ${seoFragment}
 `;
 
 export const getProductsQuery = /* GraphQL */ `
