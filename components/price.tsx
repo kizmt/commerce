@@ -26,7 +26,8 @@ const Price = ({
   const current = parseFloat(amount);
   const was = compareAt ? parseFloat(compareAt) : undefined;
   const onSale = Boolean(was && was > current);
-  const percentOff = onSale && was ? Math.round(((was - current) / was) * 100) : 0;
+  const percentOff =
+    onSale && was ? Math.round(((was - current) / was) * 100) : 0;
 
   return (
     <div className={clsx("flex items-center gap-2", className)}>

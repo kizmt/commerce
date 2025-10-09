@@ -11,10 +11,24 @@ import {
 import { Truck } from "lucide-react";
 
 export const metadata = {
+  title: "Home",
   description:
-    "High-performance ecommerce store built with Next.js, Vercel, and Shopify.",
+    "Shop the latest TCG releases in NZ: Pokémon cards, Magic: The Gathering singles & sealed, One Piece TCG, Dragon Ball Super, Final Fantasy TCG. Pre-orders, booster boxes, and collectibles with fast Auckland shipping.",
+  keywords: [
+    "buy Pokemon cards NZ",
+    "MTG booster boxes NZ",
+    "One Piece TCG New Zealand",
+    "Dragon Ball card game NZ",
+    "Final Fantasy TCG Auckland",
+    "TCG pre-orders NZ",
+    "latest TCG releases",
+    "trading card singles NZ",
+  ],
   openGraph: {
     type: "website",
+    title: "Turtle Island Cards | TCG Store NZ | Pokémon, MTG, One Piece",
+    description:
+      "New Zealand's trusted source for trading cards. Latest releases, pre-orders, and singles for all major TCGs.",
   },
 };
 
@@ -23,6 +37,18 @@ export default function HomePage() {
     <>
       <Hero />
       <div className="mx-auto max-w-(--breakpoint-2xl) pb-8">
+        <div className="sr-only">
+          <h1>
+            Turtle Island Cards - New Zealand's Premier TCG Store | Pokémon,
+            Magic: The Gathering, One Piece TCG
+          </h1>
+          <p>
+            Shop the latest trading card game releases in New Zealand. Buy
+            Pokémon cards, Magic: The Gathering singles and sealed products, One
+            Piece TCG, Dragon Ball Super Card Game, Final Fantasy TCG, and
+            collectibles. Fast shipping from Auckland with pre-order options.
+          </p>
+        </div>
         <Carousel
           title="Latest Arrivals"
           source={{ type: "latest", limit: 20 }}
@@ -41,7 +67,9 @@ export default function HomePage() {
                 <BannerCarouselItem>
                   <p className="flex items-center justify-center gap-2 text-center">
                     (Within New Zealand only)
-                    <span className="text-neutral-600 dark:text-neutral-400">*Excludes large shipments*</span>
+                    <span className="text-neutral-600 dark:text-neutral-400">
+                      *Excludes large shipments*
+                    </span>
                   </p>
                 </BannerCarouselItem>
               </BannerCarouselContent>
@@ -51,7 +79,9 @@ export default function HomePage() {
           <p className="hidden md:flex font-medium text-base text-center items-center justify-center gap-2">
             <Truck className="w-6 h-6" />
             Free Shipping on orders over $300 (within New Zealand only)
-            <span className="ml-2 text-base text-neutral-600 dark:text-neutral-400">*Excludes Large shipments*</span>
+            <span className="ml-2 text-base text-neutral-600 dark:text-neutral-400">
+              *Excludes Large shipments*
+            </span>
           </p>
         </div>
         <CollectionRow

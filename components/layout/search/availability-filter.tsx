@@ -47,7 +47,13 @@ export default function AvailabilityFilter() {
             checked={inActive}
             onCheckedChange={(checked) => {
               const isOn = checked === true;
-              const next = isOn ? (outActive ? "both" : "in") : (outActive ? "out" : null);
+              const next = isOn
+                ? outActive
+                  ? "both"
+                  : "in"
+                : outActive
+                  ? "out"
+                  : null;
               router.push(hrefFor(next));
             }}
           />
@@ -70,7 +76,13 @@ export default function AvailabilityFilter() {
             checked={outActive}
             onCheckedChange={(checked) => {
               const isOn = checked === true;
-              const next = isOn ? (inActive ? "both" : "out") : (inActive ? "in" : null);
+              const next = isOn
+                ? inActive
+                  ? "both"
+                  : "out"
+                : inActive
+                  ? "in"
+                  : null;
               router.push(hrefFor(next));
             }}
           />

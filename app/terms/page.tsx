@@ -2,7 +2,12 @@ import Prose from "components/prose";
 
 export const metadata = {
   title: "Terms of Use",
-  description: "The terms that govern your use of this website and services.",
+  description:
+    "Terms and conditions for purchasing TCG products from Turtle Island Cards in New Zealand. Read our terms for orders, payments, shipping, and returns.",
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 function render() {
@@ -67,5 +72,3 @@ function render() {
 export default function TermsPage() {
   return render();
 }
-
-

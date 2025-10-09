@@ -2,7 +2,12 @@ import Prose from "components/prose";
 
 export const metadata = {
   title: "Privacy Policy",
-  description: "How we collect, use, and protect your information.",
+  description:
+    "Privacy policy for Turtle Island Cards. Learn how we collect, use, and protect your information when shopping for TCG products in New Zealand.",
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 function render() {
@@ -83,5 +88,3 @@ function render() {
 export default function PrivacyPage() {
   return render();
 }
-
-

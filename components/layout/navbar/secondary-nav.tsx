@@ -94,7 +94,9 @@ export default function SecondaryNav() {
                 </NavigationMenuItem>
               ) : (
                 <NavigationMenuItem key={item.label} className="shrink-0">
-                  <NavigationMenuTrigger className="shrink-0">{item.label}</NavigationMenuTrigger>
+                  <NavigationMenuTrigger className="shrink-0">
+                    {item.label}
+                  </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid w-[280px] gap-1 p-1">
                       <li>

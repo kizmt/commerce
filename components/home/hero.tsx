@@ -16,13 +16,13 @@ export default function Hero() {
             <Slide
               imageSrc="/mtgavatarb.jpg"
               imageAlt="Avatar banner"
-            eyebrow="Pre‑order Now"
-            title="Avatar x Magic: The Gathering"
-            description="Secure boosters and bundles before release. Limited quantities."
-            ctaHref="/search/pre-order"
-            ctaText="Pre‑Order Avatar Set"
-            secondaryHref="/search/magic-the-gathering"
-            secondaryText="Browse MTG"
+              eyebrow="Pre‑order Now"
+              title="Avatar x Magic: The Gathering"
+              description="Secure boosters and bundles before release. Limited quantities."
+              ctaHref="/search/pre-order"
+              ctaText="Pre‑Order Avatar Set"
+              secondaryHref="/search/magic-the-gathering"
+              secondaryText="Browse MTG"
             />
           </CarouselItem>
           <CarouselItem>

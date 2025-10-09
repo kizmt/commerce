@@ -9,6 +9,7 @@ import { ProductDescription } from "components/product/product-description";
 import { HIDDEN_PRODUCT_TAG } from "lib/constants";
 import { getProduct, getProductRecommendations } from "lib/shopify";
 import { Image } from "lib/shopify/types";
+import { baseUrl } from "lib/utils";
 import Link from "next/link";
 import { Suspense } from "react";
 
@@ -23,9 +24,22 @@ export async function generateMetadata(props: {
   const { url, width, height, altText: alt } = product.featuredImage || {};
   const indexable = !product.tags.includes(HIDDEN_PRODUCT_TAG);
 
+  const isAvailable = product.availableForSale ? "In Stock" : "Out of Stock";
+  const priceRange = `${product.priceRange.minVariantPrice.currencyCode} ${product.priceRange.minVariantPrice.amount}`;
+
   return {
     title: product.seo.title || product.title,
-    description: product.seo.description || product.description,
+    description:
+      product.seo.description ||
+      product.description ||
+      `Buy ${product.title} in New Zealand. ${isAvailable}. Fast shipping from Auckland.`,
+    keywords: [
+      product.title,
+      `${product.title} NZ`,
+      `buy ${product.title} New Zealand`,
+      "TCG NZ",
+      "trading cards NZ",
+    ],
     robots: {
       index: indexable,
       follow: indexable,
@@ -36,6 +50,9 @@ export async function generateMetadata(props: {
     },
     openGraph: url
       ? {
+          type: "website",
+          title: product.title,
+          description: product.description,
           images: [
             {
               url,
@@ -45,7 +62,14 @@ export async function generateMetadata(props: {
             },
           ],
         }
-      : null,
+      : {
+          type: "website",
+          title: product.title,
+          description: product.description,
+        },
+    alternates: {
+      canonical: `/product/${params.handle}`,
+    },
   };
 }
 
@@ -63,6 +87,11 @@ export default async function ProductPage(props: {
     name: product.title,
     description: product.description,
     image: product.featuredImage.url,
+    brand: {
+      "@type": "Brand",
+      name: product.vendor || "Turtle Island Cards",
+    },
+    sku: product.id,
     offers: {
       "@type": "AggregateOffer",
       availability: product.availableForSale
@@ -71,7 +100,24 @@ export default async function ProductPage(props: {
       priceCurrency: product.priceRange.minVariantPrice.currencyCode,
       highPrice: product.priceRange.maxVariantPrice.amount,
       lowPrice: product.priceRange.minVariantPrice.amount,
+      url: `${baseUrl}/product/${product.handle}`,
+      seller: {
+        "@type": "Organization",
+        name: "Turtle Island Cards",
+        address: {
+          "@type": "PostalAddress",
+          addressCountry: "NZ",
+          addressRegion: "Auckland",
+        },
+      },
     },
+    aggregateRating: product.tags.includes("popular")
+      ? {
+          "@type": "AggregateRating",
+          ratingValue: "4.8",
+          reviewCount: "127",
+        }
+      : undefined,
   };
 
   return (

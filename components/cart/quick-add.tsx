@@ -25,7 +25,9 @@ export function QuickAdd({
     ? product.variants[0]
     : undefined;
   const canQuickAdd = Boolean(
-    defaultVariant && defaultVariant.availableForSale && product.availableForSale,
+    defaultVariant &&
+      defaultVariant.availableForSale &&
+      product.availableForSale,
   );
 
   if (!canQuickAdd) {
@@ -66,5 +68,3 @@ export function QuickAdd({
     </form>
   );
 }
-
-

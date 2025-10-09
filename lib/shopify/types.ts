@@ -68,7 +68,10 @@ export type Page = {
   updatedAt: string;
 };
 
-export type Product = Omit<ShopifyProduct, "variants" | "images" | "compareAtPriceRange" | "vendor"> & {
+export type Product = Omit<
+  ShopifyProduct,
+  "variants" | "images" | "compareAtPriceRange" | "vendor"
+> & {
   vendor?: string;
   compareAtPriceRange?: {
     maxVariantPrice: Money;

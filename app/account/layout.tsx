@@ -1,4 +1,3 @@
-
 export default function AccountLayout({
   children,
 }: {
@@ -10,9 +9,5 @@ export default function AccountLayout({
     { href: "/account/settings", label: "Settings" },
   ];
 
-  return (
-    <div className="mx-auto w-full max-w-5xl px-6 py-12">
-      {children}
-    </div>
-  );
+  return <div className="mx-auto w-full max-w-5xl px-6 py-12">{children}</div>;
 }

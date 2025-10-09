@@ -4,8 +4,21 @@ import { defaultSort, sorting } from "lib/constants";
 import { getProducts } from "lib/shopify";
 
 export const metadata = {
-  title: "Search",
-  description: "Search for products in the store.",
+  title: "Search TCG Products",
+  description:
+    "Search our full catalog of trading cards, TCG singles, sealed products, and collectibles. Find Pokémon, Magic: The Gathering, One Piece, Dragon Ball, and Final Fantasy cards in New Zealand.",
+  keywords: [
+    "search TCG NZ",
+    "find trading cards",
+    "Pokemon card search NZ",
+    "MTG singles search",
+    "One Piece card finder",
+  ],
+  openGraph: {
+    title: "Search Trading Cards & TCG Products | Turtle Island Cards NZ",
+    description:
+      "Browse our complete inventory of TCG products in New Zealand.",
+  },
 };
 
 export default async function SearchPage(props: {

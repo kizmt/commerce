@@ -2,7 +2,12 @@ import Prose from "components/prose";
 
 export const metadata = {
   title: "Contact Us",
-  description: "How to reach Turtle Island Cards.",
+  description:
+    "Contact Turtle Island Cards for TCG product inquiries, order support, and event information. Based in Auckland, New Zealand. Email: turtleislandcards@gmail.com | Phone: 022 353 7438",
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 function render() {
@@ -30,5 +35,3 @@ function render() {
 export default function ContactPage() {
   return render();
 }
-
-

@@ -2,7 +2,12 @@ import Prose from "components/prose";
 
 export const metadata = {
   title: "Shipping Policy",
-  description: "Information about order processing, shipping, and delivery.",
+  description:
+    "Shipping information for Turtle Island Cards. Fast TCG delivery across New Zealand. Learn about processing times, tracking, and free shipping on orders over $300 NZ.",
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 function render() {
@@ -52,5 +57,3 @@ function render() {
 export default function ShippingPage() {
   return render();
 }
-
-

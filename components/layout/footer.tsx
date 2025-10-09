@@ -33,7 +33,12 @@ export default async function Footer() {
             </p>
             <br />
             <p className="text-sm text-neutral-600 dark:text-neutral-300">
-              <a href="mailto:turtleislandcards@gmail.com" className="underline">turtleislandcards@gmail.com</a>
+              <a
+                href="mailto:turtleislandcards@gmail.com"
+                className="underline"
+              >
+                turtleislandcards@gmail.com
+              </a>
             </p>
           </div>
         </div>

@@ -38,7 +38,11 @@ export default function ProductGridItems({
                     View
                   </Link>
                   <div className="pointer-events-auto">
-                    <QuickAdd product={product} className="w-full justify-center" label="Add to cart" />
+                    <QuickAdd
+                      product={product}
+                      className="w-full justify-center"
+                      label="Add to cart"
+                    />
                   </div>
                 </div>
               </div>
@@ -51,7 +55,10 @@ export default function ProductGridItems({
                 <Price
                   className="mt-1 text-sm"
                   amount={product.priceRange.maxVariantPrice.amount}
-                  compareAt={(product as any).compareAtPriceRange?.maxVariantPrice?.amount}
+                  compareAt={
+                    (product as any).compareAtPriceRange?.maxVariantPrice
+                      ?.amount
+                  }
                   currencyCode={product.priceRange.maxVariantPrice.currencyCode}
                 />
               </div>

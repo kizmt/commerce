@@ -3,7 +3,11 @@ import Prose from "components/prose";
 export const metadata = {
   title: "Returns Policy",
   description:
-    "Our policy on returns, exchanges, and resolutions when something goes wrong.",
+    "Returns policy for Turtle Island Cards NZ. Learn about eligibility, timeframes, and our commitment to resolving issues with TCG and trading card orders.",
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 function render() {
@@ -66,5 +70,3 @@ function render() {
 export default function ReturnsPage() {
   return render();
 }
-
-
