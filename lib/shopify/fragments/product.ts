@@ -7,6 +7,7 @@ const productFragment = /* GraphQL */ `
     handle
     availableForSale
     title
+    vendor
     description
     descriptionHtml
     options {
@@ -15,6 +16,16 @@ const productFragment = /* GraphQL */ `
       values
     }
     priceRange {
+      maxVariantPrice {
+        amount
+        currencyCode
+      }
+      minVariantPrice {
+        amount
+        currencyCode
+      }
+    }
+    compareAtPriceRange {
       maxVariantPrice {
         amount
         currencyCode
@@ -35,6 +46,10 @@ const productFragment = /* GraphQL */ `
             value
           }
           price {
+            amount
+            currencyCode
+          }
+          compareAtPrice {
             amount
             currencyCode
           }
