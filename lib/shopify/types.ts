@@ -68,7 +68,12 @@ export type Page = {
   updatedAt: string;
 };
 
-export type Product = Omit<ShopifyProduct, "variants" | "images"> & {
+export type Product = Omit<ShopifyProduct, "variants" | "images" | "compareAtPriceRange" | "vendor"> & {
+  vendor?: string;
+  compareAtPriceRange?: {
+    maxVariantPrice: Money;
+    minVariantPrice: Money;
+  };
   variants: ProductVariant[];
   images: Image[];
 };
@@ -88,6 +93,7 @@ export type ProductVariant = {
     value: string;
   }[];
   price: Money;
+  compareAtPrice?: Money;
 };
 
 export type SEO = {
@@ -120,10 +126,15 @@ export type ShopifyProduct = {
   handle: string;
   availableForSale: boolean;
   title: string;
+  vendor: string;
   description: string;
   descriptionHtml: string;
   options: ProductOption[];
   priceRange: {
+    maxVariantPrice: Money;
+    minVariantPrice: Money;
+  };
+  compareAtPriceRange?: {
     maxVariantPrice: Money;
     minVariantPrice: Money;
   };
