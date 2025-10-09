@@ -1,3 +1,4 @@
+import Price from "components/price";
 import { getCollectionProducts, getProducts } from "lib/shopify";
 import Link from "next/link";
 import { GridTileImage } from "./grid/tile";
@@ -50,24 +51,32 @@ export async function Carousel({
         {carouselProducts.map((product, i) => (
           <li
             key={`${product.handle}${i}`}
-            className="relative aspect-square h-[30vh] max-h-[275px] w-2/3 max-w-[475px] flex-none md:w-1/3"
+            className="relative aspect-square w-60 max-w-[475px] flex-none "
           >
-            <Link
-              href={`/product/${product.handle}`}
-              className="relative h-full w-full"
-            >
-              <GridTileImage
-                alt={product.title}
-                label={{
-                  title: product.title,
-                  amount: product.priceRange.maxVariantPrice.amount,
-                  currencyCode: product.priceRange.maxVariantPrice.currencyCode,
-                }}
-                src={product.featuredImage?.url}
-                fill
-                sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
+            <div className="relative aspect-square">
+              <Link
+                href={`/product/${product.handle}`}
+                className="relative block h-full w-full"
+              >
+                <GridTileImage
+                  alt={product.title}
+                  src={product.featuredImage?.url}
+                  fill
+                  sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
+                />
+              </Link>
+            </div>
+            <div className="mt-2">
+              <p className="line-clamp-2 text-sm font-medium text-foreground">
+                {product.title}
+              </p>
+              <Price
+                className="mt-1 text-sm"
+                amount={product.priceRange.maxVariantPrice.amount}
+                compareAt={product.compareAtPriceRange?.maxVariantPrice?.amount}
+                currencyCode={product.priceRange.maxVariantPrice.currencyCode}
               />
-            </Link>
+            </div>
           </li>
         ))}
       </ul>

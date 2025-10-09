@@ -45,7 +45,7 @@ button {
 }
 
 .animate-carousel {
-  animation: carousel 30s linear infinite;
+  animation: carousel 60s linear infinite;
   will-change: transform;
 }
 

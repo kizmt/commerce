@@ -77,12 +77,12 @@ const navItems: NavItem[] = [
 export default function SecondaryNav() {
   return (
     <div className="hidden border-t border-b border-neutral-200 bg-white md:block dark:border-neutral-800 dark:bg-black">
-      <div className="mx-auto max-w-(--breakpoint-2xl) px-4 py-3">
-        <NavigationMenu viewport={false} className="z-40">
-          <NavigationMenuList>
+      <div className="mx-auto max-w-(--breakpoint-2xl) px-4 py-3 overflow-x-auto">
+        <NavigationMenu viewport={false} className="z-40 min-w-max">
+          <NavigationMenuList className="flex-nowrap gap-2">
             {navItems.map((item) =>
               item.type === "link" ? (
-                <NavigationMenuItem key={item.label}>
+                <NavigationMenuItem key={item.label} className="shrink-0">
                   <NavigationMenuLink
                     asChild
                     className={navigationMenuTriggerStyle()}
@@ -93,8 +93,8 @@ export default function SecondaryNav() {
                   </NavigationMenuLink>
                 </NavigationMenuItem>
               ) : (
-                <NavigationMenuItem key={item.label}>
-                  <NavigationMenuTrigger>{item.label}</NavigationMenuTrigger>
+                <NavigationMenuItem key={item.label} className="shrink-0">
+                  <NavigationMenuTrigger className="shrink-0">{item.label}</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid w-[280px] gap-1 p-1">
                       <li>

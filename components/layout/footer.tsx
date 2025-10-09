@@ -59,13 +59,38 @@ export default async function Footer() {
         </div>
       </div>
       <div className="border-t border-neutral-200 py-3 text-sm dark:border-neutral-700">
-        <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-1 px-4 md:flex-row md:gap-0 md:px-4 min-[1320px]:px-0">
+        <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-1 px-4 md:flex-row md:gap-2 md:justify-between md:px-4 min-[1320px]:px-0">
           <p>
             &copy; {copyrightDate} {copyrightName}
             {copyrightName.length && !copyrightName.endsWith(".")
               ? "."
               : ""}{" "}
             All rights reserved.
+          </p>
+          <p className="flex items-center gap-3">
+            <Link href="/contact" className="underline" prefetch={true}>
+              Contact
+            </Link>
+            <span aria-hidden>•</span>
+            <Link href="/faq" className="underline" prefetch={true}>
+              FAQ
+            </Link>
+            <span aria-hidden>•</span>
+            <Link href="/shipping" className="underline" prefetch={true}>
+              Shipping
+            </Link>
+            <span aria-hidden>•</span>
+            <Link href="/privacy" className="underline" prefetch={true}>
+              Privacy
+            </Link>
+            <span aria-hidden>•</span>
+            <Link href="/terms" className="underline" prefetch={true}>
+              Terms
+            </Link>
+            <span aria-hidden>•</span>
+            <Link href="/returns" className="underline" prefetch={true}>
+              Returns
+            </Link>
           </p>
         </div>
       </div>

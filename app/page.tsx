@@ -62,6 +62,7 @@ export default function HomePage() {
         <CollectionRow title="One Piece" handle="one-piece" />
         <ThreeItemGrid />
         <CollectionRow title="Dragon Ball" handle="dragon-ball" />
+        <CollectionRow title="Final Fantasy" handle="final-fantasy" />
       </div>
       <Footer />
     </>
