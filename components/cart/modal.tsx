@@ -62,7 +62,7 @@ export default function CartModal() {
         onOpenChange={(v) => (v ? setIsOpen(true) : setIsOpen(false))}
       >
         <DialogOverlay />
-        <DialogContent className="fixed bottom-0 right-0 top-0 z-50 flex h-full w-full flex-col border-l border-border bg-background/80 p-6 text-foreground backdrop-blur-xl md:w-[390px]">
+        <DialogContent className="fixed bottom-0 right-0 top-0 z-50 flex h-full w-full flex-col border-l border-border bg-background/80 p-4 text-foreground backdrop-blur-xl md:w-[390px] [&>button]:hidden">
           <div className="flex items-center justify-between">
             <DialogTitle className="text-lg font-semibold">My Cart</DialogTitle>
             <button aria-label="Close cart" onClick={closeCart}>
@@ -78,8 +78,8 @@ export default function CartModal() {
               </p>
             </div>
           ) : (
-            <div className="flex h-full flex-col justify-between overflow-hidden p-1">
-              <ul className="grow overflow-auto py-4">
+            <div className="flex h-full flex-col justify-between overflow-hidden">
+              <ul className="grow overflow-auto py-2">
                 {cart.lines
                   .sort((a, b) =>
                     a.merchandise.product.title.localeCompare(
@@ -108,7 +108,7 @@ export default function CartModal() {
                         key={i}
                         className="flex w-full flex-col border-b border-border"
                       >
-                        <div className="relative flex w-full flex-row justify-between px-1 py-4">
+                        <div className="relative flex w-full flex-row justify-between px-1 py-3">
                           <div className="absolute z-40 -ml-1 -mt-2">
                             <DeleteItemButton
                               item={item}
@@ -151,7 +151,7 @@ export default function CartModal() {
                               amount={item.cost.totalAmount.amount}
                               currencyCode={item.cost.totalAmount.currencyCode}
                             />
-                            <div className="ml-auto flex h-9 flex-row items-center rounded-full border border-border">
+                            <div className="ml-auto flex h-9 flex-row items-center rounded-full border border-background">
                               <EditItemQuantityButton
                                 item={item}
                                 type="minus"
@@ -174,7 +174,7 @@ export default function CartModal() {
                     );
                   })}
               </ul>
-              <div className="py-4 text-sm text-muted-foreground">
+              <div className="py-3 text-sm text-muted-foreground">
                 <div className="mb-3 flex items-center justify-between border-b border-border pb-1">
                   <p>Taxes</p>
                   <Price
