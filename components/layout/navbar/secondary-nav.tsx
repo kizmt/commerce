@@ -76,9 +76,9 @@ const navItems: NavItem[] = [
 
 export default function SecondaryNav() {
   return (
-    <div className="hidden border-t border-b border-neutral-200 bg-white md:block dark:border-neutral-800 dark:bg-black">
-      <div className="mx-auto max-w-(--breakpoint-2xl) px-4 py-3 overflow-x-auto">
-        <NavigationMenu viewport={false} className="z-40 min-w-max">
+    <div className="sticky top-0 z-50 hidden border-t border-b border-border bg-background md:block">
+      <div className="mx-auto max-w-(--breakpoint-2xl) px-4 py-3">
+        <NavigationMenu viewport={false} className="relative">
           <NavigationMenuList className="flex-nowrap gap-2">
             {navItems.map((item) =>
               item.type === "link" ? (
@@ -104,7 +104,7 @@ export default function SecondaryNav() {
                           <Link
                             href={item.href}
                             prefetch={true}
-                            className="block rounded px-3 py-2 text-sm text-neutral-700 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-900 dark:hover:text-white"
+                            className="block rounded px-3 py-2 text-sm text-foreground hover:bg-muted hover:text-foreground"
                           >
                             Shop All
                           </Link>
@@ -116,7 +116,7 @@ export default function SecondaryNav() {
                             <Link
                               href={sub.href}
                               prefetch={true}
-                              className="block rounded px-3 py-2 text-sm text-neutral-700 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-900 dark:hover:text-white"
+                              className="block rounded px-3 py-2 text-sm text-foreground hover:bg-muted hover:text-foreground"
                             >
                               {sub.label}
                             </Link>

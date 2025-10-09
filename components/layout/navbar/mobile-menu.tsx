@@ -41,7 +41,7 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
       <button
         onClick={openMobileMenu}
         aria-label="Open mobile menu"
-        className="flex h-11 w-11 items-center justify-center rounded-md border border-neutral-200 text-black transition-colors md:hidden dark:border-neutral-700 dark:text-white"
+        className="flex h-11 w-11 items-center justify-center rounded-md border border-border text-foreground transition-colors md:hidden"
       >
         <Bars3Icon className="h-4" />
       </button>
@@ -67,10 +67,10 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
             leaveFrom="translate-x-0"
             leaveTo="translate-x-[-100%]"
           >
-            <DialogPanel className="fixed bottom-0 left-0 right-0 top-0 flex h-full w-full flex-col overflow-y-auto bg-white pb-6 dark:bg-black">
+            <DialogPanel className="fixed bottom-0 left-0 right-0 top-0 flex h-full w-full flex-col overflow-y-auto bg-background pb-6">
               <div className="p-4">
                 <button
-                  className="mb-4 flex h-11 w-11 items-center justify-center rounded-md border border-neutral-200 text-black transition-colors dark:border-neutral-700 dark:text-white"
+                  className="mb-4 flex h-11 w-11 items-center justify-center rounded-md border border-border text-foreground transition-colors"
                   onClick={closeMobileMenu}
                   aria-label="Close mobile menu"
                 >
@@ -86,7 +86,7 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
                   <ul className="flex w-full flex-col">
                     {menu.map((item: Menu) => (
                       <li
-                        className="py-2 text-xl text-black transition-colors hover:text-neutral-500 dark:text-white"
+                        className="py-2 text-xl text-foreground transition-colors hover:text-muted-foreground"
                         key={item.title}
                       >
                         <Link
@@ -101,8 +101,8 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
                   </ul>
                 ) : null}
 
-                <div className="mt-6 border-t border-neutral-200 pt-4 dark:border-neutral-800">
-                  <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
+                <div className="mt-6 border-t border-border pt-4">
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     Browse
                   </p>
                   <ul className="flex w-full flex-col">
@@ -113,22 +113,22 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
                             href={item.href}
                             prefetch={true}
                             onClick={closeMobileMenu}
-                            className="text-lg text-black transition-colors hover:text-neutral-500 dark:text-white"
+                            className="text-lg text-foreground transition-colors hover:text-muted-foreground"
                           >
                             {item.label}
                           </Link>
                         ) : (
                           <details>
-                            <summary className="cursor-pointer text-lg text-black transition-colors hover:text-neutral-500 dark:text-white">
+                            <summary className="cursor-pointer text-lg text-foreground transition-colors hover:text-muted-foreground">
                               {item.label}
                             </summary>
-                            <ul className="ml-4 mt-2 flex flex-col border-l border-neutral-200 pl-4 dark:border-neutral-800">
+                            <ul className="ml-4 mt-2 flex flex-col border-l border-border pl-4">
                               <li className="py-1">
                                 <Link
                                   href={item.href}
                                   prefetch={true}
                                   onClick={closeMobileMenu}
-                                  className="text-base text-neutral-700 transition-colors hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white"
+                                  className="text-base text-muted-foreground transition-colors hover:text-foreground"
                                 >
                                   Shop All
                                 </Link>
@@ -139,7 +139,7 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
                                     href={sub.href}
                                     prefetch={true}
                                     onClick={closeMobileMenu}
-                                    className="text-base text-neutral-700 transition-colors hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white"
+                                    className="text-base text-muted-foreground transition-colors hover:text-foreground"
                                   >
                                     {sub.label}
                                   </Link>

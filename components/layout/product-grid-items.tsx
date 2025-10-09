@@ -28,7 +28,8 @@ export default function ProductGridItems({
                   sizes="(min-width: 768px) 33vw, (min-width: 640px) 50vw, 100vw"
                 />
               </Link>
-              <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition-opacity group-hover:opacity-100">
+              {/* Desktop: hover overlay with View + Add to cart */}
+              <div className="pointer-events-none absolute inset-0 hidden items-center justify-center opacity-0 transition-opacity group-hover:opacity-100 md:flex">
                 <div className="flex w-1/2 max-w-[200px] flex-col gap-4">
                   <Link
                     href={`/product/${product.handle}`}
@@ -45,6 +46,16 @@ export default function ProductGridItems({
                     />
                   </div>
                 </div>
+              </div>
+              {/* Mobile: only View button on hover (no Add to cart) */}
+              <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition-opacity group-hover:opacity-100 md:hidden">
+                <Link
+                  href={`/product/${product.handle}`}
+                  prefetch={true}
+                  className="pointer-events-auto rounded-sm border border-border bg-background/90 px-4 py-2 text-center text-xs font-medium text-foreground backdrop-blur"
+                >
+                  View
+                </Link>
               </div>
             </div>
             <div className="mt-2 flex items-start justify-between gap-2">

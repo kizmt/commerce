@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { QuickAdd } from "components/cart/quick-add";
 import { GridTileImage } from "components/grid/tile";
 import Footer from "components/layout/footer";
+import Price from "components/price";
 import { Gallery } from "components/product/gallery";
 import { ProductProvider } from "components/product/product-context";
 import { ProductDescription } from "components/product/product-description";
@@ -129,7 +131,7 @@ export default async function ProductPage(props: {
         }}
       />
       <div className="mx-auto max-w-(--breakpoint-2xl) px-4 mt-5">
-        <div className="flex flex-col rounded-lg border border-neutral-200 bg-white p-8 md:p-12 lg:flex-row lg:gap-8 dark:border-neutral-800 dark:bg-black">
+        <div className="flex flex-col rounded-lg border border-border bg-card p-8 md:p-12 lg:flex-row lg:gap-8">
           <div className="h-full w-full basis-full lg:basis-4/6">
             <Suspense
               fallback={
@@ -168,27 +170,65 @@ async function RelatedProducts({ id }: { id: string }) {
       <h2 className="mb-4 text-2xl font-bold">Related Products</h2>
       <ul className="flex w-full gap-4 overflow-x-auto pt-1">
         {relatedProducts.map((product) => (
-          <li
-            key={product.handle}
-            className="aspect-square w-full flex-none min-[475px]:w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5"
-          >
-            <Link
-              className="relative h-full w-full"
-              href={`/product/${product.handle}`}
-              prefetch={true}
-            >
-              <GridTileImage
-                alt={product.title}
-                label={{
-                  title: product.title,
-                  amount: product.priceRange.maxVariantPrice.amount,
-                  currencyCode: product.priceRange.maxVariantPrice.currencyCode,
-                }}
-                src={product.featuredImage?.url}
-                fill
-                sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, (min-width: 475px) 50vw, 100vw"
-              />
-            </Link>
+          <li key={product.handle} className="w-60 flex-none">
+            <div className="flex h-full flex-col">
+              <div className="group relative">
+                <Link
+                  className="block h-full w-full"
+                  href={`/product/${product.handle}`}
+                  prefetch={true}
+                >
+                  <GridTileImage
+                    alt={product.title}
+                    src={product.featuredImage?.url}
+                    fill
+                    sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, 50vw"
+                  />
+                </Link>
+                {/* Desktop: hover overlay with View + Add to cart */}
+                <div className="pointer-events-none absolute inset-0 hidden items-center justify-center opacity-0 transition-opacity group-hover:opacity-100 md:flex">
+                  <div className="flex w-1/2 max-w-[200px] flex-col gap-4">
+                    <Link
+                      href={`/product/${product.handle}`}
+                      prefetch={true}
+                      className="pointer-events-auto rounded-sm border border-border bg-background/90 px-3 py-2 text-center text-xs font-medium text-foreground backdrop-blur"
+                    >
+                      View
+                    </Link>
+                    <div className="pointer-events-auto">
+                      <QuickAdd
+                        product={product}
+                        className="w-full justify-center"
+                        label="Add to cart"
+                      />
+                    </div>
+                  </div>
+                </div>
+                {/* Mobile: only View button */}
+                <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition-opacity group-hover:opacity-100 md:hidden">
+                  <Link
+                    href={`/product/${product.handle}`}
+                    prefetch={true}
+                    className="pointer-events-auto rounded-sm border border-border bg-background/90 px-4 py-2 text-center text-xs font-medium text-foreground backdrop-blur"
+                  >
+                    View
+                  </Link>
+                </div>
+              </div>
+              <div className="mt-2">
+                <p className="line-clamp-2 text-sm font-medium text-foreground">
+                  {product.title}
+                </p>
+                <Price
+                  className="mt-1 text-sm"
+                  amount={product.priceRange.maxVariantPrice.amount}
+                  compareAt={
+                    product.compareAtPriceRange?.maxVariantPrice?.amount
+                  }
+                  currencyCode={product.priceRange.maxVariantPrice.currencyCode}
+                />
+              </div>
+            </div>
           </li>
         ))}
       </ul>

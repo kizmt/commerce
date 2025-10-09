@@ -55,7 +55,7 @@ export function QuickAdd({
       <button
         aria-label="Add to cart"
         className={clsx(
-          "flex items-center justify-center gap-1 rounded-sm bg-green-900 px-3 py-2 text-xs font-medium text-primary-foreground transition hover:opacity-90",
+          "flex items-center justify-center gap-1 rounded-sm bg-primary px-3 py-2 text-xs font-medium text-primary-foreground transition hover:opacity-90",
           className,
         )}
       >

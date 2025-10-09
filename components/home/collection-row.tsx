@@ -74,7 +74,8 @@ export default async function CollectionRow({
                   sizes="(min-width: 1024px) 20vw, (min-width: 640px) 33vw, 50vw"
                 />
               </Link>
-              <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition-opacity group-hover:opacity-100">
+              {/* Desktop: hover overlay with View + Add to cart */}
+              <div className="pointer-events-none absolute inset-0 hidden items-center justify-center opacity-0 transition-opacity group-hover:opacity-100 md:flex">
                 <div className="flex w-1/2 max-w-[200px] flex-col gap-4">
                   <Link
                     href={`/product/${product.handle}`}
@@ -90,6 +91,15 @@ export default async function CollectionRow({
                     />
                   </div>
                 </div>
+              </div>
+              {/* Mobile: only View button (no Add to cart) */}
+              <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition-opacity group-hover:opacity-100 md:hidden">
+                <Link
+                  href={`/product/${product.handle}`}
+                  className="pointer-events-auto rounded-sm border border-border bg-background/90 px-4 py-2 text-center text-xs font-medium text-foreground backdrop-blur"
+                >
+                  View
+                </Link>
               </div>
             </div>
             <div className="mt-2">
