@@ -37,16 +37,12 @@ export default function HomePage() {
     <>
       <Hero />
       <div className="mx-auto max-w-(--breakpoint-2xl) pb-8">
-        <div className="sr-only">
-          <h1>
-            Turtle Island Cards - New Zealand's Premier TCG Store | Pokémon,
-            Magic: The Gathering, One Piece TCG
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold tracking-tight md:text-3xl">
+            Turtle Island Cards – New Zealand's Premier TCG Store | Pokémon, MTG, One Piece
           </h1>
-          <p>
-            Shop the latest trading card game releases in New Zealand. Buy
-            Pokémon cards, Magic: The Gathering singles and sealed products, One
-            Piece TCG, Dragon Ball Super Card Game, Final Fantasy TCG, and
-            collectibles. Fast shipping from Auckland with pre-order options.
+          <p className="mt-2 text-neutral-700 dark:text-neutral-300">
+            Shop Pokémon cards, Magic: The Gathering singles & sealed, One Piece TCG, Dragon Ball Super, and Final Fantasy TCG. Fast Auckland shipping and pre-orders available.
           </p>
         </div>
         <Carousel
