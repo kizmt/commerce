@@ -30,6 +30,9 @@ export const metadata = {
     description:
       "New Zealand's trusted source for trading cards. Latest releases, pre-orders, and singles for all major TCGs.",
   },
+  alternates: {
+    canonical: "/",
+  },
 };
 
 export default function HomePage() {

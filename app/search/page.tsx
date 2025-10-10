@@ -19,6 +19,9 @@ export const metadata = {
     description:
       "Browse our complete inventory of TCG products in New Zealand.",
   },
+  alternates: {
+    canonical: "/search",
+  },
 };
 
 export default async function SearchPage(props: {
