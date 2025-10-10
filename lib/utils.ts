@@ -3,9 +3,26 @@ import { twMerge } from "tailwind-merge";
 
 import { ReadonlyURLSearchParams } from "next/navigation";
 
-export const baseUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
-  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : "http://localhost:3000";
+// Derive a correct canonical origin for metadata, sitemap and robots
+// Prefer an explicit public site URL, then Vercel-provided URL, then fallback to localhost
+export const baseUrl = (() => {
+  const envUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    process.env.VERCEL_URL ||
+    process.env.VERCEL_PROJECT_PRODUCTION_URL;
+
+  if (!envUrl) return "http://localhost:3000";
+
+  const hasProtocol = /^https?:\/\//i.test(envUrl);
+  const url = hasProtocol ? envUrl : `https://${envUrl}`;
+
+  try {
+    // Ensure we return only the origin (protocol + host)
+    return new URL(url).origin;
+  } catch {
+    return "http://localhost:3000";
+  }
+})();
 
 export const createUrl = (
   pathname: string,
