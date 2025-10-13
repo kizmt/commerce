@@ -61,9 +61,11 @@ export default function HomePage() {
             <BannerCarousel intervalMs={3500} className="w-full">
               <BannerCarouselContent>
                 <BannerCarouselItem>
-                  <p className="flex items-center justify-center gap-2 text-center">
-                    <Truck className="w-5 h-5" />
-                    Free Shipping on orders over $300
+                  <p className="flex items-center justify-center gap-2 text-center w-full overflow-hidden">
+                    <Truck className="w-5 h-5 shrink-0" />
+                    <span className="truncate">
+                      Free Shipping on orders over $300
+                    </span>
                   </p>
                 </BannerCarouselItem>
                 <BannerCarouselItem>

@@ -47,7 +47,7 @@ export const navItems: NavItem[] = [
   },
   {
     type: "dropdown",
-    label: "FINAL FANTASY",
+    label: "FINAL FANTASY TCG",
     href: "/search/final-fantasy",
     items: [
       { label: "Singles", href: "/search/final-fantasy-singles" },
