@@ -97,14 +97,20 @@ export default async function CategoryPage(props: {
 }) {
   const searchParams = await props.searchParams;
   const params = await props.params;
-  const { sort } = searchParams as { [key: string]: string };
+  const { sort, stock } = searchParams as { [key: string]: string };
   const { sortKey, reverse } =
     sorting.find((item) => item.slug === sort) || defaultSort;
-  const products = await getCollectionProducts({
+  let products = await getCollectionProducts({
     collection: params.collection,
     sortKey,
     reverse,
   });
+
+  if (stock === "in") {
+    products = products.filter((p) => p.availableForSale);
+  } else if (stock === "out") {
+    products = products.filter((p) => !p.availableForSale);
+  }
 
   const collection = await getCollection(params.collection);
   const breadcrumbJsonLd = {

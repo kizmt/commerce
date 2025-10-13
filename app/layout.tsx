@@ -7,7 +7,12 @@ import { baseUrl } from "lib/utils";
 import { ReactNode } from "react";
 import "./globals.css";
 
-const { SITE_NAME, TWITTER_CREATOR, TWITTER_SITE, NEXT_PUBLIC_GSC_VERIFICATION } = process.env;
+const {
+  SITE_NAME,
+  TWITTER_CREATOR,
+  TWITTER_SITE,
+  NEXT_PUBLIC_GSC_VERIFICATION,
+} = process.env;
 const siteName = SITE_NAME || "Turtle Island Cards";
 const siteDescription =
   "New Zealand's premier TCG store for Magic: The Gathering, Pokémon, One Piece, Dragon Ball, and Final Fantasy TCG. Buy trading cards, sealed products, singles, and collectibles with fast NZ shipping.";

@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import type { SortFilterItem } from "lib/constants";
+import { defaultSort, type SortFilterItem } from "lib/constants";
 import { createUrl } from "lib/utils";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -36,12 +36,17 @@ function PathFilterItem({ item }: { item: PathFilterItem }) {
 function SortFilterItem({ item }: { item: SortFilterItem }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const active = searchParams.get("sort") === item.slug;
+  const sortParam = searchParams.get("sort");
+  const active = sortParam
+    ? sortParam === item.slug
+    : item.slug === defaultSort.slug;
   const q = searchParams.get("q");
+  const stock = searchParams.get("stock");
   const href = createUrl(
     pathname,
     new URLSearchParams({
       ...(q && { q }),
+      ...(stock && { stock }),
       ...(item.slug && item.slug.length && { sort: item.slug }),
     }),
   );

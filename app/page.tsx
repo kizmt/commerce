@@ -42,10 +42,13 @@ export default function HomePage() {
       <div className="mx-auto max-w-(--breakpoint-2xl) pb-8">
         <div className="sr-only">
           <h1>
-            Turtle Island Cards – New Zealand's Premier TCG Store | Pokémon, MTG, One Piece
+            Turtle Island Cards – New Zealand's Premier TCG Store | Pokémon,
+            MTG, One Piece
           </h1>
           <p>
-            Shop Pokémon cards, Magic: The Gathering singles & sealed, One Piece TCG, Dragon Ball Super, and Final Fantasy TCG. Fast Auckland shipping and pre-orders available.
+            Shop Pokémon cards, Magic: The Gathering singles & sealed, One Piece
+            TCG, Dragon Ball Super, and Final Fantasy TCG. Fast Auckland
+            shipping and pre-orders available.
           </p>
         </div>
         <Carousel

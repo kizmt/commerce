@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { Checkbox } from "components/ui/checkbox";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 
 export default function AvailabilityFilter() {
   const router = useRouter();
@@ -13,6 +14,42 @@ export default function AvailabilityFilter() {
   const stock = searchParams.get("stock"); // 'in' | 'out' | 'both' | null
   const inActive = stock === "in" || stock === "both";
   const outActive = stock === "out" || stock === "both";
+
+  const [counts, setCounts] = useState<{
+    inStock: number;
+    outOfStock: number;
+  } | null>(null);
+  const paramsString = searchParams.toString();
+  const context = useMemo(() => {
+    // Determine whether we are on /search or /search/[collection]
+    const isCollection =
+      pathname.startsWith("/search/") && pathname !== "/search";
+    const q = searchParams.get("q") || undefined;
+    const collection = isCollection
+      ? decodeURIComponent(pathname.split("/")[2] || "")
+      : undefined;
+    return { q, collection };
+  }, [pathname, paramsString]);
+
+  useEffect(() => {
+    const url = new URL("/api/search/availability", window.location.origin);
+    if (context.q) url.searchParams.set("q", context.q);
+    if (context.collection)
+      url.searchParams.set("collection", context.collection);
+    fetch(url.toString())
+      .then((r) => r.json())
+      .then((data) => {
+        if (
+          typeof data?.inStock === "number" &&
+          typeof data?.outOfStock === "number"
+        ) {
+          setCounts({ inStock: data.inStock, outOfStock: data.outOfStock });
+        } else {
+          setCounts(null);
+        }
+      })
+      .catch(() => setCounts(null));
+  }, [context]);
 
   function hrefFor(nextStock: string | null) {
     const params = new URLSearchParams(searchParams.toString());
@@ -41,7 +78,7 @@ export default function AvailabilityFilter() {
               },
             )}
           >
-            In stock
+            In stock{counts ? ` (${counts.inStock})` : ""}
           </Link>
           <Checkbox
             checked={inActive}
@@ -70,7 +107,7 @@ export default function AvailabilityFilter() {
               },
             )}
           >
-            Out of stock
+            Out of stock{counts ? ` (${counts.outOfStock})` : ""}
           </Link>
           <Checkbox
             checked={outActive}

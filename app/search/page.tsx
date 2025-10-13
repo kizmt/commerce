@@ -30,10 +30,22 @@ export default async function SearchPage(props: {
   const raw = (await props.searchParams) ?? {};
   const sort = typeof raw.sort === "string" ? raw.sort : undefined;
   const searchValue = typeof raw.q === "string" ? raw.q : undefined;
+  const stock = typeof raw.stock === "string" ? raw.stock : undefined; // 'in' | 'out' | 'both'
   const { sortKey, reverse } =
     sorting.find((item) => item.slug === sort) || defaultSort;
 
-  const products = await getProducts({ sortKey, reverse, query: searchValue });
+  // Build Shopify product query
+  const queryParts: string[] = [];
+  if (searchValue) queryParts.push(searchValue);
+  if (stock === "in") queryParts.push("available_for_sale:true");
+  if (stock === "out") queryParts.push("available_for_sale:false");
+  // if stock === 'both' or undefined, don't add a filter (show all)
+
+  const products = await getProducts({
+    sortKey,
+    reverse,
+    query: queryParts.length ? queryParts.join(" ") : undefined,
+  });
   const resultsText = products.length > 1 ? "results" : "result";
 
   return (
