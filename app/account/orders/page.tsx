@@ -1,5 +1,16 @@
 import { cookies } from "next/headers";
 
+export const metadata = {
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: {
+      index: false,
+      follow: false,
+    },
+  },
+};
+
 export default async function OrdersPage() {
   const token = (await cookies()).get("customer_access_token")?.value;
   return (

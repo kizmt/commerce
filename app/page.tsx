@@ -11,24 +11,29 @@ import {
 import { Truck } from "lucide-react";
 
 export const metadata = {
-  title: "Turtle Island Cards | TCG Store NZ | Pokémon, MTG, One Piece",
+  title: "Turtle Island Cards | TCG Store NZ | Pokémon, MTG, One Piece | Auckland",
   description:
-    "Shop the latest TCG releases in NZ: Pokémon cards, Magic: The Gathering singles & sealed, One Piece TCG, Dragon Ball Super, Final Fantasy TCG. Pre-orders, booster boxes, and collectibles with fast Auckland shipping.",
+    "Turtle Island Cards - New Zealand's premier TCG store in Auckland. Shop Pokémon cards, Magic: The Gathering singles & sealed, One Piece TCG, Dragon Ball Super, Final Fantasy TCG. Pre-orders, booster boxes, and collectibles with fast NZ shipping.",
   keywords: [
+    "TCG store Auckland",
+    "trading card shop New Zealand",
     "buy Pokemon cards NZ",
-    "MTG booster boxes NZ",
+    "MTG booster boxes Auckland",
     "One Piece TCG New Zealand",
     "Dragon Ball card game NZ",
     "Final Fantasy TCG Auckland",
     "TCG pre-orders NZ",
-    "latest TCG releases",
-    "trading card singles NZ",
+    "latest TCG releases NZ",
+    "trading card singles New Zealand",
+    "card shop Auckland",
+    "NZ game store",
+    "Auckland TCG store",
   ],
   openGraph: {
     type: "website",
     title: "Turtle Island Cards | TCG Store NZ | Pokémon, MTG, One Piece",
     description:
-      "New Zealand's trusted source for trading cards. Latest releases, pre-orders, and singles for all major TCGs.",
+      "New Zealand's trusted TCG store based in Auckland. Shop the latest trading card games with fast NZ shipping.",
   },
   alternates: {
     canonical: "/",

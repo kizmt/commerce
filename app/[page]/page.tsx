@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import Prose from "components/prose";
 import { getPage } from "lib/shopify";
+import { baseUrl } from "lib/utils";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata(props: {
@@ -16,7 +17,7 @@ export async function generateMetadata(props: {
     title: page.seo?.title || page.title,
     description: page.seo?.description || page.bodySummary,
     alternates: {
-      canonical: `/${params.page}`,
+      canonical: `${baseUrl}/${params.page}`,
     },
     openGraph: {
       publishedTime: page.createdAt,

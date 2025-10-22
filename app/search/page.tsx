@@ -2,6 +2,7 @@ import Grid from "components/grid";
 import ProductGridItems from "components/layout/product-grid-items";
 import { defaultSort, sorting } from "lib/constants";
 import { getProducts } from "lib/shopify";
+import { baseUrl } from "lib/utils";
 
 export const metadata = {
   title: "Search TCG Products",
@@ -14,13 +15,21 @@ export const metadata = {
     "MTG singles search",
     "One Piece card finder",
   ],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
   openGraph: {
     title: "Search Trading Cards & TCG Products | Turtle Island Cards NZ",
     description:
       "Browse our complete inventory of TCG products in New Zealand.",
   },
   alternates: {
-    canonical: "/search",
+    canonical: `${baseUrl}/search`,
   },
 };
 

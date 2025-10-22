@@ -9,6 +9,17 @@ type Customer = {
   lastName: string | null;
 };
 
+export const metadata = {
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: {
+      index: false,
+      follow: false,
+    },
+  },
+};
+
 async function getCustomer(accessToken: string): Promise<Customer | null> {
   try {
     const shopDomain = process.env.SHOPIFY_STORE_DOMAIN?.replace(
