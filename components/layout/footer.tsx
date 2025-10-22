@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { CurrencySelector } from "components/currency/currency-selector";
 import FooterLogo from "components/icons/footer-logo";
 import FooterMenu from "components/layout/footer-menu";
 import FooterPayments from "components/layout/payments";
@@ -59,7 +60,10 @@ export default async function Footer() {
           </Suspense>
         </div>
         <div className="md:ml-auto flex flex-col items-end gap-4">
-          <FooterPayments />
+          <div className="flex items-center gap-4">
+            <CurrencySelector />
+            <FooterPayments />
+          </div>
           <FooterSocials />
         </div>
       </div>
