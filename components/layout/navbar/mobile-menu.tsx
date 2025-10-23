@@ -10,7 +10,7 @@ import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { Fragment, Suspense, useEffect, useState } from "react";
 
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, ChevronDownIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Menu } from "lib/shopify/types";
 import Search, { SearchSkeleton } from "./search";
 import { navItems } from "./secondary-items";
@@ -19,8 +19,19 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
+  const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
   const openMobileMenu = () => setIsOpen(true);
   const closeMobileMenu = () => setIsOpen(false);
+
+  const toggleExpanded = (label: string) => {
+    const newExpanded = new Set(expandedItems);
+    if (newExpanded.has(label)) {
+      newExpanded.delete(label);
+    } else {
+      newExpanded.add(label);
+    }
+    setExpandedItems(newExpanded);
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -68,89 +79,114 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
             leaveTo="translate-x-[-100%]"
           >
             <DialogPanel className="fixed bottom-0 left-0 right-0 top-0 flex h-full w-full flex-col overflow-y-auto bg-background pb-6">
-              <div className="p-4">
+              {/* Header with logo and close button */}
+              <div className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur-sm p-4 flex items-center justify-between">
+                <h2 className="font-semibold text-foreground">Menu</h2>
                 <button
-                  className="mb-4 flex h-11 w-11 items-center justify-center rounded-md border border-border text-foreground transition-colors"
+                  className="flex h-10 w-10 items-center justify-center rounded-md border border-border text-foreground transition-colors hover:bg-accent"
                   onClick={closeMobileMenu}
                   aria-label="Close mobile menu"
                 >
-                  <XMarkIcon className="h-6" />
+                  <XMarkIcon className="h-5" />
                 </button>
+              </div>
 
-                <div className="mb-4 w-full">
-                  <Suspense fallback={<SearchSkeleton />}>
-                    <Search />
-                  </Suspense>
-                </div>
-                {menu.length ? (
-                  <ul className="flex w-full flex-col">
-                    {menu.map((item: Menu) => (
-                      <li
-                        className="py-2 text-xl text-foreground transition-colors hover:text-muted-foreground"
-                        key={item.title}
-                      >
-                        <Link
-                          href={item.path}
-                          prefetch={true}
-                          onClick={closeMobileMenu}
-                        >
-                          {item.title}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
+              <div className="flex-1 overflow-y-auto">
+                <div className="p-4 space-y-6">
+                  {/* Search */}
+                  <div className="w-full">
+                    <Suspense fallback={<SearchSkeleton />}>
+                      <Search />
+                    </Suspense>
+                  </div>
 
-                <div className="mt-6 border-t border-border pt-4">
-                  <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                    Browse
-                  </p>
-                  <ul className="flex w-full flex-col">
-                    {navItems.map((item) => (
-                      <li key={item.label} className="py-2">
-                        {item.type === "link" ? (
-                          <Link
-                            href={item.href}
-                            prefetch={true}
-                            onClick={closeMobileMenu}
-                            className="text-lg text-foreground transition-colors hover:text-muted-foreground"
-                          >
-                            {item.label}
-                          </Link>
-                        ) : (
-                          <details>
-                            <summary className="cursor-pointer text-lg text-foreground transition-colors hover:text-muted-foreground">
+                  {/* Primary Menu Items */}
+                  {menu.length ? (
+                    <div>
+                      <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                        Shop
+                      </p>
+                      <ul className="flex w-full flex-col space-y-1">
+                        {menu.map((item: Menu) => (
+                          <li key={item.title}>
+                            <Link
+                              href={item.path}
+                              prefetch={true}
+                              onClick={closeMobileMenu}
+                              className="block px-3 py-2.5 text-base font-medium text-foreground rounded-md transition-colors hover:bg-accent hover:text-foreground"
+                            >
+                              {item.title}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : null}
+
+                  {/* Browse Section */}
+                  <div className="border-t border-border pt-4">
+                    <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                      Browse
+                    </p>
+                    <ul className="flex w-full flex-col space-y-1">
+                      {navItems.map((item) => (
+                        <li key={item.label}>
+                          {item.type === "link" ? (
+                            <Link
+                              href={item.href}
+                              prefetch={true}
+                              onClick={closeMobileMenu}
+                              className="block px-3 py-2.5 text-base font-medium text-foreground rounded-md transition-colors hover:bg-accent"
+                            >
                               {item.label}
-                            </summary>
-                            <ul className="ml-4 mt-2 flex flex-col border-l border-border pl-4">
-                              <li className="py-1">
-                                <Link
-                                  href={item.href}
-                                  prefetch={true}
-                                  onClick={closeMobileMenu}
-                                  className="text-base text-muted-foreground transition-colors hover:text-foreground"
-                                >
-                                  Shop All
-                                </Link>
-                              </li>
-                              {item.items.map((sub) => (
-                                <li key={sub.label} className="py-1">
-                                  <Link
-                                    href={sub.href}
-                                    prefetch={true}
-                                    onClick={closeMobileMenu}
-                                    className="text-base text-muted-foreground transition-colors hover:text-foreground"
-                                  >
-                                    {sub.label}
-                                  </Link>
-                                </li>
-                              ))}
-                            </ul>
-                          </details>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
+                            </Link>
+                          ) : (
+                            <div>
+                              <button
+                                onClick={() => toggleExpanded(item.label)}
+                                className="flex w-full items-center justify-between px-3 py-2.5 text-base font-medium text-foreground rounded-md transition-colors hover:bg-accent"
+                              >
+                                <span>{item.label}</span>
+                                <ChevronDownIcon
+                                  className={`h-4 w-4 transition-transform duration-200 ${
+                                    expandedItems.has(item.label)
+                                      ? "rotate-180"
+                                      : ""
+                                  }`}
+                                />
+                              </button>
+                              {expandedItems.has(item.label) && (
+                                <ul className="mt-1 space-y-1 bg-muted/50 rounded-md p-2 ml-2 border border-border/50">
+                                  <li>
+                                    <Link
+                                      href={item.href}
+                                      prefetch={true}
+                                      onClick={closeMobileMenu}
+                                      className="block px-3 py-2 text-sm text-foreground transition-colors hover:text-foreground hover:bg-accent/50 rounded"
+                                    >
+                                      ↳ Shop All
+                                    </Link>
+                                  </li>
+                                  {item.items.map((sub) => (
+                                    <li key={sub.label}>
+                                      <Link
+                                        href={sub.href}
+                                        prefetch={true}
+                                        onClick={closeMobileMenu}
+                                        className="block px-3 py-2 text-sm text-foreground transition-colors hover:text-foreground hover:bg-accent/50 rounded"
+                                      >
+                                        ↳ {sub.label}
+                                      </Link>
+                                    </li>
+                                  ))}
+                                </ul>
+                              )}
+                            </div>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               </div>
             </DialogPanel>
