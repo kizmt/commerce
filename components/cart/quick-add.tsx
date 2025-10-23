@@ -35,7 +35,7 @@ export function QuickAdd({
       <Link
         href={`/product/${product.handle}`}
         prefetch={true}
-        className="rounded-sm border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:bg-muted"
+        className="rounded-sm border border-border bg-background px-4 py-1.5 text-xs font-medium text-foreground transition hover:bg-muted"
         aria-label="Choose options"
       >
         Choose options

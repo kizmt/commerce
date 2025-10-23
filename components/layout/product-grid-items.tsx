@@ -28,6 +28,12 @@ export default function ProductGridItems({
                   sizes="(min-width: 768px) 33vw, (min-width: 640px) 50vw, 100vw"
                 />
               </Link>
+              {/* Out of Stock Badge */}
+              {!product.availableForSale && (
+                <div className="absolute top-2 left-2 z-10 rounded-sm bg-red-600/90 px-2 py-1 text-xs font-semibold text-white backdrop-blur-sm">
+                  Out of Stock
+                </div>
+              )}
               {/* Desktop: hover overlay with View + Add to cart */}
               <div className="pointer-events-none absolute inset-0 hidden items-center justify-center opacity-0 transition-opacity group-hover:opacity-100 md:flex">
                 <div className="flex w-1/2 max-w-[200px] flex-col gap-4">
