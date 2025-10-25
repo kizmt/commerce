@@ -27,11 +27,13 @@ async function getCustomer(accessToken: string): Promise<Customer | null> {
       /^https?:\/\//,
       "",
     )!;
+    console.log("getCustomer - shopDomain:", shopDomain);
     const apiDiscoveryUrl = `https://${shopDomain}/.well-known/customer-account-api`;
     const apiRes = await fetch(apiDiscoveryUrl, { cache: "no-store" });
     const apiConfig = await apiRes.json().catch(() => null as any);
     const endpoint =
       apiConfig?.graphql_api || `https://${shopDomain}/customer/api/graphql`;
+    console.log("getCustomer - endpoint:", endpoint);
     const query = `#graphql
       query Me {
         customer {
@@ -55,6 +57,7 @@ async function getCustomer(accessToken: string): Promise<Customer | null> {
       body: JSON.stringify({ query }),
     });
 
+    console.log("getCustomer - response status:", res.status);
     if (!res.ok) {
       try {
         const text = await res.text();
@@ -68,15 +71,20 @@ async function getCustomer(accessToken: string): Promise<Customer | null> {
       return null;
     }
     const raw = json?.data?.customer;
-    if (!raw) return null;
+    if (!raw) {
+      console.error("No customer data in response");
+      return null;
+    }
     const mapped: Customer = {
       id: raw.id,
       email: raw.email ?? raw.emailAddress?.emailAddress ?? null,
       firstName: raw.firstName ?? null,
       lastName: raw.lastName ?? null,
     };
+    console.log("getCustomer - success:", mapped.email);
     return mapped;
-  } catch {
+  } catch (error) {
+    console.error("getCustomer - exception:", error);
     return null;
   }
 }
@@ -89,6 +97,8 @@ export default async function AccountPage({
   const token = (await cookies()).get("customer_access_token")?.value;
   const sp = searchParams ? await searchParams : undefined;
   const authFlag = sp?.auth;
+
+  console.log("AccountPage - has token:", !!token, "authFlag:", authFlag);
 
   if (!token) {
     return (
@@ -249,20 +259,9 @@ export default async function AccountPage({
             <p className="mb-4 text-sm text-neutral-600 dark:text-neutral-400">
               Log out and sign in with a different account.
             </p>
-            <a
-              href="/api/auth/customer/logout"
-              onClick={(e) => {
-                e.preventDefault();
-                if (typeof window !== "undefined") {
-                  localStorage.clear();
-                  sessionStorage.clear();
-                }
-                window.location.href = "/api/auth/customer/logout";
-              }}
-              className="inline-flex items-center rounded-md border border-blue-600 bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700 dark:border-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600"
-            >
+            <LogoutButton className="inline-flex items-center rounded-md border border-blue-600 bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700 dark:border-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600">
               Switch Account
-            </a>
+            </LogoutButton>
           </div>
         </div>
       )}

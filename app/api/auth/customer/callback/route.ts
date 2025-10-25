@@ -81,6 +81,13 @@ export async function GET(req: NextRequest) {
   }
 
   const tokenJson = await tokenRes.json();
+  
+  console.log("Token exchange successful");
+  console.log("Token type:", tokenJson.token_type);
+  console.log("Has access_token:", !!tokenJson.access_token);
+  console.log("Access token prefix:", tokenJson.access_token?.substring(0, 10));
+  console.log("Has refresh_token:", !!tokenJson.refresh_token);
+  console.log("Has id_token:", !!tokenJson.id_token);
 
   const response = NextResponse.redirect(
     new URL("/account?auth=ok", url.origin),
