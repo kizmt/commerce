@@ -74,6 +74,8 @@ export async function customerFetch<T>({
     hasToken: !!token,
     tokenLength: token?.length || 0,
     tokenPrefix: token?.substring(0, 10) || "none",
+    startsWithShcat: token?.startsWith("shcat_"),
+    tokenSample: token ? `${token.substring(0, 20)}...${token.substring(token.length - 20)}` : "none"
   });
 
   if (!token) {
@@ -81,6 +83,8 @@ export async function customerFetch<T>({
   }
 
   console.log("Making request to:", endpoint);
+  console.log("Authorization header:", `Bearer ${token.substring(0, 30)}...`);
+  
   const res = await fetch(endpoint, {
     method: "POST",
     headers: {
