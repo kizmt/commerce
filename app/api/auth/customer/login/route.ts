@@ -34,7 +34,13 @@ export async function GET(req: NextRequest) {
           logoutUrl.searchParams.set("id_token_hint", idToken);
           // Redirect back to login (without force param) after logout
           logoutUrl.searchParams.set("post_logout_redirect_uri", `${origin}/api/auth/customer/login`);
-          return NextResponse.redirect(logoutUrl.toString());
+          
+          const response = NextResponse.redirect(logoutUrl.toString());
+          // Clear cookies before logout redirect
+          response.cookies.delete("customer_access_token");
+          response.cookies.delete("customer_refresh_token");
+          response.cookies.delete("customer_id_token");
+          return response;
         }
       }
     } catch {}
@@ -46,6 +52,7 @@ export async function GET(req: NextRequest) {
   const state = Math.random().toString(36).slice(2);
   const nonce = Math.random().toString(36).slice(2);
   const origin = new URL(req.url).origin;
+  const isProd = process.env.NODE_ENV === "production";
   const redirectUri =
     process.env.SHOPIFY_CUSTOMER_REDIRECT_URI ||
     `${origin}/api/auth/customer/callback`;
@@ -86,7 +93,13 @@ export async function GET(req: NextRequest) {
   const response = NextResponse.redirect(
     `${authorizeUrl}?${params.toString()}`,
   );
-  const isProd = process.env.NODE_ENV === "production";
+  
+  // Clear any existing customer auth cookies
+  response.cookies.delete("customer_access_token");
+  response.cookies.delete("customer_refresh_token");
+  response.cookies.delete("customer_id_token");
+  
+  // Set PKCE cookies
   response.cookies.set("shopify_pkce_verifier", codeVerifier, {
     httpOnly: true,
     sameSite: "lax",
