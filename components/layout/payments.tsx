@@ -34,6 +34,8 @@ export default function FooterPayments() {
               width={38}
               height={24}
               className="h-6 w-auto"
+              style={{ height: '30px', width: '62px' }}
+              unoptimized={true}
             />
           </span>
         ))}

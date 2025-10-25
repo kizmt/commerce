@@ -136,15 +136,16 @@ export default async function ProductPage(props: {
   };
 
   return (
-    <ProductProvider>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(productJsonLd),
-        }}
-      />
-      <div className="mx-auto max-w-(--breakpoint-2xl) px-4 mt-5">
-        <div className="flex flex-col rounded-lg border border-border bg-card p-8 md:p-12 lg:flex-row lg:gap-8">
+    <Suspense fallback={null}>
+      <ProductProvider>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(productJsonLd),
+          }}
+        />
+        <div className="mx-auto max-w-(--breakpoint-2xl) px-4 mt-5">
+          <div className="flex flex-col rounded-lg border border-border bg-card p-8 md:p-12 lg:flex-row lg:gap-8">
           <div className="h-full w-full basis-full lg:basis-4/6">
             <Suspense
               fallback={
@@ -170,6 +171,7 @@ export default async function ProductPage(props: {
       </div>
       <Footer />
     </ProductProvider>
+    </Suspense>
   );
 }
 
