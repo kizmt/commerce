@@ -5,7 +5,6 @@ export const runtime = "nodejs";
 
 const {
   SHOPIFY_CUSTOMER_CLIENT_ID,
-  SHOPIFY_CUSTOMER_REDIRECT_URI,
   SHOPIFY_CUSTOMER_SCOPES,
   SHOPIFY_STORE_DOMAIN,
 } = process.env as Record<string, string>;
