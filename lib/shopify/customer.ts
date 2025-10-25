@@ -1,4 +1,3 @@
-import { SHOPIFY_STOREFRONT_API_VERSION } from "lib/constants";
 import { headers } from "next/headers";
 
 export async function customerFetch<T>({
@@ -18,8 +17,10 @@ export async function customerFetch<T>({
 
   // Discover the GraphQL endpoint from the well-known endpoint
   let endpoint = "";
+  let shopId = "";
+  
   try {
-    // Use the OpenID configuration endpoint (same as OAuth callback uses)
+    // Use the OpenID configuration endpoint to get shop ID
     const apiDiscoveryUrl = `https://${shopDomain}/.well-known/openid-configuration`;
     console.log("Discovering endpoint from:", apiDiscoveryUrl);
     const apiRes = await fetch(apiDiscoveryUrl, { cache: "no-store" });
@@ -30,27 +31,39 @@ export async function customerFetch<T>({
     
     const apiConfig = await apiRes.json();
     console.log("Discovery response:", apiConfig);
-    // The OpenID config should have the graphql_api endpoint
-    endpoint = apiConfig?.graphql_api;
     
-    if (!endpoint) {
-      throw new Error("No graphql_api in discovery response");
+    // Extract shop ID from issuer URL
+    // issuer format: "https://shopify.com/authentication/78378696954"
+    const issuer = apiConfig?.issuer;
+    if (issuer) {
+      const match = issuer.match(/\/authentication\/(\d+)/);
+      if (match) {
+        shopId = match[1];
+        console.log("Extracted shop ID:", shopId);
+      }
     }
     
-    console.log("Discovered endpoint:", endpoint);
+    // Try to get graphql_api from config (might not exist)
+    endpoint = apiConfig?.graphql_api;
+    
+    if (!endpoint && shopId) {
+      // Construct the endpoint using shop ID
+      endpoint = `https://shopify.com/${shopId}/account/customer/api/unstable/graphql`;
+      console.log("Constructed endpoint from shop ID:", endpoint);
+    }
+    
+    if (!endpoint) {
+      throw new Error("Could not determine GraphQL endpoint");
+    }
+    
+    console.log("Final endpoint:", endpoint);
   } catch (error) {
     // Fallback to constructed endpoint if discovery fails
     console.log("Endpoint discovery failed:", error);
     
-    // Try the standard Customer Account API endpoint format
-    // The correct format is: https://{shop-name}.account.myshopify.com/account/customer/api/{version}/graphql
-    const version =
-      process.env.SHOPIFY_CUSTOMER_API_VERSION ||
-      SHOPIFY_STOREFRONT_API_VERSION;
-    
-    // Extract shop name from domain (e.g., 'turtleislandtcg' from 'turtleislandtcg.myshopify.com')
+    // The Customer Account API GraphQL endpoint is typically just /graphql on the account subdomain
     const shopName = shopDomain.split('.')[0];
-    endpoint = `https://${shopName}.account.myshopify.com/account/customer/api/${version}/graphql`;
+    endpoint = `https://${shopName}.account.myshopify.com/graphql`;
     
     console.log("Fallback endpoint:", endpoint);
   }
