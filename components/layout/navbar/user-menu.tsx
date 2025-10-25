@@ -38,7 +38,7 @@ export default function UserMenu({ signedIn }: { signedIn?: boolean }) {
             {!signedIn && (
               <MenuItem>
                 <a
-                  href="/api/auth/customer/login?force=1"
+                  href="/api/auth/customer/login"
                   className="block rounded px-3 py-2 data-[focus]:bg-neutral-100 dark:data-[focus]:bg-neutral-800"
                 >
                   Login
