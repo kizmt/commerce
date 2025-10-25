@@ -85,6 +85,10 @@ export async function GET(req: NextRequest) {
     new URL("/account?auth=ok", url.origin),
   );
   const isProd = process.env.NODE_ENV === "production";
+  
+  console.log("Setting cookies for domain:", url.origin, "isProd:", isProd);
+  console.log("Access token exists:", !!tokenJson.access_token);
+  
   response.cookies.set("customer_access_token", tokenJson.access_token, {
     httpOnly: true,
     sameSite: "lax",

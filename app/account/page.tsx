@@ -61,11 +61,14 @@ export default async function AccountPage({
   searchParams?: Promise<Record<string, string>>;
 }) {
   const cookieStore = await cookies();
+  const allCookies = cookieStore.getAll();
   const token = cookieStore.get("customer_access_token")?.value;
   const sp = searchParams ? await searchParams : undefined;
   const authFlag = sp?.auth;
 
-  console.log("Account page render - has token:", !!token, "auth flag:", authFlag);
+  console.log("Account page render - auth flag:", authFlag);
+  console.log("All cookies:", allCookies.map(c => c.name).join(", "));
+  console.log("Has customer_access_token:", !!token);
 
   if (!token) {
     return (
