@@ -1,18 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(request: NextRequest) {
-  const hostname = request.nextUrl.hostname;
   const pathname = request.nextUrl.pathname;
-  const url = request.nextUrl;
-
-  // Redirect www to non-www (to match Shopify Customer Account API settings)
-  // Skip for Next.js internal prefetch requests
-  const isPrefetch = url.searchParams.has('_rsc');
-  if (hostname.startsWith('www.') && !isPrefetch) {
-    const newUrl = request.nextUrl.clone();
-    newUrl.hostname = hostname.replace('www.', '');
-    return NextResponse.redirect(newUrl, 301);
-  }
 
   // Add noindex header to API routes and auth callbacks to prevent them from being indexed
   if (
