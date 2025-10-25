@@ -44,8 +44,9 @@ async function getCustomer(accessToken: string): Promise<Customer | null> {
           const match = issuer.match(/\/authentication\/(\d+)/);
           if (match) {
             const shopId = match[1];
-            endpoint = `https://shopify.com/${shopId}/account/customer/api/2024-07/graphql`;
-            console.log("getCustomer - constructed endpoint from shop ID:", shopId);
+            const shopName = shopDomain.split('.')[0]; // e.g., 'turtleislandtcg'
+            endpoint = `https://${shopName}.account.shopify.com/api/2025-07/graphql`;
+            console.log("getCustomer - constructed endpoint from shop name:", shopName);
           }
         }
       }

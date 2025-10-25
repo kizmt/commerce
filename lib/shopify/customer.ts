@@ -47,10 +47,12 @@ export async function customerFetch<T>({
     endpoint = apiConfig?.graphql_api;
     
     if (!endpoint && shopId) {
-      // Construct the endpoint using shop ID
-      // Use 2024-07 (current stable version)
-      endpoint = `https://shopify.com/${shopId}/account/customer/api/2024-07/graphql`;
-      console.log("Constructed endpoint from shop ID:", endpoint);
+      // Construct the endpoint using correct format
+      // https://{shop}.account.shopify.com/api/{version}/graphql
+      const shopName = shopDomain.split('.')[0]; // e.g., 'turtleislandtcg'
+      const version = "2025-07";
+      endpoint = `https://${shopName}.account.shopify.com/api/${version}/graphql`;
+      console.log("Constructed endpoint from shop name:", endpoint);
     }
     
     if (!endpoint) {
