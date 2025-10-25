@@ -20,7 +20,8 @@ export async function customerFetch<T>({
   // Discover the GraphQL endpoint from the well-known endpoint
   let endpoint = "";
   try {
-    const apiDiscoveryUrl = `https://${shopDomain}/.well-known/customer-account-api`;
+    // Use the OpenID configuration endpoint (same as OAuth callback uses)
+    const apiDiscoveryUrl = `https://${shopDomain}/.well-known/openid-configuration`;
     console.log("Discovering endpoint from:", apiDiscoveryUrl);
     const apiRes = await fetch(apiDiscoveryUrl, { cache: "no-store" });
     
@@ -30,16 +31,34 @@ export async function customerFetch<T>({
     
     const apiConfig = await apiRes.json();
     console.log("Discovery response:", apiConfig);
-    endpoint =
-      apiConfig?.graphql_api || `https://${shopDomain}/customer/api/graphql`;
+    // The OpenID config should have the graphql_api endpoint
+    endpoint = apiConfig?.graphql_api;
+    
+    if (!endpoint) {
+      throw new Error("No graphql_api in discovery response");
+    }
+    
     console.log("Discovered endpoint:", endpoint);
   } catch (error) {
     // Fallback to constructed endpoint if discovery fails
     console.log("Endpoint discovery failed:", error);
+    
+    // Try the standard Customer Account API endpoint format
+    // The correct format is: https://{shop-id}.account.myshopify.com/account/customer/api/{version}/graphql
+    // But since we don't have shop-id easily available, try the custom domain format first
     const version =
       process.env.SHOPIFY_CUSTOMER_API_VERSION ||
       SHOPIFY_STOREFRONT_API_VERSION;
-    endpoint = `https://${shopDomain}/account/customer/api/${version}/graphql`;
+    
+    // If using .myshopify.com domain, the endpoint should use the account subdomain
+    if (shopDomain.includes('myshopify.com')) {
+      const shopName = shopDomain.split('.')[0]; // e.g., 'turtleislandtcg'
+      endpoint = `https://${shopName}.account.myshopify.com/account/customer/api/${version}/graphql`;
+    } else {
+      // For custom domains, try this format
+      endpoint = `https://${shopDomain}/account/customer/api/${version}/graphql`;
+    }
+    
     console.log("Fallback endpoint:", endpoint);
   }
 
@@ -65,13 +84,19 @@ export async function customerFetch<T>({
     body: JSON.stringify({ query, variables }),
   });
 
-  const json = await res.json();
+  const json = await res.json().catch((e) => {
+    console.error("Failed to parse JSON response:", e);
+    console.error("Response status:", res.status);
+    console.error("Response headers:", Object.fromEntries(res.headers.entries()));
+    return { errors: [{ message: "Invalid response from server" }] };
+  });
 
   console.log("API Response:", {
     status: res.status,
     ok: res.ok,
     hasErrors: !!json.errors,
     errorMessage: json.errors?.[0]?.message,
+    hasData: !!json.data,
   });
 
   if (!res.ok || json.errors) {
