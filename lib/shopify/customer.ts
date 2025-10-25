@@ -16,6 +16,15 @@ export async function customerFetch<T>({
   const endpoint = `https://${shopDomain}/account/customer/api/${version}/graphql`;
   
   const token = await getCustomerAccessToken();
+  
+  if (!token) {
+    console.error("No customer access token found");
+    throw new Error("Not authenticated");
+  }
+  
+  console.log("customerFetch endpoint:", endpoint);
+  console.log("Has token:", !!token);
+  
   const res = await fetch(endpoint, {
     method: "POST",
     headers: {
@@ -24,8 +33,14 @@ export async function customerFetch<T>({
     },
     body: JSON.stringify({ query, variables }),
   });
+  
   const json = await res.json();
+  
+  console.log("customerFetch response status:", res.status);
+  console.log("customerFetch response:", JSON.stringify(json, null, 2));
+  
   if (!res.ok || json.errors) {
+    console.error("customerFetch error:", json.errors?.[0] || json);
     throw json.errors?.[0] || json;
   }
   return json.data as T;
