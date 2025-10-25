@@ -6,7 +6,11 @@
 
 import LoadingDots from "@/components/loading-dots";
 import { VoucherRedemption } from "@/components/loyalty/voucher-redemption";
+import { LoyaltyProvider } from "@/components/loyalty/loyalty-context";
 import { Suspense } from "react";
+
+// Make this page dynamic since it requires user authentication
+export const dynamic = 'force-dynamic';
 
 export const metadata = {
   title: "Loyalty Rewards",
@@ -31,14 +35,16 @@ function RedemptionContent() {
 
 export default function LoyaltyPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center">
-          <LoadingDots className="bg-black dark:bg-white" />
-        </div>
-      }
-    >
-      <RedemptionContent />
-    </Suspense>
+    <LoyaltyProvider>
+      <Suspense
+        fallback={
+          <div className="flex min-h-screen items-center justify-center">
+            <LoadingDots className="bg-black dark:bg-white" />
+          </div>
+        }
+      >
+        <RedemptionContent />
+      </Suspense>
+    </LoyaltyProvider>
   );
 }
