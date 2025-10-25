@@ -36,13 +36,13 @@ export default function UserMenu({ signedIn }: { signedIn?: boolean }) {
         <MenuItems className="absolute right-0 z-[60] mt-2 w-44 origin-top-right overflow-hidden rounded-md border border-neutral-200 bg-white p-1 text-sm shadow-lg focus:outline-none dark:border-neutral-700 dark:bg-neutral-900">
           <div className="py-1">
             {!signedIn && (
-              <MenuItem
-                as={Link}
-                href="/api/auth/customer/login?force=1"
-                prefetch={false}
-                className="block rounded px-3 py-2 data-[focus]:bg-neutral-100 dark:data-[focus]:bg-neutral-800"
-              >
-                Login
+              <MenuItem>
+                <a
+                  href="/api/auth/customer/login?force=1"
+                  className="block rounded px-3 py-2 data-[focus]:bg-neutral-100 dark:data-[focus]:bg-neutral-800"
+                >
+                  Login
+                </a>
               </MenuItem>
             )}
             <MenuItem
@@ -63,11 +63,18 @@ export default function UserMenu({ signedIn }: { signedIn?: boolean }) {
                 >
                   Rewards
                 </MenuItem>
-                <MenuItem
-                  as={LogoutButton}
-                  className="block w-full rounded px-3 py-2 text-left data-[focus]:bg-neutral-100 dark:data-[focus]:bg-neutral-800"
-                >
-                  Logout
+                <MenuItem>
+                  {({ focus }) => (
+                    <LogoutButton
+                      className={`block w-full rounded px-3 py-2 text-left ${
+                        focus
+                          ? "bg-neutral-100 dark:bg-neutral-800"
+                          : ""
+                      }`}
+                    >
+                      Logout
+                    </LogoutButton>
+                  )}
                 </MenuItem>
               </>
             )}

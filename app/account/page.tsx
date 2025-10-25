@@ -243,6 +243,27 @@ export default async function AccountPage({
               Logout
             </LogoutButton>
           </div>
+
+          <div className="mt-6 border-t border-neutral-200 pt-6 dark:border-neutral-800">
+            <h3 className="mb-2 text-sm font-semibold">Need to switch accounts?</h3>
+            <p className="mb-4 text-sm text-neutral-600 dark:text-neutral-400">
+              Log out and sign in with a different account.
+            </p>
+            <a
+              href="/api/auth/customer/logout"
+              onClick={(e) => {
+                e.preventDefault();
+                if (typeof window !== "undefined") {
+                  localStorage.clear();
+                  sessionStorage.clear();
+                }
+                window.location.href = "/api/auth/customer/logout";
+              }}
+              className="inline-flex items-center rounded-md border border-blue-600 bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700 dark:border-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600"
+            >
+              Switch Account
+            </a>
+          </div>
         </div>
       )}
     </div>

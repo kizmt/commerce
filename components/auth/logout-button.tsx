@@ -10,22 +10,15 @@ interface LogoutButtonProps {
 export function LogoutButton({ className, children }: LogoutButtonProps) {
   const router = useRouter();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     // Clear all browser storage
     if (typeof window !== "undefined") {
       localStorage.clear();
       sessionStorage.clear();
-      
-      // Clear any Shopify-specific cookies that might cache the session
-      document.cookie.split(";").forEach((c) => {
-        document.cookie = c
-          .replace(/^ +/, "")
-          .replace(/=.*/, `=;expires=${new Date().toUTCString()};path=/`);
-      });
     }
     
-    // Navigate to logout endpoint
-    router.push("/api/auth/customer/logout");
+    // Navigate to logout endpoint which will handle cookie deletion
+    window.location.href = "/api/auth/customer/logout";
   };
 
   return (

@@ -8,22 +8,27 @@ export async function customerFetch<T>({
   query: string;
   variables?: Record<string, unknown>;
 }): Promise<T> {
-  const version =
-    process.env.SHOPIFY_CUSTOMER_API_VERSION || SHOPIFY_STOREFRONT_API_VERSION;
-  
   // Get the shop domain from environment variable
   const shopDomain = process.env.SHOPIFY_STORE_DOMAIN?.replace(/^https?:\/\//, "") || "";
-  const endpoint = `https://${shopDomain}/account/customer/api/${version}/graphql`;
+  
+  // Discover the GraphQL endpoint from the well-known endpoint
+  let endpoint = "";
+  try {
+    const apiDiscoveryUrl = `https://${shopDomain}/.well-known/customer-account-api`;
+    const apiRes = await fetch(apiDiscoveryUrl, { cache: "no-store" });
+    const apiConfig = await apiRes.json();
+    endpoint = apiConfig?.graphql_api || `https://${shopDomain}/customer/api/graphql`;
+  } catch {
+    // Fallback to constructed endpoint if discovery fails
+    const version = process.env.SHOPIFY_CUSTOMER_API_VERSION || SHOPIFY_STOREFRONT_API_VERSION;
+    endpoint = `https://${shopDomain}/account/customer/api/${version}/graphql`;
+  }
   
   const token = await getCustomerAccessToken();
   
   if (!token) {
-    console.error("No customer access token found");
     throw new Error("Not authenticated");
   }
-  
-  console.log("customerFetch endpoint:", endpoint);
-  console.log("Has token:", !!token);
   
   const res = await fetch(endpoint, {
     method: "POST",
@@ -36,11 +41,12 @@ export async function customerFetch<T>({
   
   const json = await res.json();
   
-  console.log("customerFetch response status:", res.status);
-  console.log("customerFetch response:", JSON.stringify(json, null, 2));
-  
   if (!res.ok || json.errors) {
-    console.error("customerFetch error:", json.errors?.[0] || json);
+    console.error("customerFetch error:", {
+      endpoint,
+      status: res.status,
+      errors: json.errors,
+    });
     throw json.errors?.[0] || json;
   }
   return json.data as T;
