@@ -85,9 +85,15 @@ async function getOrders(token: string): Promise<Order[]> {
   `;
 
   try {
-    console.log("Attempting to fetch orders with token:", token ? "present" : "missing");
+    console.log(
+      "Attempting to fetch orders with token:",
+      token ? "present" : "missing",
+    );
     const data = await customerFetch<OrdersData>({ query });
-    console.log("Orders fetched successfully:", data.customer.orders.nodes.length);
+    console.log(
+      "Orders fetched successfully:",
+      data.customer.orders.nodes.length,
+    );
     return data.customer.orders.nodes;
   } catch (error) {
     console.error("Error fetching orders:", error);
@@ -163,7 +169,8 @@ export default async function OrdersPage() {
             Unable to load orders at this time due to API limitations.
           </p>
           <p className="mb-6 text-sm text-neutral-500 dark:text-neutral-500">
-            You can view your complete order history in the Shopify account portal.
+            You can view your complete order history in the Shopify account
+            portal.
           </p>
           <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <a
@@ -243,7 +250,10 @@ export default async function OrdersPage() {
                     </div>
                     <div className="text-right">
                       <p className="font-medium">
-                        {formatPrice(item.price.amount, item.price.currencyCode)}
+                        {formatPrice(
+                          item.price.amount,
+                          item.price.currencyCode,
+                        )}
                       </p>
                     </div>
                   </div>

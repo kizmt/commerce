@@ -72,8 +72,8 @@ export default async function SettingsPage() {
       <h1 className="text-2xl font-semibold">Settings</h1>
       <SettingsForm initialAcceptsMarketing={acceptsMarketing} />
       <p className="text-sm text-neutral-500">
-        Note: Your current marketing preference status may not be displayed correctly due to API limitations.
-        Changes you make will still be saved.
+        Note: Your current marketing preference status may not be displayed
+        correctly due to API limitations. Changes you make will still be saved.
       </p>
     </div>
   );

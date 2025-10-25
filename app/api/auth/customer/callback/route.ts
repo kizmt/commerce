@@ -81,7 +81,7 @@ export async function GET(req: NextRequest) {
   }
 
   const tokenJson = await tokenRes.json();
-  
+
   console.log("Token exchange successful");
   console.log("Token type:", tokenJson.token_type);
   console.log("Has access_token:", !!tokenJson.access_token);
