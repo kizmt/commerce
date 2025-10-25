@@ -53,14 +53,24 @@ export default function UserMenu({ signedIn }: { signedIn?: boolean }) {
               Account
             </MenuItem>
             {signedIn && (
-              <MenuItem
-                as={Link}
-                href="/api/auth/customer/logout"
-                prefetch={false}
-                className="block rounded px-3 py-2 data-[focus]:bg-neutral-100 dark:data-[focus]:bg-neutral-800"
-              >
-                Logout
-              </MenuItem>
+              <>
+                <MenuItem
+                  as={Link}
+                  href="/account/rewards"
+                  prefetch
+                  className="block rounded px-3 py-2 data-[focus]:bg-neutral-100 dark:data-[focus]:bg-neutral-800"
+                >
+                  Rewards
+                </MenuItem>
+                <MenuItem
+                  as={Link}
+                  href="/api/auth/customer/logout"
+                  prefetch={false}
+                  className="block rounded px-3 py-2 data-[focus]:bg-neutral-100 dark:data-[focus]:bg-neutral-800"
+                >
+                  Logout
+                </MenuItem>
+              </>
             )}
           </div>
         </MenuItems>

@@ -1,0 +1,329 @@
+```
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                    SHOPIFY LOYALTY POINTS SYSTEM ARCHITECTURE                 ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                              POINTS AWARD FLOW                                │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+    Customer Places Order (Signed In)
+              │
+              ▼
+    ┌─────────────────────┐
+    │   Shopify Order     │
+    │   Status: PAID      │
+    └──────────┬──────────┘
+               │ Webhook Trigger
+               ▼
+    ┌─────────────────────────────────────────┐
+    │  POST /api/webhooks/orders/paid         │
+    │  - Verify HMAC signature                │
+    │  - Extract order & customer data        │
+    └──────────┬──────────────────────────────┘
+               │
+               ▼
+    ┌─────────────────────────────────────────┐
+    │  Check Order Metafield                  │
+    │  loyalty.points_awarded === true?       │
+    └──────────┬──────────────────────────────┘
+               │
+          ┌────┴────┐
+      YES │         │ NO
+          ▼         ▼
+    ┌─────────┐  ┌──────────────────────────┐
+    │  SKIP   │  │ Calculate Points         │
+    │ (Already│  │ subtotal × POINTS_PER_YEN│
+    │ Awarded)│  └──────────┬───────────────┘
+    └─────────┘             │
+                            ▼
+                 ┌──────────────────────────┐
+                 │ Add Points to Customer   │
+                 │ Update Metafield:        │
+                 │ loyalty.points += amount │
+                 └──────────┬───────────────┘
+                            │
+                            ▼
+                 ┌──────────────────────────┐
+                 │ Mark Order as Awarded    │
+                 │ Set Metafields:          │
+                 │ - points_awarded = true  │
+                 │ - points_amount = X      │
+                 └──────────────────────────┘
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                            REDEMPTION FLOW                                    │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+    Customer Visits /account/rewards
+              │
+              ▼
+    ┌─────────────────────────────────────────┐
+    │  GET /api/loyalty/points                │
+    │  - Authenticate customer                │
+    │  - Fetch points from metafield          │
+    │  - Calculate available vouchers         │
+    └──────────┬──────────────────────────────┘
+               │
+               ▼
+    ┌─────────────────────────────────────────┐
+    │  Display Balance & Vouchers             │
+    │  Show progress to next level            │
+    └──────────┬──────────────────────────────┘
+               │
+          Customer Clicks "Redeem"
+               │
+               ▼
+    ┌─────────────────────────────────────────┐
+    │  POST /api/loyalty/redeem               │
+    │  { voucherPoints: 500 }                 │
+    └──────────┬──────────────────────────────┘
+               │
+               ▼
+    ┌─────────────────────────────────────────┐
+    │  Validate:                              │
+    │  - Customer has enough points?          │
+    │  - Valid voucher level?                 │
+    └──────────┬──────────────────────────────┘
+               │
+          ┌────┴────┐
+     FAIL │         │ PASS
+          ▼         ▼
+    ┌─────────┐  ┌──────────────────────────┐
+    │ Return  │  │ Create Discount Code     │
+    │ Error   │  │ via Shopify Admin API    │
+    └─────────┘  └──────────┬───────────────┘
+                            │
+                            ▼
+                 ┌──────────────────────────┐
+                 │ Subtract Points          │
+                 │ loyalty.points -= amount │
+                 └──────────┬───────────────┘
+                            │
+                            ▼
+                 ┌──────────────────────────┐
+                 │ Return Discount Code     │
+                 │ to Customer              │
+                 └──────────────────────────┘
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                            REFUND FLOW                                        │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+    Refund Processed in Shopify
+              │
+              ▼
+    ┌─────────────────────────────────────────┐
+    │  POST /api/webhooks/refunds/create      │
+    │  - Verify HMAC signature                │
+    │  - Extract refund & order data          │
+    └──────────┬──────────────────────────────┘
+               │
+               ▼
+    ┌─────────────────────────────────────────┐
+    │  Get Original Points Awarded            │
+    │  Read order metafield:                  │
+    │  loyalty.points_amount                  │
+    └──────────┬──────────────────────────────┘
+               │
+               ▼
+    ┌─────────────────────────────────────────┐
+    │  Calculate Points to Subtract           │
+    │  refund_amount × POINTS_PER_YEN         │
+    └──────────┬──────────────────────────────┘
+               │
+               ▼
+    ┌─────────────────────────────────────────┐
+    │  Subtract Points from Customer          │
+    │  loyalty.points -= amount               │
+    │  (Minimum: 0, never negative)           │
+    └──────────────────────────────────────────┘
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                           DATA STORAGE                                        │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────┐        ┌─────────────────────────────┐
+│   CUSTOMER METAFIELDS       │        │    ORDER METAFIELDS         │
+├─────────────────────────────┤        ├─────────────────────────────┤
+│                             │        │                             │
+│ Namespace: loyalty          │        │ Namespace: loyalty          │
+│ Key: points                 │        │ Key: points_awarded         │
+│ Type: Integer               │        │ Type: Boolean               │
+│ Value: Current balance      │        │ Value: true/false           │
+│                             │        │                             │
+│ Example:                    │        │ Key: points_amount          │
+│   points: 1500              │        │ Type: Integer               │
+│                             │        │ Value: Points awarded       │
+│ Purpose:                    │        │                             │
+│ - Single source of truth    │        │ Example:                    │
+│ - Queryable via Admin API   │        │   points_awarded: true      │
+│ - Persistent across system  │        │   points_amount: 12000      │
+│                             │        │                             │
+│                             │        │ Purpose:                    │
+│                             │        │ - Idempotency key           │
+│                             │        │ - Audit trail               │
+│                             │        │ - Refund calculation        │
+└─────────────────────────────┘        └─────────────────────────────┘
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                         SECURITY LAYERS                                       │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+    ┌─────────────────────────────────────────┐
+    │  1. HMAC Webhook Verification           │
+    │  - Validates Shopify is sender          │
+    │  - Prevents spoofed webhooks            │
+    └─────────────────────────────────────────┘
+                    │
+                    ▼
+    ┌─────────────────────────────────────────┐
+    │  2. Customer Authentication             │
+    │  - Requires valid session cookie        │
+    │  - Verifies customer identity           │
+    └─────────────────────────────────────────┘
+                    │
+                    ▼
+    ┌─────────────────────────────────────────┐
+    │  3. Idempotency Check                   │
+    │  - Order metafield prevents duplicates  │
+    │  - Safe for webhook retries             │
+    └─────────────────────────────────────────┘
+                    │
+                    ▼
+    ┌─────────────────────────────────────────┐
+    │  4. Admin API Scopes                    │
+    │  - Minimal required permissions         │
+    │  - Server-side only (never exposed)     │
+    └─────────────────────────────────────────┘
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                       COMPONENT HIERARCHY                                     │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+    app/layout.tsx
+        │
+        └── app/account/layout.tsx
+                │
+                └── <LoyaltyProvider>  ← React Context
+                        │
+                        ├── app/account/page.tsx
+                        │   └── Quick Links to Rewards
+                        │
+                        ├── app/account/rewards/page.tsx
+                        │   └── <VoucherRedemption>
+                        │       ├── Points Balance Card
+                        │       ├── Progress Bar
+                        │       ├── Available Vouchers Grid
+                        │       └── Redemption Result
+                        │
+                        └── components/layout/navbar/user-menu.tsx
+                            └── Rewards Menu Item
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                         API ENDPOINTS                                         │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌────────────────────────────────────┬──────────────────────────────────────┐
+│ Endpoint                           │ Purpose                              │
+├────────────────────────────────────┼──────────────────────────────────────┤
+│ GET  /api/loyalty/points           │ Get customer's points & vouchers     │
+│ POST /api/loyalty/redeem           │ Redeem points for discount code      │
+│ POST /api/webhooks/orders/paid     │ Award points on order payment        │
+│ POST /api/webhooks/refunds/create  │ Reverse points on refund             │
+└────────────────────────────────────┴──────────────────────────────────────┘
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                      CONFIGURATION REFERENCE                                  │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+File: lib/shopify/points.ts
+
+┌────────────────────────────────┬──────────────────────────────────────┐
+│ Constant                       │ Purpose                              │
+├────────────────────────────────┼──────────────────────────────────────┤
+│ POINTS_PER_YEN = 1             │ Points earned per ¥1 spent           │
+│ VOUCHER_LEVELS = [...]         │ Redemption tiers                     │
+│ METAFIELD_NAMESPACE = 'loyalty'│ Shopify metafield namespace          │
+│ CUSTOMER_POINTS_KEY = 'points' │ Customer balance key                 │
+│ ORDER_AWARDED_KEY = '...'      │ Order idempotency key                │
+└────────────────────────────────┴──────────────────────────────────────┘
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                         TESTING WORKFLOW                                      │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+    1. Local Testing
+       └── Use testGetPoints() & testRedemption() from points-testing.ts
+    
+    2. Webhook Testing
+       └── Use ngrok + curl with sample payloads
+    
+    3. Integration Testing
+       └── Place real order in Shopify test mode
+    
+    4. Production Testing
+       └── Monitor webhook logs in Shopify Admin
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                      IMPLEMENTATION CHECKLIST                                 │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+✅ Core Backend
+   ✅ Admin API client (lib/shopify/admin.ts)
+   ✅ Points logic (lib/shopify/points.ts)
+   ✅ Testing utilities (lib/shopify/points-testing.ts)
+
+✅ Webhook Handlers
+   ✅ Order paid webhook (app/api/webhooks/orders/paid/route.ts)
+   ✅ Refund webhook (app/api/webhooks/refunds/create/route.ts)
+
+✅ Customer APIs
+   ✅ Get points endpoint (app/api/loyalty/points/route.ts)
+   ✅ Redeem points endpoint (app/api/loyalty/redeem/route.ts)
+
+✅ UI Components
+   ✅ Loyalty context (components/loyalty/loyalty-context.tsx)
+   ✅ Points display (components/loyalty/points-display.tsx)
+   ✅ Points badge (components/loyalty/points-badge.tsx)
+   ✅ Voucher redemption (components/loyalty/voucher-redemption.tsx)
+
+✅ Pages & Integration
+   ✅ Rewards page (app/account/rewards/page.tsx)
+   ✅ Account layout (app/account/layout.tsx)
+   ✅ Account dashboard (app/account/page.tsx)
+   ✅ User menu (components/layout/navbar/user-menu.tsx)
+
+✅ Documentation
+   ✅ Complete guide (docs/LOYALTY_POINTS_SYSTEM.md)
+   ✅ Setup checklist (docs/SETUP_CHECKLIST.md)
+   ✅ Implementation summary (docs/IMPLEMENTATION_SUMMARY.md)
+   ✅ Quick start (docs/LOYALTY_SETUP_QUICK_START.ts)
+   ✅ Environment template (docs/ENV_TEMPLATE.txt)
+   ✅ Architecture diagram (docs/ARCHITECTURE.txt)
+
+
+═══════════════════════════════════════════════════════════════════════════════
+                           READY FOR DEPLOYMENT
+═══════════════════════════════════════════════════════════════════════════════
+
+Next Steps:
+1. Review docs/SETUP_CHECKLIST.md
+2. Configure Shopify Admin (metafields, webhooks, API app)
+3. Add environment variables
+4. Deploy to production
+5. Test with real orders
+6. Monitor webhook logs
+
+Full documentation: docs/LOYALTY_POINTS_SYSTEM.md
+```
+

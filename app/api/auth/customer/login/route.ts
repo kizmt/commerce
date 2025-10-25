@@ -34,7 +34,7 @@ export async function GET(req: NextRequest) {
           logoutUrl.searchParams.set("id_token_hint", idToken);
           logoutUrl.searchParams.set(
             "post_logout_redirect_uri",
-            `${origin}/api/auth/customer/login`,
+            `${origin}/`,
           );
           return NextResponse.redirect(logoutUrl.toString());
         }

@@ -1,0 +1,25 @@
+# Environment Variables Template for Loyalty Points System
+
+# ========================================
+# Shopify Store Configuration
+# ========================================
+# Your Shopify store domain (without https://)
+SHOPIFY_STORE_DOMAIN=your-store.myshopify.com
+
+# Storefront API access token
+SHOPIFY_STOREFRONT_ACCESS_TOKEN=shpat_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+# ========================================
+# Shopify Admin API (Required for Loyalty Points)
+# ========================================
+# Admin API access token with scopes:
+#   - write_customers, read_customers
+#   - write_orders, read_orders
+#   - write_discounts
+SHOPIFY_ADMIN_ACCESS_TOKEN=shpat_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+# ========================================
+# Webhook Security
+# ========================================
+SHOPIFY_WEBHOOK_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+

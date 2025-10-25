@@ -187,6 +187,47 @@ export default async function AccountPage({
               </p>
             )}
           </div>
+
+          {/* Quick Links */}
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Link
+              href="/account/orders"
+              className="rounded-lg border border-neutral-200 p-4 hover:border-neutral-300 dark:border-neutral-800 dark:hover:border-neutral-700"
+            >
+              <h3 className="font-semibold">Orders</h3>
+              <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
+                View your order history
+              </p>
+            </Link>
+            <Link
+              href="/account/rewards"
+              className="rounded-lg border border-neutral-200 p-4 hover:border-neutral-300 dark:border-neutral-800 dark:hover:border-neutral-700"
+            >
+              <h3 className="font-semibold">Loyalty Rewards</h3>
+              <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
+                Redeem your points
+              </p>
+            </Link>
+            <Link
+              href="/account/profile"
+              className="rounded-lg border border-neutral-200 p-4 hover:border-neutral-300 dark:border-neutral-800 dark:hover:border-neutral-700"
+            >
+              <h3 className="font-semibold">Profile</h3>
+              <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
+                Manage your details
+              </p>
+            </Link>
+            <Link
+              href="/account/settings"
+              className="rounded-lg border border-neutral-200 p-4 hover:border-neutral-300 dark:border-neutral-800 dark:hover:border-neutral-700"
+            >
+              <h3 className="font-semibold">Settings</h3>
+              <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
+                Update your preferences
+              </p>
+            </Link>
+          </div>
+
           <div className="flex gap-3">
             <Link
               href="https://shopify.com/78378696954/account"
