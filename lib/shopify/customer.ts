@@ -76,21 +76,27 @@ export async function customerFetch<T>({
     tokenLength: token?.length || 0,
     tokenPrefix: token?.substring(0, 10) || "none",
     startsWithShcat: token?.startsWith("shcat_"),
-    tokenSample: token ? `${token.substring(0, 20)}...${token.substring(token.length - 20)}` : "none"
+    tokenSample: token ? `${token.substring(0, 20)}...${token.substring(token.length - 20)}` : "none",
+    // Check for whitespace or hidden chars
+    firstCharCode: token?.charCodeAt(0),
+    hasWhitespace: token ? /\s/.test(token) : false,
   });
 
   if (!token) {
     throw new Error("Not authenticated");
   }
 
+  // Try trimming the token in case there's whitespace
+  const cleanToken = token.trim();
+  
   console.log("Making request to:", endpoint);
-  console.log("Authorization header:", `Bearer ${token.substring(0, 30)}...`);
+  console.log("Using cleaned token, length:", cleanToken.length);
   
   const res = await fetch(endpoint, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${cleanToken}`,
     },
     body: JSON.stringify({ query, variables }),
   });
