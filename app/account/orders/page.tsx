@@ -85,10 +85,13 @@ async function getOrders(token: string): Promise<Order[]> {
   `;
 
   try {
+    console.log("Attempting to fetch orders with token:", token ? "present" : "missing");
     const data = await customerFetch<OrdersData>({ query });
+    console.log("Orders fetched successfully:", data.customer.orders.nodes.length);
     return data.customer.orders.nodes;
   } catch (error) {
     console.error("Error fetching orders:", error);
+    console.error("This is likely due to the invalid token format issue");
     return [];
   }
 }
@@ -150,98 +153,106 @@ export default async function OrdersPage() {
 
   const orders = await getOrders(token);
 
-  if (orders.length === 0) {
-    return (
-      <div className="space-y-4">
-        <h1 className="text-2xl font-semibold">Orders</h1>
-        <div className="rounded-lg border border-neutral-200 p-8 text-center dark:border-neutral-800">
-          <p className="text-neutral-600 dark:text-neutral-400">
-            You haven't placed any orders yet.
-          </p>
-          <Link
-            href="/"
-            className="mt-4 inline-block text-blue-600 hover:underline dark:text-blue-400"
-          >
-            Start shopping
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-semibold">Orders</h1>
 
-      <div className="space-y-4">
-        {orders.map((order) => (
-          <div
-            key={order.id}
-            className="rounded-lg border border-neutral-200 p-6 dark:border-neutral-800"
-          >
-            {/* Order Header */}
-            <div className="mb-4 flex flex-wrap items-start justify-between gap-4">
-              <div>
-                <h2 className="text-lg font-semibold">{order.name}</h2>
-                <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                  Placed on {formatDate(order.processedAt)}
-                </p>
-              </div>
-              <div className="text-right">
-                <p className="text-lg font-semibold">
-                  {formatPrice(
-                    order.totalPrice.amount,
-                    order.totalPrice.currencyCode,
-                  )}
-                </p>
-                <div className="mt-1 flex gap-2">
-                  <span
-                    className={`inline-block rounded-full px-2 py-1 text-xs font-medium ${getStatusColor(order.financialStatus)}`}
-                  >
-                    {order.financialStatus}
-                  </span>
-                  <span
-                    className={`inline-block rounded-full px-2 py-1 text-xs font-medium ${getStatusColor(order.fulfillmentStatus)}`}
-                  >
-                    {order.fulfillmentStatus}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Order Items */}
-            <div className="space-y-3">
-              {order.lineItems.nodes.map((item, idx) => (
-                <div
-                  key={idx}
-                  className="flex gap-4 border-t border-neutral-200 pt-3 dark:border-neutral-800"
-                >
-                  {item.image && (
-                    <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md border border-neutral-200 dark:border-neutral-800">
-                      <img
-                        src={item.image.url}
-                        alt={item.image.altText || item.title}
-                        className="h-full w-full object-cover"
-                      />
-                    </div>
-                  )}
-                  <div className="flex-1">
-                    <p className="font-medium">{item.title}</p>
-                    <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                      Quantity: {item.quantity}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-medium">
-                      {formatPrice(item.price.amount, item.price.currencyCode)}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
+      {orders.length === 0 ? (
+        <div className="rounded-lg border border-neutral-200 p-8 text-center dark:border-neutral-800">
+          <p className="mb-4 text-neutral-600 dark:text-neutral-400">
+            Unable to load orders at this time due to API limitations.
+          </p>
+          <p className="mb-6 text-sm text-neutral-500 dark:text-neutral-500">
+            You can view your complete order history in the Shopify account portal.
+          </p>
+          <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+            <a
+              href={`https://${process.env.SHOPIFY_STORE_DOMAIN?.replace(/^https?:\/\//, "")}/account`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center rounded-md border border-blue-600 bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700 dark:border-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600"
+            >
+              View Orders in Shopify
+            </a>
+            <Link
+              href="/"
+              className="inline-flex items-center rounded-md border border-neutral-300 px-4 py-2 text-sm hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-900"
+            >
+              Continue Shopping
+            </Link>
           </div>
-        ))}
-      </div>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {orders.map((order) => (
+            <div
+              key={order.id}
+              className="rounded-lg border border-neutral-200 p-6 dark:border-neutral-800"
+            >
+              {/* Order Header */}
+              <div className="mb-4 flex flex-wrap items-start justify-between gap-4">
+                <div>
+                  <h2 className="text-lg font-semibold">{order.name}</h2>
+                  <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                    Placed on {formatDate(order.processedAt)}
+                  </p>
+                </div>
+                <div className="text-right">
+                  <p className="text-lg font-semibold">
+                    {formatPrice(
+                      order.totalPrice.amount,
+                      order.totalPrice.currencyCode,
+                    )}
+                  </p>
+                  <div className="mt-1 flex gap-2">
+                    <span
+                      className={`inline-block rounded-full px-2 py-1 text-xs font-medium ${getStatusColor(order.financialStatus)}`}
+                    >
+                      {order.financialStatus}
+                    </span>
+                    <span
+                      className={`inline-block rounded-full px-2 py-1 text-xs font-medium ${getStatusColor(order.fulfillmentStatus)}`}
+                    >
+                      {order.fulfillmentStatus}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Order Items */}
+              <div className="space-y-3">
+                {order.lineItems.nodes.map((item, idx) => (
+                  <div
+                    key={idx}
+                    className="flex gap-4 border-t border-neutral-200 pt-3 dark:border-neutral-800"
+                  >
+                    {item.image && (
+                      <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md border border-neutral-200 dark:border-neutral-800">
+                        <img
+                          src={item.image.url}
+                          alt={item.image.altText || item.title}
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                    )}
+                    <div className="flex-1">
+                      <p className="font-medium">{item.title}</p>
+                      <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                        Quantity: {item.quantity}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-medium">
+                        {formatPrice(item.price.amount, item.price.currencyCode)}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
