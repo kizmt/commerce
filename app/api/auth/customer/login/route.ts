@@ -6,6 +6,7 @@ export const runtime = "nodejs";
 const {
   SHOPIFY_CUSTOMER_CLIENT_ID,
   SHOPIFY_CUSTOMER_SCOPES,
+  SHOPIFY_CUSTOMER_REDIRECT_URI,
   SHOPIFY_STORE_DOMAIN,
 } = process.env as Record<string, string>;
 
@@ -16,7 +17,8 @@ export async function GET(req: NextRequest) {
   const nonce = Math.random().toString(36).slice(2);
   const origin = new URL(req.url).origin;
   const isProd = process.env.NODE_ENV === "production";
-  const redirectUri = `${origin}/api/auth/customer/callback`;
+  const redirectUri =
+    SHOPIFY_CUSTOMER_REDIRECT_URI || `${origin}/api/auth/customer/callback`;
   // Discover authorization endpoint from the shop domain
   const shopDomain = (SHOPIFY_STORE_DOMAIN || "").replace(/^https?:\/\//, "");
   if (!shopDomain) {

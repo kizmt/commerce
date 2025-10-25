@@ -1,7 +1,10 @@
 import { LogoutButton } from "@/components/auth/logout-button";
-import { baseUrl } from "lib/utils";
+import { customerFetch } from "lib/shopify/customer";
 import { cookies } from "next/headers";
 import Link from "next/link";
+
+// Make this page dynamic since it requires authentication
+export const dynamic = "force-dynamic";
 
 type Customer = {
   id: string;
@@ -21,19 +24,10 @@ export const metadata = {
   },
 };
 
-async function getCustomer(accessToken: string): Promise<Customer | null> {
+async function getCustomer(): Promise<Customer | null> {
   try {
-    const shopDomain = process.env.SHOPIFY_STORE_DOMAIN?.replace(
-      /^https?:\/\//,
-      "",
-    )!;
-    const apiDiscoveryUrl = `https://${shopDomain}/.well-known/customer-account-api`;
-    const apiRes = await fetch(apiDiscoveryUrl, { cache: "no-store" });
-    const apiConfig = await apiRes.json().catch(() => null as any);
-    const endpoint =
-      apiConfig?.graphql_api || `https://${shopDomain}/customer/api/graphql`;
-    const query = `#graphql
-      query Me {
+    const query = `
+      query {
         customer {
           id
           email
@@ -44,31 +38,10 @@ async function getCustomer(accessToken: string): Promise<Customer | null> {
       }
     `;
 
-    const res = await fetch(endpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-        Origin: baseUrl,
-      },
-      cache: "no-store",
-      body: JSON.stringify({ query }),
-    });
-
-    if (!res.ok) {
-      try {
-        const text = await res.text();
-        console.error("Customer API /customer query failed", res.status, text);
-      } catch {}
-      return null;
-    }
-    const json = await res.json();
-    if (json?.errors) {
-      console.error("Customer API /customer returned errors", json.errors);
-      return null;
-    }
-    const raw = json?.data?.customer;
+    const data = await customerFetch<{ customer: any }>({ query });
+    const raw = data?.customer;
     if (!raw) return null;
+
     const mapped: Customer = {
       id: raw.id,
       email: raw.email ?? raw.emailAddress?.emailAddress ?? null,
@@ -76,7 +49,8 @@ async function getCustomer(accessToken: string): Promise<Customer | null> {
       lastName: raw.lastName ?? null,
     };
     return mapped;
-  } catch {
+  } catch (error) {
+    console.error("Failed to fetch customer:", error);
     return null;
   }
 }
@@ -118,7 +92,7 @@ export default async function AccountPage({
     );
   }
 
-  let customer = await getCustomer(token);
+  let customer = await getCustomer();
   if (!customer) {
     // Fallback: derive minimal profile from id_token if available
     const idToken = (await cookies()).get("customer_id_token")?.value;
