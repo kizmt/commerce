@@ -29,7 +29,7 @@ async function getCustomer(accessToken: string): Promise<Customer | null> {
     )!;
     console.log("getCustomer - shopDomain:", shopDomain);
     
-    // Use OpenID configuration endpoint (same as OAuth and customerFetch)
+    // Use OpenID configuration endpoint to get shop ID
     const apiDiscoveryUrl = `https://${shopDomain}/.well-known/openid-configuration`;
     console.log("getCustomer - discovering from:", apiDiscoveryUrl);
     
@@ -38,7 +38,16 @@ async function getCustomer(accessToken: string): Promise<Customer | null> {
       const apiRes = await fetch(apiDiscoveryUrl, { cache: "no-store" });
       if (apiRes.ok) {
         const apiConfig = await apiRes.json();
-        endpoint = apiConfig?.graphql_api;
+        // Extract shop ID from issuer
+        const issuer = apiConfig?.issuer;
+        if (issuer) {
+          const match = issuer.match(/\/authentication\/(\d+)/);
+          if (match) {
+            const shopId = match[1];
+            endpoint = `https://shopify.com/${shopId}/account/customer/api/2024-10/graphql`;
+            console.log("getCustomer - constructed endpoint from shop ID:", shopId);
+          }
+        }
       }
     } catch (e) {
       console.log("getCustomer - discovery failed:", e);
@@ -47,7 +56,7 @@ async function getCustomer(accessToken: string): Promise<Customer | null> {
     // Fallback if discovery didn't work
     if (!endpoint) {
       const shopName = shopDomain.split('.')[0];
-      endpoint = `https://${shopName}.account.myshopify.com/account/customer/api/2025-07/graphql`;
+      endpoint = `https://${shopName}.account.myshopify.com/graphql`;
     }
     
     console.log("getCustomer - endpoint:", endpoint);
