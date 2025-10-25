@@ -1,5 +1,3 @@
-import { LoyaltyProvider } from "@/components/loyalty/loyalty-context";
-
 export const metadata = {
   robots: {
     index: false,
@@ -23,9 +21,5 @@ export default function AccountLayout({
     { href: "/account/settings", label: "Settings" },
   ];
 
-  return (
-    <LoyaltyProvider>
-      <div className="mx-auto w-full max-w-5xl px-6 py-12">{children}</div>
-    </LoyaltyProvider>
-  );
+  return <div className="mx-auto w-full max-w-5xl px-6 py-12">{children}</div>;
 }
