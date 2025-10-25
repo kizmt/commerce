@@ -10,42 +10,6 @@ const {
 } = process.env as Record<string, string>;
 
 export async function GET(req: NextRequest) {
-  // Optional: force fresh Shopify login by clearing the upstream session first
-  const force = new URL(req.url).searchParams.get("force") === "1";
-  if (force) {
-    try {
-      const origin = new URL(req.url).origin;
-      const idToken = req.cookies.get("customer_id_token")?.value;
-      const shopDomain = (SHOPIFY_STORE_DOMAIN || "").replace(
-        /^https?:\/\//,
-        "",
-      );
-      // Only attempt RP-initiated logout when we have an id_token
-      if (shopDomain && idToken) {
-        const discovery = await fetch(
-          `https://${shopDomain}/.well-known/openid-configuration`,
-          { cache: "no-store" },
-        );
-        const conf = await discovery.json();
-        const endSession = conf?.end_session_endpoint as string | undefined;
-        if (endSession) {
-          const logoutUrl = new URL(endSession);
-          logoutUrl.searchParams.set("id_token_hint", idToken);
-          // Redirect back to login (without force param) after logout
-          logoutUrl.searchParams.set("post_logout_redirect_uri", `${origin}/api/auth/customer/login`);
-          
-          const response = NextResponse.redirect(logoutUrl.toString());
-          // Clear cookies before logout redirect
-          response.cookies.delete("customer_access_token");
-          response.cookies.delete("customer_refresh_token");
-          response.cookies.delete("customer_id_token");
-          return response;
-        }
-      }
-    } catch {}
-    // Fallback: continue to normal authorize if discovery fails
-  }
-
   const { codeVerifier, codeChallenge } = await createPkcePair();
 
   const state = Math.random().toString(36).slice(2);
