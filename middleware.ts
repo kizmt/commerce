@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(request: NextRequest) {
-
   const pathname = request.nextUrl.pathname;
 
   // Add noindex header to API routes and auth callbacks to prevent them from being indexed
@@ -20,5 +19,4 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: ["/api/:path*", "/account/:path*", "/auth/:path*"],
-
 };

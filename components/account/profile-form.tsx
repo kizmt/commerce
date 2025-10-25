@@ -1,19 +1,19 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
     Field,
     FieldDescription,
     FieldGroup,
-    FieldLabel
-} from '@/components/ui/field';
-import { useState } from 'react';
+    FieldLabel,
+} from "@/components/ui/field";
+import { useState } from "react";
 
 interface Address {
   address1: string;
-  address2?: string;
+  address2?: string | null;
   city: string;
-  provinceCode?: string;
+  provinceCode?: string | null;
   zip: string;
   countryCode: string;
 }
@@ -36,14 +36,14 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
   const [success, setSuccess] = useState(false);
 
   const [formData, setFormData] = useState({
-    firstName: initialData.firstName || '',
-    lastName: initialData.lastName || '',
-    address1: initialData.defaultAddress?.address1 || '',
-    address2: initialData.defaultAddress?.address2 || '',
-    city: initialData.defaultAddress?.city || '',
-    provinceCode: initialData.defaultAddress?.provinceCode || '',
-    zip: initialData.defaultAddress?.zip || '',
-    countryCode: initialData.defaultAddress?.countryCode || 'NZ',
+    firstName: initialData.firstName || "",
+    lastName: initialData.lastName || "",
+    address1: initialData.defaultAddress?.address1 || "",
+    address2: initialData.defaultAddress?.address2 || "",
+    city: initialData.defaultAddress?.city || "",
+    provinceCode: initialData.defaultAddress?.provinceCode || "",
+    zip: initialData.defaultAddress?.zip || "",
+    countryCode: initialData.defaultAddress?.countryCode || "NZ",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -53,10 +53,10 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
     setSuccess(false);
 
     try {
-      const response = await fetch('/api/customer/update', {
-        method: 'POST',
+      const response = await fetch("/api/customer/update", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           firstName: formData.firstName,
@@ -75,14 +75,14 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to update profile');
+        throw new Error(data.error || "Failed to update profile");
       }
 
       setSuccess(true);
       setIsEditing(false);
       setTimeout(() => setSuccess(false), 3000);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to update profile');
+      setError(err instanceof Error ? err.message : "Failed to update profile");
     } finally {
       setIsSaving(false);
     }
@@ -135,7 +135,7 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
                   />
                 ) : (
                   <p className="py-2 text-neutral-700 dark:text-neutral-300">
-                    {formData.firstName || '-'}
+                    {formData.firstName || "-"}
                   </p>
                 )}
               </Field>
@@ -155,7 +155,7 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
                   />
                 ) : (
                   <p className="py-2 text-neutral-700 dark:text-neutral-300">
-                    {formData.lastName || '-'}
+                    {formData.lastName || "-"}
                   </p>
                 )}
               </Field>
@@ -193,7 +193,7 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
                 />
               ) : (
                 <p className="py-2 text-neutral-700 dark:text-neutral-300">
-                  {formData.address1 || '-'}
+                  {formData.address1 || "-"}
                 </p>
               )}
             </Field>
@@ -215,7 +215,7 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
                 />
               ) : (
                 <p className="py-2 text-neutral-700 dark:text-neutral-300">
-                  {formData.address2 || '-'}
+                  {formData.address2 || "-"}
                 </p>
               )}
             </Field>
@@ -236,7 +236,7 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
                   />
                 ) : (
                   <p className="py-2 text-neutral-700 dark:text-neutral-300">
-                    {formData.city || '-'}
+                    {formData.city || "-"}
                   </p>
                 )}
               </Field>
@@ -256,7 +256,7 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
                   />
                 ) : (
                   <p className="py-2 text-neutral-700 dark:text-neutral-300">
-                    {formData.zip || '-'}
+                    {formData.zip || "-"}
                   </p>
                 )}
               </Field>
@@ -281,7 +281,7 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
                   />
                 ) : (
                   <p className="py-2 text-neutral-700 dark:text-neutral-300">
-                    {formData.provinceCode || '-'}
+                    {formData.provinceCode || "-"}
                   </p>
                 )}
               </Field>
@@ -304,8 +304,8 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
                   </select>
                 ) : (
                   <p className="py-2 text-neutral-700 dark:text-neutral-300">
-                    {formData.countryCode === 'NZ'
-                      ? 'New Zealand'
+                    {formData.countryCode === "NZ"
+                      ? "New Zealand"
                       : formData.countryCode}
                   </p>
                 )}
@@ -317,7 +317,7 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
         {isEditing && (
           <div className="flex gap-3">
             <Button type="submit" disabled={isSaving}>
-              {isSaving ? 'Saving...' : 'Save Changes'}
+              {isSaving ? "Saving..." : "Save Changes"}
             </Button>
             <Button
               type="button"
@@ -327,14 +327,14 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
                 setError(null);
                 // Reset form data to initial values
                 setFormData({
-                  firstName: initialData.firstName || '',
-                  lastName: initialData.lastName || '',
-                  address1: initialData.defaultAddress?.address1 || '',
-                  address2: initialData.defaultAddress?.address2 || '',
-                  city: initialData.defaultAddress?.city || '',
-                  provinceCode: initialData.defaultAddress?.provinceCode || '',
-                  zip: initialData.defaultAddress?.zip || '',
-                  countryCode: initialData.defaultAddress?.countryCode || 'NZ',
+                  firstName: initialData.firstName || "",
+                  lastName: initialData.lastName || "",
+                  address1: initialData.defaultAddress?.address1 || "",
+                  address2: initialData.defaultAddress?.address2 || "",
+                  city: initialData.defaultAddress?.city || "",
+                  provinceCode: initialData.defaultAddress?.provinceCode || "",
+                  zip: initialData.defaultAddress?.zip || "",
+                  countryCode: initialData.defaultAddress?.countryCode || "NZ",
                 });
               }}
               disabled={isSaving}
@@ -347,4 +347,3 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
     </div>
   );
 }
-

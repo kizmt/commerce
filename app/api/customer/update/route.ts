@@ -1,13 +1,13 @@
 /**
  * API Route: Update Customer Profile
- * 
+ *
  * Updates customer information via Shopify Customer Account API
  */
 
-import { cookies } from 'next/headers';
-import { NextRequest, NextResponse } from 'next/server';
+import { cookies } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
 
-const SHOPIFY_CUSTOMER_API_VERSION = '2025-01';
+const SHOPIFY_CUSTOMER_API_VERSION = "2025-01";
 
 interface UpdateProfileRequest {
   firstName?: string;
@@ -25,18 +25,18 @@ interface UpdateProfileRequest {
 export async function POST(request: NextRequest) {
   try {
     const cookieStore = await cookies();
-    const token = cookieStore.get('customer_access_token')?.value;
+    const token = cookieStore.get("customer_access_token")?.value;
 
     if (!token) {
-      return NextResponse.json(
-        { error: 'Not authenticated' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
     const body: UpdateProfileRequest = await request.json();
 
-    const shopDomain = process.env.SHOPIFY_STORE_DOMAIN?.replace(/^https?:\/\//, '');
+    const shopDomain = process.env.SHOPIFY_STORE_DOMAIN?.replace(
+      /^https?:\/\//,
+      "",
+    );
     const endpoint = `https://${shopDomain}/account/customer/api/${SHOPIFY_CUSTOMER_API_VERSION}/graphql`;
 
     // Build mutation based on what's being updated
@@ -73,10 +73,10 @@ export async function POST(request: NextRequest) {
     };
 
     const response = await fetch(endpoint, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         query: mutation,
@@ -88,15 +88,18 @@ export async function POST(request: NextRequest) {
 
     if (data.errors) {
       return NextResponse.json(
-        { error: 'Failed to update profile', details: data.errors },
-        { status: 400 }
+        { error: "Failed to update profile", details: data.errors },
+        { status: 400 },
       );
     }
 
     if (data.data?.customerUpdate?.userErrors?.length > 0) {
       return NextResponse.json(
-        { error: 'Validation error', details: data.data.customerUpdate.userErrors },
-        { status: 400 }
+        {
+          error: "Validation error",
+          details: data.data.customerUpdate.userErrors,
+        },
+        { status: 400 },
       );
     }
 
@@ -105,11 +108,10 @@ export async function POST(request: NextRequest) {
       customer: data.data.customerUpdate.customer,
     });
   } catch (error) {
-    console.error('Error updating customer profile:', error);
+    console.error("Error updating customer profile:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }
-

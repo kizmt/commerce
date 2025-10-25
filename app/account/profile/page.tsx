@@ -99,8 +99,8 @@ export default async function ProfilePage() {
       <h1 className="text-2xl font-semibold">Profile</h1>
       <ProfileForm
         initialData={{
-          firstName: customer.firstName || '',
-          lastName: customer.lastName || '',
+          firstName: customer.firstName || "",
+          lastName: customer.lastName || "",
           email: customer.email,
           defaultAddress: customer.defaultAddress,
         }}
