@@ -48,8 +48,8 @@ export async function customerFetch<T>({
     
     if (!endpoint && shopId) {
       // Construct the endpoint using shop ID
-      // Try 2024-10 version instead of unstable
-      endpoint = `https://shopify.com/${shopId}/account/customer/api/2024-10/graphql`;
+      // Use 2024-07 (current stable version)
+      endpoint = `https://shopify.com/${shopId}/account/customer/api/2024-07/graphql`;
       console.log("Constructed endpoint from shop ID:", endpoint);
     }
     

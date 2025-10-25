@@ -44,7 +44,7 @@ async function getCustomer(accessToken: string): Promise<Customer | null> {
           const match = issuer.match(/\/authentication\/(\d+)/);
           if (match) {
             const shopId = match[1];
-            endpoint = `https://shopify.com/${shopId}/account/customer/api/2024-10/graphql`;
+            endpoint = `https://shopify.com/${shopId}/account/customer/api/2024-07/graphql`;
             console.log("getCustomer - constructed endpoint from shop ID:", shopId);
           }
         }
