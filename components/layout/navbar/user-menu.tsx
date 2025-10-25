@@ -64,15 +64,9 @@ export default function UserMenu({ signedIn }: { signedIn?: boolean }) {
                   Rewards
                 </MenuItem>
                 <MenuItem>
-                  {({ focus }) => (
-                    <LogoutButton
-                      className={`block w-full rounded px-3 py-2 text-left ${
-                        focus ? "bg-neutral-100 dark:bg-neutral-800" : ""
-                      }`}
-                    >
-                      Logout
-                    </LogoutButton>
-                  )}
+                  <LogoutButton className="block w-full rounded px-3 py-2 text-left data-[focus]:bg-neutral-100 dark:data-[focus]:bg-neutral-800">
+                    Logout
+                  </LogoutButton>
                 </MenuItem>
               </>
             )}
