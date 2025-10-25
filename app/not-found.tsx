@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+export const dynamic = 'force-dynamic';
+
 export default function NotFound() {
   return (
     <div className="mx-auto w-full max-w-3xl px-6 py-12">
