@@ -16,7 +16,7 @@ export function LogoutButton({ className, children }: LogoutButtonProps) {
       localStorage.clear();
       sessionStorage.clear();
     }
-    
+
     // Navigate to logout endpoint which will handle cookie deletion
     window.location.href = "/api/auth/customer/logout";
   };

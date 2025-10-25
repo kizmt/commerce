@@ -98,13 +98,12 @@ export default async function AccountPage({
           You&apos;re not signed in.
         </p>
         <div className="flex flex-wrap gap-3">
-          <Link
-            href="/api/auth/customer/login?force=1"
-            prefetch={false}
+          <a
+            href="/api/auth/customer/login"
             className="inline-flex items-center rounded-md border border-neutral-300 px-4 py-2 text-sm hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-900"
           >
             Login
-          </Link>
+          </a>
           <Link
             href="https://shopify.com/78378696954/account"
             target="_blank"
@@ -159,13 +158,12 @@ export default async function AccountPage({
             We couldn&apos;t load your profile. Please try signing in again.
           </p>
           <div className="flex gap-3">
-            <Link
-              href="/api/auth/customer/login?force=1"
-              prefetch={false}
+            <a
+              href="/api/auth/customer/login"
               className="inline-flex items-center rounded-md border border-neutral-300 px-4 py-2 text-sm hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-900"
             >
               Login
-            </Link>
+            </a>
             <Link
               href="/api/auth/customer/logout"
               prefetch={false}
@@ -245,7 +243,9 @@ export default async function AccountPage({
           </div>
 
           <div className="mt-6 border-t border-neutral-200 pt-6 dark:border-neutral-800">
-            <h3 className="mb-2 text-sm font-semibold">Need to switch accounts?</h3>
+            <h3 className="mb-2 text-sm font-semibold">
+              Need to switch accounts?
+            </h3>
             <p className="mb-4 text-sm text-neutral-600 dark:text-neutral-400">
               Log out and sign in with a different account.
             </p>

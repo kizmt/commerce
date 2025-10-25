@@ -56,12 +56,12 @@ export async function GET(req: NextRequest) {
   const response = NextResponse.redirect(
     `${authorizeUrl}?${params.toString()}`,
   );
-  
+
   // Clear any existing customer auth cookies
   response.cookies.delete("customer_access_token");
   response.cookies.delete("customer_refresh_token");
   response.cookies.delete("customer_id_token");
-  
+
   // Set PKCE cookies
   response.cookies.set("shopify_pkce_verifier", codeVerifier, {
     httpOnly: true,

@@ -9,27 +9,31 @@ export async function customerFetch<T>({
   variables?: Record<string, unknown>;
 }): Promise<T> {
   // Get the shop domain from environment variable
-  const shopDomain = process.env.SHOPIFY_STORE_DOMAIN?.replace(/^https?:\/\//, "") || "";
-  
+  const shopDomain =
+    process.env.SHOPIFY_STORE_DOMAIN?.replace(/^https?:\/\//, "") || "";
+
   // Discover the GraphQL endpoint from the well-known endpoint
   let endpoint = "";
   try {
     const apiDiscoveryUrl = `https://${shopDomain}/.well-known/customer-account-api`;
     const apiRes = await fetch(apiDiscoveryUrl, { cache: "no-store" });
     const apiConfig = await apiRes.json();
-    endpoint = apiConfig?.graphql_api || `https://${shopDomain}/customer/api/graphql`;
+    endpoint =
+      apiConfig?.graphql_api || `https://${shopDomain}/customer/api/graphql`;
   } catch {
     // Fallback to constructed endpoint if discovery fails
-    const version = process.env.SHOPIFY_CUSTOMER_API_VERSION || SHOPIFY_STOREFRONT_API_VERSION;
+    const version =
+      process.env.SHOPIFY_CUSTOMER_API_VERSION ||
+      SHOPIFY_STOREFRONT_API_VERSION;
     endpoint = `https://${shopDomain}/account/customer/api/${version}/graphql`;
   }
-  
+
   const token = await getCustomerAccessToken();
-  
+
   if (!token) {
     throw new Error("Not authenticated");
   }
-  
+
   const res = await fetch(endpoint, {
     method: "POST",
     headers: {
@@ -38,9 +42,9 @@ export async function customerFetch<T>({
     },
     body: JSON.stringify({ query, variables }),
   });
-  
+
   const json = await res.json();
-  
+
   if (!res.ok || json.errors) {
     console.error("customerFetch error:", {
       endpoint,

@@ -67,9 +67,7 @@ export default function UserMenu({ signedIn }: { signedIn?: boolean }) {
                   {({ focus }) => (
                     <LogoutButton
                       className={`block w-full rounded px-3 py-2 text-left ${
-                        focus
-                          ? "bg-neutral-100 dark:bg-neutral-800"
-                          : ""
+                        focus ? "bg-neutral-100 dark:bg-neutral-800" : ""
                       }`}
                     >
                       Logout

@@ -70,7 +70,7 @@ export default async function ProfilePage() {
         <p className="text-neutral-600 dark:text-neutral-300">
           Please{" "}
           <Link
-            href="/api/auth/customer/login?force=1"
+            href="/api/auth/customer/login"
             className="text-blue-600 hover:underline dark:text-blue-400"
           >
             log in
