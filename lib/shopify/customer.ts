@@ -30,6 +30,8 @@ export async function customerFetch<T>({
 
   const token = await getCustomerAccessToken();
 
+  console.log("customerFetch - has token:", !!token, "endpoint:", endpoint);
+
   if (!token) {
     throw new Error("Not authenticated");
   }

@@ -60,9 +60,12 @@ export default async function AccountPage({
 }: {
   searchParams?: Promise<Record<string, string>>;
 }) {
-  const token = (await cookies()).get("customer_access_token")?.value;
+  const cookieStore = await cookies();
+  const token = cookieStore.get("customer_access_token")?.value;
   const sp = searchParams ? await searchParams : undefined;
   const authFlag = sp?.auth;
+
+  console.log("Account page render - has token:", !!token, "auth flag:", authFlag);
 
   if (!token) {
     return (
@@ -93,9 +96,11 @@ export default async function AccountPage({
   }
 
   let customer = await getCustomer();
+  console.log("Customer fetch result:", customer ? "success" : "failed");
+  
   if (!customer) {
     // Fallback: derive minimal profile from id_token if available
-    const idToken = (await cookies()).get("customer_id_token")?.value;
+    const idToken = cookieStore.get("customer_id_token")?.value;
     try {
       if (idToken) {
         const payload = JSON.parse(
