@@ -8,12 +8,11 @@ export async function customerFetch<T>({
   query: string;
   variables?: Record<string, unknown>;
 }): Promise<T> {
-  // Customer Account API requires the custom domain, not .myshopify.com
-  // Use SHOPIFY_CUSTOM_DOMAIN if available, otherwise fall back to SHOPIFY_STORE_DOMAIN
-  const customDomain = process.env.SHOPIFY_CUSTOM_DOMAIN || process.env.SHOPIFY_STORE_DOMAIN;
-  const shopDomain = customDomain?.replace(/^https?:\/\//, "") || "";
+  // Customer Account API uses the .myshopify.com domain with account subdomain
+  // NOT the custom domain
+  const myshopifyDomain = process.env.SHOPIFY_STORE_DOMAIN;
+  const shopDomain = myshopifyDomain?.replace(/^https?:\/\//, "") || "";
 
-  console.log("SHOPIFY_CUSTOM_DOMAIN:", process.env.SHOPIFY_CUSTOM_DOMAIN);
   console.log("SHOPIFY_STORE_DOMAIN:", process.env.SHOPIFY_STORE_DOMAIN);
   console.log("Using domain for Customer Account API:", shopDomain);
 
@@ -44,20 +43,14 @@ export async function customerFetch<T>({
     console.log("Endpoint discovery failed:", error);
     
     // Try the standard Customer Account API endpoint format
-    // The correct format is: https://{shop-id}.account.myshopify.com/account/customer/api/{version}/graphql
-    // But since we don't have shop-id easily available, try the custom domain format first
+    // The correct format is: https://{shop-name}.account.myshopify.com/account/customer/api/{version}/graphql
     const version =
       process.env.SHOPIFY_CUSTOMER_API_VERSION ||
       SHOPIFY_STOREFRONT_API_VERSION;
     
-    // If using .myshopify.com domain, the endpoint should use the account subdomain
-    if (shopDomain.includes('myshopify.com')) {
-      const shopName = shopDomain.split('.')[0]; // e.g., 'turtleislandtcg'
-      endpoint = `https://${shopName}.account.myshopify.com/account/customer/api/${version}/graphql`;
-    } else {
-      // For custom domains, try this format
-      endpoint = `https://${shopDomain}/account/customer/api/${version}/graphql`;
-    }
+    // Extract shop name from domain (e.g., 'turtleislandtcg' from 'turtleislandtcg.myshopify.com')
+    const shopName = shopDomain.split('.')[0];
+    endpoint = `https://${shopName}.account.myshopify.com/account/customer/api/${version}/graphql`;
     
     console.log("Fallback endpoint:", endpoint);
   }
