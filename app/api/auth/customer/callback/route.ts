@@ -31,7 +31,8 @@ export async function GET(req: NextRequest) {
 
   const origin = url.origin;
   const redirectUri =
-    SHOPIFY_CUSTOMER_REDIRECT_URI || `${origin}/api/auth/customer/callback`;
+    process.env.SHOPIFY_CUSTOMER_REDIRECT_URI ||
+    `${origin}/api/auth/customer/callback`;
   const body = new URLSearchParams([
     ["grant_type", "authorization_code"],
     ["client_id", SHOPIFY_CUSTOMER_CLIENT_ID!],
@@ -85,10 +86,6 @@ export async function GET(req: NextRequest) {
     new URL("/account?auth=ok", url.origin),
   );
   const isProd = process.env.NODE_ENV === "production";
-  
-  console.log("Setting cookies for domain:", url.origin, "isProd:", isProd);
-  console.log("Access token exists:", !!tokenJson.access_token);
-  
   response.cookies.set("customer_access_token", tokenJson.access_token, {
     httpOnly: true,
     sameSite: "lax",

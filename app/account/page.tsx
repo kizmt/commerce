@@ -1,10 +1,7 @@
 import { LogoutButton } from "@/components/auth/logout-button";
-import { customerFetch } from "lib/shopify/customer";
+import { baseUrl } from "lib/utils";
 import { cookies } from "next/headers";
 import Link from "next/link";
-
-// Make this page dynamic since it requires authentication
-export const dynamic = "force-dynamic";
 
 type Customer = {
   id: string;
@@ -24,10 +21,19 @@ export const metadata = {
   },
 };
 
-async function getCustomer(): Promise<Customer | null> {
+async function getCustomer(accessToken: string): Promise<Customer | null> {
   try {
-    const query = `
-      query {
+    const shopDomain = process.env.SHOPIFY_STORE_DOMAIN?.replace(
+      /^https?:\/\//,
+      "",
+    )!;
+    const apiDiscoveryUrl = `https://${shopDomain}/.well-known/customer-account-api`;
+    const apiRes = await fetch(apiDiscoveryUrl, { cache: "no-store" });
+    const apiConfig = await apiRes.json().catch(() => null as any);
+    const endpoint =
+      apiConfig?.graphql_api || `https://${shopDomain}/customer/api/graphql`;
+    const query = `#graphql
+      query Me {
         customer {
           id
           email
@@ -38,10 +44,31 @@ async function getCustomer(): Promise<Customer | null> {
       }
     `;
 
-    const data = await customerFetch<{ customer: any }>({ query });
-    const raw = data?.customer;
-    if (!raw) return null;
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+        Origin: baseUrl,
+      },
+      cache: "no-store",
+      body: JSON.stringify({ query }),
+    });
 
+    if (!res.ok) {
+      try {
+        const text = await res.text();
+        console.error("Customer API /customer query failed", res.status, text);
+      } catch {}
+      return null;
+    }
+    const json = await res.json();
+    if (json?.errors) {
+      console.error("Customer API /customer returned errors", json.errors);
+      return null;
+    }
+    const raw = json?.data?.customer;
+    if (!raw) return null;
     const mapped: Customer = {
       id: raw.id,
       email: raw.email ?? raw.emailAddress?.emailAddress ?? null,
@@ -49,8 +76,7 @@ async function getCustomer(): Promise<Customer | null> {
       lastName: raw.lastName ?? null,
     };
     return mapped;
-  } catch (error) {
-    console.error("Failed to fetch customer:", error);
+  } catch {
     return null;
   }
 }
@@ -60,69 +86,60 @@ export default async function AccountPage({
 }: {
   searchParams?: Promise<Record<string, string>>;
 }) {
-  try {
-    const cookieStore = await cookies();
-    const allCookies = cookieStore.getAll();
-    const token = cookieStore.get("customer_access_token")?.value;
-    const sp = searchParams ? await searchParams : undefined;
-    const authFlag = sp?.auth;
+  const token = (await cookies()).get("customer_access_token")?.value;
+  const sp = searchParams ? await searchParams : undefined;
+  const authFlag = sp?.auth;
 
-    console.log("Account page render - auth flag:", authFlag);
-    console.log("All cookies:", allCookies.map(c => c.name).join(", "));
-    console.log("Has customer_access_token:", !!token);
-
-    if (!token) {
-      return (
-        <div className="mx-auto w-full max-w-3xl px-6 py-12">
-          <h1 className="mb-4 text-2xl font-semibold">Account</h1>
-          <p className="mb-6 text-neutral-600 dark:text-neutral-300">
-            You&apos;re not signed in.
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <a
-              href="/api/auth/customer/login"
-              className="inline-flex items-center rounded-md border border-neutral-300 px-4 py-2 text-sm hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-900"
-            >
-              Login
-            </a>
-            <Link
-              href="https://shopify.com/78378696954/account"
-              target="_blank"
-              rel="noopener noreferrer"
-              prefetch={false}
-              className="inline-flex items-center rounded-md border border-neutral-300 px-4 py-2 text-sm hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-900"
-            >
-              Open Shopify account portal
-            </Link>
-          </div>
-        </div>
-      );
-    }
-
-    let customer = await getCustomer();
-    console.log("Customer fetch result:", customer ? "success" : "failed");
-    
-    if (!customer) {
-      // Fallback: derive minimal profile from id_token if available
-      const idToken = cookieStore.get("customer_id_token")?.value;
-      try {
-        if (idToken) {
-          const payload = JSON.parse(
-            Buffer.from(idToken.split(".")[1] || "", "base64").toString(),
-          );
-          if (payload?.email) {
-            customer = {
-              id: payload.sub || "me",
-              email: payload.email,
-              firstName: payload.given_name || null,
-              lastName: payload.family_name || null,
-            };
-          }
-        }
-      } catch {}
-    }
-
+  if (!token) {
     return (
+      <div className="mx-auto w-full max-w-3xl px-6 py-12">
+        <h1 className="mb-4 text-2xl font-semibold">Account</h1>
+        <p className="mb-6 text-neutral-600 dark:text-neutral-300">
+          You&apos;re not signed in.
+        </p>
+        <div className="flex flex-wrap gap-3">
+          <a
+            href="/api/auth/customer/login"
+            className="inline-flex items-center rounded-md border border-neutral-300 px-4 py-2 text-sm hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-900"
+          >
+            Login
+          </a>
+          <Link
+            href="https://shopify.com/78378696954/account"
+            target="_blank"
+            rel="noopener noreferrer"
+            prefetch={false}
+            className="inline-flex items-center rounded-md border border-neutral-300 px-4 py-2 text-sm hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-900"
+          >
+            Open Shopify account portal
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  let customer = await getCustomer(token);
+  if (!customer) {
+    // Fallback: derive minimal profile from id_token if available
+    const idToken = (await cookies()).get("customer_id_token")?.value;
+    try {
+      if (idToken) {
+        const payload = JSON.parse(
+          Buffer.from(idToken.split(".")[1] || "", "base64").toString(),
+        );
+        if (payload?.email) {
+          customer = {
+            id: payload.sub || "me",
+            email: payload.email,
+            firstName: payload.given_name || null,
+            lastName: payload.family_name || null,
+          };
+        }
+      }
+    } catch {}
+  }
+
+  return (
     <div className="mx-auto w-full max-w-3xl px-6 py-12">
       <h1 className="mb-4 text-2xl font-semibold">Account</h1>
       {authFlag === "ok" && (
@@ -251,21 +268,4 @@ export default async function AccountPage({
       )}
     </div>
   );
-  } catch (error) {
-    console.error("Account page error:", error);
-    return (
-      <div className="mx-auto w-full max-w-3xl px-6 py-12">
-        <h1 className="mb-4 text-2xl font-semibold">Account Error</h1>
-        <p className="mb-4 text-red-600">
-          Failed to load account page: {error instanceof Error ? error.message : String(error)}
-        </p>
-        <a
-          href="/api/auth/customer/login"
-          className="inline-flex items-center rounded-md border border-neutral-300 px-4 py-2 text-sm hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-900"
-        >
-          Try logging in again
-        </a>
-      </div>
-    );
-  }
 }
