@@ -5,7 +5,6 @@ export const runtime = "nodejs";
 const {
   SHOPIFY_CUSTOMER_CLIENT_ID,
   SHOPIFY_CUSTOMER_TOKEN_URL,
-  SHOPIFY_CUSTOMER_REDIRECT_URI,
   SHOPIFY_STORE_DOMAIN,
 } = process.env as Record<string, string>;
 
@@ -30,9 +29,7 @@ export async function GET(req: NextRequest) {
   }
 
   const origin = url.origin;
-  const redirectUri =
-    process.env.SHOPIFY_CUSTOMER_REDIRECT_URI ||
-    `${origin}/api/auth/customer/callback`;
+  const redirectUri = `${origin}/api/auth/customer/callback`;
   const body = new URLSearchParams([
     ["grant_type", "authorization_code"],
     ["client_id", SHOPIFY_CUSTOMER_CLIENT_ID!],
