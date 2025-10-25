@@ -10,7 +10,11 @@ export async function customerFetch<T>({
 }): Promise<T> {
   const version =
     process.env.SHOPIFY_CUSTOMER_API_VERSION || SHOPIFY_STOREFRONT_API_VERSION;
-  const endpoint = `https://shopify.com/account/customer/api/${version}/graphql.json`;
+  
+  // Get the shop domain from environment variable
+  const shopDomain = process.env.SHOPIFY_STORE_DOMAIN?.replace(/^https?:\/\//, "") || "";
+  const endpoint = `https://${shopDomain}/account/customer/api/${version}/graphql`;
+  
   const token = await getCustomerAccessToken();
   const res = await fetch(endpoint, {
     method: "POST",
