@@ -1,13 +1,13 @@
 /**
  * Shopify Points System
- * 
+ *
  * This module handles a loyalty points system using Shopify Customer Metafields.
  * - Awards points on order completion (idempotent via order metafields)
  * - Handles refund reversals
  * - Manages voucher redemption with fixed levels
  */
 
-import { shopifyAdminFetch } from './admin';
+import { shopifyAdminFetch } from "./admin";
 
 // ===== CONFIGURATION =====
 
@@ -20,22 +20,22 @@ export const POINTS_PER_YEN = 1;
  * Voucher redemption levels: points required → discount code value
  */
 export const VOUCHER_LEVELS = [
-  { points: 500, value: 500, label: '¥500 OFF' },
-  { points: 1000, value: 1200, label: '¥1200 OFF' },
-  { points: 2000, value: 2500, label: '¥2500 OFF' },
-  { points: 5000, value: 6500, label: '¥6500 OFF' },
+  { points: 500, value: 500, label: "¥500 OFF" },
+  { points: 1000, value: 1200, label: "¥1200 OFF" },
+  { points: 2000, value: 2500, label: "¥2500 OFF" },
+  { points: 5000, value: 6500, label: "¥6500 OFF" },
 ] as const;
 
 /**
  * Metafield namespace and keys
  */
-export const METAFIELD_NAMESPACE = 'loyalty';
-export const CUSTOMER_POINTS_KEY = 'points';
-export const ORDER_AWARDED_KEY = 'points_awarded';
+export const METAFIELD_NAMESPACE = "loyalty";
+export const CUSTOMER_POINTS_KEY = "points";
+export const ORDER_AWARDED_KEY = "points_awarded";
 
 // ===== TYPES =====
 
-export type VoucherLevel = typeof VOUCHER_LEVELS[number];
+export type VoucherLevel = (typeof VOUCHER_LEVELS)[number];
 
 export interface CustomerPoints {
   customerId: string;
@@ -56,7 +56,7 @@ export interface PointsTransaction {
  */
 export async function getCustomerPoints(customerId: string): Promise<number> {
   const gid = formatCustomerGid(customerId);
-  
+
   const query = `
     query getCustomerPoints($id: ID!) {
       customer(id: $id) {
@@ -85,7 +85,7 @@ export async function getCustomerPoints(customerId: string): Promise<number> {
 
     return parseInt(customer.metafield.value, 10) || 0;
   } catch (error) {
-    console.error('Error fetching customer points:', error);
+    console.error("Error fetching customer points:", error);
     return 0;
   }
 }
@@ -120,7 +120,7 @@ export async function setCustomerPoints(
         namespace: METAFIELD_NAMESPACE,
         key: CUSTOMER_POINTS_KEY,
         value: Math.max(0, points).toString(),
-        type: 'number_integer',
+        type: "number_integer",
       },
     ],
   };
@@ -198,9 +198,9 @@ export async function hasOrderBeenAwarded(orderId: string): Promise<boolean> {
       variables: { id: gid },
     });
 
-    return order?.metafield?.value === 'true';
+    return order?.metafield?.value === "true";
   } catch (error) {
-    console.error('Error checking order awarded status:', error);
+    console.error("Error checking order awarded status:", error);
     return false;
   }
 }
@@ -234,14 +234,14 @@ export async function markOrderAsAwarded(
       {
         namespace: METAFIELD_NAMESPACE,
         key: ORDER_AWARDED_KEY,
-        value: 'true',
-        type: 'boolean',
+        value: "true",
+        type: "boolean",
       },
       {
         namespace: METAFIELD_NAMESPACE,
-        key: 'points_amount',
+        key: "points_amount",
         value: pointsAwarded.toString(),
-        type: 'number_integer',
+        type: "number_integer",
       },
     ],
   };
@@ -297,7 +297,7 @@ export async function getOrderAwardedPoints(orderId: string): Promise<number> {
 
     return parseInt(order.metafield.value, 10) || 0;
   } catch (error) {
-    console.error('Error fetching order awarded points:', error);
+    console.error("Error fetching order awarded points:", error);
     return 0;
   }
 }
@@ -310,10 +310,10 @@ export async function getOrderAwardedPoints(orderId: string): Promise<number> {
  */
 export function calculatePointsForOrder(
   subtotalAmount: number,
-  currencyCode: string = 'JPY',
+  currencyCode: string = "JPY",
 ): number {
   // Only award points for JPY orders
-  if (currencyCode !== 'JPY') {
+  if (currencyCode !== "JPY") {
     return 0;
   }
 
@@ -345,7 +345,7 @@ export async function createVoucherDiscountCode(
   voucherLevel: VoucherLevel,
 ): Promise<string> {
   const gid = formatCustomerGid(customerId);
-  
+
   // Generate unique code
   const code = `LOYALTY${voucherLevel.points}-${Date.now().toString(36).toUpperCase()}`;
 
@@ -428,14 +428,15 @@ export async function createVoucherDiscountCode(
   }
 
   if (!result.discountCodeBasicCreate.codeDiscountNode) {
-    throw new Error('Failed to create discount code: No code returned');
+    throw new Error("Failed to create discount code: No code returned");
   }
 
   const createdCode =
-    result.discountCodeBasicCreate.codeDiscountNode.codeDiscount.codes.edges[0]?.node.code;
+    result.discountCodeBasicCreate.codeDiscountNode.codeDiscount.codes.edges[0]
+      ?.node.code;
 
   if (!createdCode) {
-    throw new Error('Failed to create discount code: No code in response');
+    throw new Error("Failed to create discount code: No code in response");
   }
 
   return createdCode;
@@ -447,7 +448,7 @@ export async function createVoucherDiscountCode(
  * Format customer ID to Shopify GID format
  */
 function formatCustomerGid(customerId: string): string {
-  if (customerId.startsWith('gid://shopify/Customer/')) {
+  if (customerId.startsWith("gid://shopify/Customer/")) {
     return customerId;
   }
   return `gid://shopify/Customer/${customerId}`;
@@ -457,7 +458,7 @@ function formatCustomerGid(customerId: string): string {
  * Format order ID to Shopify GID format
  */
 function formatOrderGid(orderId: string): string {
-  if (orderId.startsWith('gid://shopify/Order/')) {
+  if (orderId.startsWith("gid://shopify/Order/")) {
     return orderId;
   }
   return `gid://shopify/Order/${orderId}`;
@@ -467,7 +468,6 @@ function formatOrderGid(orderId: string): string {
  * Extract numeric ID from Shopify GID
  */
 export function extractIdFromGid(gid: string): string {
-  const parts = gid.split('/');
-  return parts[parts.length - 1] || '';
+  const parts = gid.split("/");
+  return parts[parts.length - 1] || "";
 }
-

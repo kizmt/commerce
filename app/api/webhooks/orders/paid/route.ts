@@ -1,20 +1,20 @@
 /**
  * Shopify Webhook Handler: Orders Paid
- * 
+ *
  * Awards loyalty points when an order is paid
  * - Only awards points if customer is signed in
  * - Idempotent (won't double-award on webhook retries)
  * - Based on subtotal amount
  */
 
-import { verifyShopifyWebhook } from '@/lib/shopify/admin';
+import { verifyShopifyWebhook } from "@/lib/shopify/admin";
 import {
-    addCustomerPoints,
-    calculatePointsForOrder,
-    hasOrderBeenAwarded,
-    markOrderAsAwarded,
-} from '@/lib/shopify/points';
-import { NextRequest, NextResponse } from 'next/server';
+  addCustomerPoints,
+  calculatePointsForOrder,
+  hasOrderBeenAwarded,
+  markOrderAsAwarded,
+} from "@/lib/shopify/points";
+import { NextRequest, NextResponse } from "next/server";
 
 interface ShopifyOrderWebhook {
   id: number;
@@ -42,23 +42,22 @@ export async function POST(request: NextRequest) {
   try {
     // Verify webhook authenticity
     const body = await request.text();
-    const hmac = request.headers.get('x-shopify-hmac-sha256');
+    const hmac = request.headers.get("x-shopify-hmac-sha256");
 
     if (!verifyShopifyWebhook(body, hmac)) {
-      console.error('Webhook verification failed');
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 },
-      );
+      console.error("Webhook verification failed");
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const order: ShopifyOrderWebhook = JSON.parse(body);
 
     // Only award points if customer is logged in
     if (!order.customer?.id) {
-      console.log(`Order ${order.id}: No customer attached, skipping points award`);
+      console.log(
+        `Order ${order.id}: No customer attached, skipping points award`,
+      );
       return NextResponse.json({
-        message: 'No customer attached to order',
+        message: "No customer attached to order",
         orderId: order.id,
       });
     }
@@ -71,7 +70,7 @@ export async function POST(request: NextRequest) {
     if (alreadyAwarded) {
       console.log(`Order ${orderId}: Points already awarded, skipping`);
       return NextResponse.json({
-        message: 'Points already awarded for this order',
+        message: "Points already awarded for this order",
         orderId,
         customerId,
       });
@@ -82,10 +81,12 @@ export async function POST(request: NextRequest) {
     const points = calculatePointsForOrder(subtotalAmount, order.currency);
 
     if (points <= 0) {
-      console.log(`Order ${orderId}: No points to award (subtotal: ${subtotalAmount})`);
+      console.log(
+        `Order ${orderId}: No points to award (subtotal: ${subtotalAmount})`,
+      );
       await markOrderAsAwarded(orderId, 0);
       return NextResponse.json({
-        message: 'No points to award',
+        message: "No points to award",
         orderId,
         customerId,
         points: 0,
@@ -110,14 +111,13 @@ export async function POST(request: NextRequest) {
       newBalance,
     });
   } catch (error) {
-    console.error('Error processing order webhook:', error);
+    console.error("Error processing order webhook:", error);
     return NextResponse.json(
       {
-        error: 'Internal server error',
-        message: error instanceof Error ? error.message : 'Unknown error',
+        error: "Internal server error",
+        message: error instanceof Error ? error.message : "Unknown error",
       },
       { status: 500 },
     );
   }
 }
-

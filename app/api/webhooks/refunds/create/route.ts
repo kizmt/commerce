@@ -1,18 +1,18 @@
 /**
  * Shopify Webhook Handler: Refunds Create
- * 
+ *
  * Reverses loyalty points when a refund is processed
  * - Subtracts points proportionally to refund amount
  * - Only processes if points were originally awarded
  */
 
-import { verifyShopifyWebhook } from '@/lib/shopify/admin';
+import { verifyShopifyWebhook } from "@/lib/shopify/admin";
 import {
-    calculatePointsForOrder,
-    getOrderAwardedPoints,
-    subtractCustomerPoints,
-} from '@/lib/shopify/points';
-import { NextRequest, NextResponse } from 'next/server';
+  calculatePointsForOrder,
+  getOrderAwardedPoints,
+  subtractCustomerPoints,
+} from "@/lib/shopify/points";
+import { NextRequest, NextResponse } from "next/server";
 
 interface ShopifyRefundWebhook {
   id: number;
@@ -53,14 +53,11 @@ export async function POST(request: NextRequest) {
   try {
     // Verify webhook authenticity
     const body = await request.text();
-    const hmac = request.headers.get('x-shopify-hmac-sha256');
+    const hmac = request.headers.get("x-shopify-hmac-sha256");
 
     if (!verifyShopifyWebhook(body, hmac)) {
-      console.error('Refund webhook verification failed');
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 },
-      );
+      console.error("Refund webhook verification failed");
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const refund: ShopifyRefundWithOrder = JSON.parse(body);
@@ -70,9 +67,11 @@ export async function POST(request: NextRequest) {
     // Note: In a real webhook, you might need to fetch the order separately
     // as refund webhooks don't always include full order details
     if (!refund.order?.customer?.id) {
-      console.log(`Refund for order ${orderId}: No customer attached, skipping`);
+      console.log(
+        `Refund for order ${orderId}: No customer attached, skipping`,
+      );
       return NextResponse.json({
-        message: 'No customer attached to order',
+        message: "No customer attached to order",
         refundId: refund.id,
         orderId,
       });
@@ -84,9 +83,11 @@ export async function POST(request: NextRequest) {
     const originalPointsAwarded = await getOrderAwardedPoints(orderId);
 
     if (originalPointsAwarded <= 0) {
-      console.log(`Refund for order ${orderId}: No points were originally awarded`);
+      console.log(
+        `Refund for order ${orderId}: No points were originally awarded`,
+      );
       return NextResponse.json({
-        message: 'No points were awarded for this order',
+        message: "No points were awarded for this order",
         refundId: refund.id,
         orderId,
       });
@@ -101,13 +102,13 @@ export async function POST(request: NextRequest) {
     // Calculate points to subtract based on refund amount
     const pointsToSubtract = calculatePointsForOrder(
       refundAmount,
-      refund.order.currency || 'JPY',
+      refund.order.currency || "JPY",
     );
 
     if (pointsToSubtract <= 0) {
       console.log(`Refund for order ${orderId}: No points to subtract`);
       return NextResponse.json({
-        message: 'No points to subtract',
+        message: "No points to subtract",
         refundId: refund.id,
         orderId,
         refundAmount,
@@ -115,7 +116,10 @@ export async function POST(request: NextRequest) {
     }
 
     // Subtract points from customer
-    const newBalance = await subtractCustomerPoints(customerId, pointsToSubtract);
+    const newBalance = await subtractCustomerPoints(
+      customerId,
+      pointsToSubtract,
+    );
 
     console.log(
       `Refund ${refund.id}: Subtracted ${pointsToSubtract} points from customer ${customerId}. New balance: ${newBalance}`,
@@ -130,14 +134,13 @@ export async function POST(request: NextRequest) {
       newBalance,
     });
   } catch (error) {
-    console.error('Error processing refund webhook:', error);
+    console.error("Error processing refund webhook:", error);
     return NextResponse.json(
       {
-        error: 'Internal server error',
-        message: error instanceof Error ? error.message : 'Unknown error',
+        error: "Internal server error",
+        message: error instanceof Error ? error.message : "Unknown error",
       },
       { status: 500 },
     );
   }
 }
-

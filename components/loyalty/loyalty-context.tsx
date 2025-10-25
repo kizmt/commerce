@@ -1,12 +1,18 @@
 /**
  * Loyalty Points Context
- * 
+ *
  * Provides points balance and voucher information throughout the app
  */
 
-'use client';
+"use client";
 
-import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 interface VoucherLevel {
   points: number;
@@ -27,7 +33,9 @@ const LoyaltyContext = createContext<LoyaltyContextType | undefined>(undefined);
 
 export function LoyaltyProvider({ children }: { children: ReactNode }) {
   const [points, setPoints] = useState(0);
-  const [availableVouchers, setAvailableVouchers] = useState<VoucherLevel[]>([]);
+  const [availableVouchers, setAvailableVouchers] = useState<VoucherLevel[]>(
+    [],
+  );
   const [nextLevel, setNextLevel] = useState<VoucherLevel | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -37,8 +45,8 @@ export function LoyaltyProvider({ children }: { children: ReactNode }) {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch('/api/loyalty/points');
-      
+      const response = await fetch("/api/loyalty/points");
+
       if (!response.ok) {
         if (response.status === 401) {
           // User not logged in - this is OK
@@ -47,7 +55,7 @@ export function LoyaltyProvider({ children }: { children: ReactNode }) {
           setNextLevel(null);
           return;
         }
-        throw new Error('Failed to fetch points');
+        throw new Error("Failed to fetch points");
       }
 
       const data = await response.json();
@@ -55,8 +63,8 @@ export function LoyaltyProvider({ children }: { children: ReactNode }) {
       setAvailableVouchers(data.availableVouchers);
       setNextLevel(data.nextLevel);
     } catch (err) {
-      console.error('Error fetching loyalty points:', err);
-      setError(err instanceof Error ? err.message : 'Failed to load points');
+      console.error("Error fetching loyalty points:", err);
+      setError(err instanceof Error ? err.message : "Failed to load points");
     } finally {
       setIsLoading(false);
     }
@@ -85,8 +93,7 @@ export function LoyaltyProvider({ children }: { children: ReactNode }) {
 export function useLoyalty() {
   const context = useContext(LoyaltyContext);
   if (context === undefined) {
-    throw new Error('useLoyalty must be used within a LoyaltyProvider');
+    throw new Error("useLoyalty must be used within a LoyaltyProvider");
   }
   return context;
 }
-

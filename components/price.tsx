@@ -1,7 +1,10 @@
 "use client";
 
 import clsx from "clsx";
-import { convertCurrency, formatCurrency as formatCurrencyUtil } from "lib/currency";
+import {
+  convertCurrency,
+  formatCurrency as formatCurrencyUtil,
+} from "lib/currency";
 import { useCurrency } from "./currency/currency-context";
 
 const Price = ({
@@ -20,7 +23,7 @@ const Price = ({
   currencyCodeClassName?: string;
 } & React.ComponentProps<"div">) => {
   const { selectedCurrency } = useCurrency();
-  
+
   const current = parseFloat(amount);
   const was = compareAt ? parseFloat(compareAt) : undefined;
   const onSale = Boolean(was && was > current);

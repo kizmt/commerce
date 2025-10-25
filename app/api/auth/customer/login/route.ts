@@ -32,10 +32,7 @@ export async function GET(req: NextRequest) {
         if (endSession) {
           const logoutUrl = new URL(endSession);
           logoutUrl.searchParams.set("id_token_hint", idToken);
-          logoutUrl.searchParams.set(
-            "post_logout_redirect_uri",
-            `${origin}/`,
-          );
+          logoutUrl.searchParams.set("post_logout_redirect_uri", `${origin}/`);
           return NextResponse.redirect(logoutUrl.toString());
         }
       }

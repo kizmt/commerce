@@ -1,20 +1,23 @@
 /**
  * Points Display Component
- * 
+ *
  * Shows the customer's current points balance
  */
 
-'use client';
+"use client";
 
-import LoadingDots from '../loading-dots';
-import { useLoyalty } from './loyalty-context';
+import LoadingDots from "../loading-dots";
+import { useLoyalty } from "./loyalty-context";
 
 interface PointsDisplayProps {
   showLabel?: boolean;
   className?: string;
 }
 
-export function PointsDisplay({ showLabel = true, className = '' }: PointsDisplayProps) {
+export function PointsDisplay({
+  showLabel = true,
+  className = "",
+}: PointsDisplayProps) {
   const { points, isLoading, error } = useLoyalty();
 
   if (error) {
@@ -32,12 +35,11 @@ export function PointsDisplay({ showLabel = true, className = '' }: PointsDispla
   return (
     <div className={`flex items-center gap-2 ${className}`}>
       {showLabel && (
-        <span className="text-sm text-neutral-500 dark:text-neutral-400">Points:</span>
+        <span className="text-sm text-neutral-500 dark:text-neutral-400">
+          Points:
+        </span>
       )}
-      <span className="font-semibold text-base">
-        {points.toLocaleString()}
-      </span>
+      <span className="font-semibold text-base">{points.toLocaleString()}</span>
     </div>
   );
 }
-

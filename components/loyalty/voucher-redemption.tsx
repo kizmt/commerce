@@ -1,16 +1,16 @@
 /**
  * Voucher Redemption Component
- * 
+ *
  * Allows customers to redeem points for discount codes
  */
 
-'use client';
+"use client";
 
-import { useState } from 'react';
-import LoadingDots from '../loading-dots';
-import { Button } from '../ui/button';
-import { Card } from '../ui/card';
-import { useLoyalty } from './loyalty-context';
+import { useState } from "react";
+import LoadingDots from "../loading-dots";
+import { Button } from "../ui/button";
+import { Card } from "../ui/card";
+import { useLoyalty } from "./loyalty-context";
 
 interface RedemptionResult {
   discountCode: string;
@@ -21,7 +21,8 @@ interface RedemptionResult {
 export function VoucherRedemption() {
   const { points, availableVouchers, nextLevel, refreshPoints } = useLoyalty();
   const [isRedeeming, setIsRedeeming] = useState(false);
-  const [redemptionResult, setRedemptionResult] = useState<RedemptionResult | null>(null);
+  const [redemptionResult, setRedemptionResult] =
+    useState<RedemptionResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleRedeem = async (voucherPoints: number) => {
@@ -32,10 +33,10 @@ export function VoucherRedemption() {
       setError(null);
       setRedemptionResult(null);
 
-      const response = await fetch('/api/loyalty/redeem', {
-        method: 'POST',
+      const response = await fetch("/api/loyalty/redeem", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ voucherPoints }),
       });
@@ -43,7 +44,7 @@ export function VoucherRedemption() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to redeem points');
+        throw new Error(data.error || "Failed to redeem points");
       }
 
       setRedemptionResult({
@@ -55,8 +56,8 @@ export function VoucherRedemption() {
       // Refresh points balance
       await refreshPoints();
     } catch (err) {
-      console.error('Error redeeming points:', err);
-      setError(err instanceof Error ? err.message : 'Failed to redeem points');
+      console.error("Error redeeming points:", err);
+      setError(err instanceof Error ? err.message : "Failed to redeem points");
     } finally {
       setIsRedeeming(false);
     }
@@ -103,7 +104,8 @@ export function VoucherRedemption() {
                 🎉 Redemption Successful!
               </h3>
               <p className="mt-1 text-sm text-green-700 dark:text-green-300">
-                You've redeemed {redemptionResult.pointsRedeemed.toLocaleString()} points
+                You've redeemed{" "}
+                {redemptionResult.pointsRedeemed.toLocaleString()} points
               </p>
             </div>
 
@@ -111,7 +113,9 @@ export function VoucherRedemption() {
               <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-1">
                 Your Discount Code
               </p>
-              <p className="text-xl font-mono font-bold">{redemptionResult.discountCode}</p>
+              <p className="text-xl font-mono font-bold">
+                {redemptionResult.discountCode}
+              </p>
               <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">
                 Worth ¥{redemptionResult.discountValue.toLocaleString()}
               </p>
@@ -135,7 +139,9 @@ export function VoucherRedemption() {
       {/* Error Message */}
       {error && (
         <Card className="p-4 bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800">
-          <p className="text-sm text-red-700 dark:text-red-300 text-center">{error}</p>
+          <p className="text-sm text-red-700 dark:text-red-300 text-center">
+            {error}
+          </p>
         </Card>
       )}
 
@@ -172,7 +178,7 @@ export function VoucherRedemption() {
                     {isRedeeming ? (
                       <LoadingDots className="bg-white" />
                     ) : (
-                      'Redeem'
+                      "Redeem"
                     )}
                   </Button>
                 </div>
@@ -197,4 +203,3 @@ export function VoucherRedemption() {
     </div>
   );
 }
-

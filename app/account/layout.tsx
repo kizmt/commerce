@@ -1,4 +1,4 @@
-import { LoyaltyProvider } from '@/components/loyalty/loyalty-context';
+import { LoyaltyProvider } from "@/components/loyalty/loyalty-context";
 
 export const metadata = {
   robots: {

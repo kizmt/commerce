@@ -16,31 +16,50 @@ export async function generateMetadata(props: {
   if (!collection) return notFound();
 
   const handle = params.collection;
-  
+
   // Keyword-optimized titles for high-intent searches
   const keywordTitles: Record<string, string> = {
-    "magic-the-gathering": "Buy Magic The Gathering Cards NZ | MTG Singles & Booster Boxes | Turtle Island",
-    "pokemon": "Buy Pokemon TCG Cards NZ | Booster Boxes & Singles | Turtle Island Cards",
-    "one-piece": "Buy One Piece TCG Cards NZ | Sealed Booster Boxes & Singles | Turtle Island",
-    "dragon-ball": "Dragon Ball Super Card Game NZ | DBS TCG Booster Boxes & Singles | Turtle Island",
-    "final-fantasy": "Buy Final Fantasy TCG Cards NZ | FF TCG Booster Boxes & Singles | Turtle Island",
-    "pre-order": "Pre-Order TCG Games & Trading Cards NZ | Upcoming Releases | Turtle Island",
-    "collectibles": "TCG Collectibles & Rare Cards NZ | Graded & Sealed | Turtle Island Cards",
+    "magic-the-gathering":
+      "Buy Magic The Gathering Cards NZ | MTG Singles & Booster Boxes | Turtle Island",
+    pokemon:
+      "Buy Pokemon TCG Cards NZ | Booster Boxes & Singles | Turtle Island Cards",
+    "one-piece":
+      "Buy One Piece TCG Cards NZ | Sealed Booster Boxes & Singles | Turtle Island",
+    "dragon-ball":
+      "Dragon Ball Super Card Game NZ | DBS TCG Booster Boxes & Singles | Turtle Island",
+    "final-fantasy":
+      "Buy Final Fantasy TCG Cards NZ | FF TCG Booster Boxes & Singles | Turtle Island",
+    "pre-order":
+      "Pre-Order TCG Games & Trading Cards NZ | Upcoming Releases | Turtle Island",
+    collectibles:
+      "TCG Collectibles & Rare Cards NZ | Graded & Sealed | Turtle Island Cards",
   };
 
   // Keyword-optimized descriptions for CTR and relevance
   const keywordDescriptions: Record<string, string> = {
-    "magic-the-gathering": "Shop Magic The Gathering cards in New Zealand. Premium MTG singles, booster boxes, graded cards, and sealed products. Fast shipping from Auckland to all of NZ. Check prices and availability now.",
-    "pokemon": "Buy authentic Pokemon TCG cards in New Zealand. Rare Charizards, booster boxes, ETBs, graded cards, and singles. Fast NZ-wide shipping from Auckland. Browse our full Pokemon inventory.",
-    "one-piece": "Shop One Piece Trading Card Game in NZ. Booster boxes, starter decks, singles, and sealed products. Official distributor. Quick Auckland-based shipping to all of New Zealand.",
-    "dragon-ball": "Dragon Ball Super Card Game store in NZ. DBS TCG booster boxes, starter decks, singles, and collectibles. Competitive prices with fast New Zealand shipping.",
-    "final-fantasy": "Buy Final Fantasy TCG cards in New Zealand. FF TCG booster boxes, sealed products, singles, and accessories. Authentic stock with fast NZ shipping.",
-    "pre-order": "Pre-order upcoming TCG games and trading cards in New Zealand. Secure your copies before release. Fast shipping to Auckland and nationwide NZ.",
-    "collectibles": "Premium TCG collectibles and rare trading cards in New Zealand. Graded cards, sealed boxes, vintage products. Authentic stock for serious collectors.",
+    "magic-the-gathering":
+      "Shop Magic The Gathering cards in New Zealand. Premium MTG singles, booster boxes, graded cards, and sealed products. Fast shipping from Auckland to all of NZ. Check prices and availability now.",
+    pokemon:
+      "Buy authentic Pokemon TCG cards in New Zealand. Rare Charizards, booster boxes, ETBs, graded cards, and singles. Fast NZ-wide shipping from Auckland. Browse our full Pokemon inventory.",
+    "one-piece":
+      "Shop One Piece Trading Card Game in NZ. Booster boxes, starter decks, singles, and sealed products. Official distributor. Quick Auckland-based shipping to all of New Zealand.",
+    "dragon-ball":
+      "Dragon Ball Super Card Game store in NZ. DBS TCG booster boxes, starter decks, singles, and collectibles. Competitive prices with fast New Zealand shipping.",
+    "final-fantasy":
+      "Buy Final Fantasy TCG cards in New Zealand. FF TCG booster boxes, sealed products, singles, and accessories. Authentic stock with fast NZ shipping.",
+    "pre-order":
+      "Pre-order upcoming TCG games and trading cards in New Zealand. Secure your copies before release. Fast shipping to Auckland and nationwide NZ.",
+    collectibles:
+      "Premium TCG collectibles and rare trading cards in New Zealand. Graded cards, sealed boxes, vintage products. Authentic stock for serious collectors.",
   };
 
-  const title = keywordTitles[handle] || collection.seo?.title || collection.title;
-  const baseDesc = keywordDescriptions[handle] || collection.seo?.description || collection.description || `Shop ${collection.title} products in New Zealand`;
+  const title =
+    keywordTitles[handle] || collection.seo?.title || collection.title;
+  const baseDesc =
+    keywordDescriptions[handle] ||
+    collection.seo?.description ||
+    collection.description ||
+    `Shop ${collection.title} products in New Zealand`;
 
   // Keyword mapping for additional SEO keywords
   const keywordMap: Record<string, string[]> = {

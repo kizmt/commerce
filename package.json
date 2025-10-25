@@ -6,6 +6,7 @@
     "start": "next start",
     "prettier": "prettier --write --ignore-unknown .",
     "prettier:check": "prettier --check --ignore-unknown .",
+    "format:all": "pnpm run prettier && pnpm run prettier:check",
     "test": "pnpm prettier:check"
   },
   "dependencies": {

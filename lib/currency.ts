@@ -1,6 +1,9 @@
 // Currency conversion rates (to NZD)
 // Update these rates regularly for accuracy
-export const CURRENCY_RATES: Record<string, { code: string; symbol: string; name: string; rate: number }> = {
+export const CURRENCY_RATES: Record<
+  string,
+  { code: string; symbol: string; name: string; rate: number }
+> = {
   NZD: {
     code: "NZD",
     symbol: "$",
@@ -57,7 +60,10 @@ export const CURRENCY_RATES: Record<string, { code: string; symbol: string; name
  * @param targetCurrency - Target currency code
  * @returns Converted amount
  */
-export function convertCurrency(amountNZD: number, targetCurrency: string): number {
+export function convertCurrency(
+  amountNZD: number,
+  targetCurrency: string,
+): number {
   const rate = CURRENCY_RATES[targetCurrency]?.rate ?? 1;
   return parseFloat((amountNZD * rate).toFixed(2));
 }
@@ -68,7 +74,10 @@ export function convertCurrency(amountNZD: number, targetCurrency: string): numb
  * @param currencyCode - Currency code
  * @returns Formatted currency string
  */
-export function formatCurrency(amount: number, currencyCode: string = "NZD"): string {
+export function formatCurrency(
+  amount: number,
+  currencyCode: string = "NZD",
+): string {
   const currency = CURRENCY_RATES[currencyCode];
   if (!currency) return `$${amount.toFixed(2)}`;
 
@@ -84,7 +93,9 @@ export function formatCurrency(amount: number, currencyCode: string = "NZD"): st
  * @returns Array of currency objects
  */
 export function getAvailableCurrencies() {
-  return Object.values(CURRENCY_RATES).sort((a, b) => a.code.localeCompare(b.code));
+  return Object.values(CURRENCY_RATES).sort((a, b) =>
+    a.code.localeCompare(b.code),
+  );
 }
 
 /**

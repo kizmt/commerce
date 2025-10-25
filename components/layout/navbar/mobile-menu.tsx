@@ -10,7 +10,11 @@ import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { Fragment, Suspense, useEffect, useState } from "react";
 
-import { Bars3Icon, ChevronDownIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  Bars3Icon,
+  ChevronDownIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 import { Menu } from "lib/shopify/types";
 import Search, { SearchSkeleton } from "./search";
 import { navItems } from "./secondary-items";

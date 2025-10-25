@@ -1,11 +1,12 @@
 /**
  * Shopify Admin API Client
- * 
+ *
  * This module provides a fetch wrapper for Shopify Admin GraphQL API
  * Required for metafield operations and discount code creation
  */
 
-const SHOPIFY_ADMIN_API_VERSION = process.env.SHOPIFY_ADMIN_API_VERSION || '2025-01';
+const SHOPIFY_ADMIN_API_VERSION =
+  process.env.SHOPIFY_ADMIN_API_VERSION || "2025-01";
 
 /**
  * Shopify Admin API GraphQL fetch wrapper
@@ -22,7 +23,7 @@ export async function shopifyAdminFetch<T>({
 
   if (!domain || !accessToken) {
     throw new Error(
-      'Missing required environment variables: SHOPIFY_STORE_DOMAIN and/or SHOPIFY_ADMIN_ACCESS_TOKEN',
+      "Missing required environment variables: SHOPIFY_STORE_DOMAIN and/or SHOPIFY_ADMIN_ACCESS_TOKEN",
     );
   }
 
@@ -30,10 +31,10 @@ export async function shopifyAdminFetch<T>({
 
   try {
     const response = await fetch(url, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'X-Shopify-Access-Token': accessToken,
+        "Content-Type": "application/json",
+        "X-Shopify-Access-Token": accessToken,
       },
       body: JSON.stringify({
         query,
@@ -58,7 +59,7 @@ export async function shopifyAdminFetch<T>({
 
     return json.data as T;
   } catch (error) {
-    console.error('Shopify Admin API error:', error);
+    console.error("Shopify Admin API error:", error);
     throw error;
   }
 }
@@ -77,7 +78,7 @@ export function verifyShopifyWebhook(
   const secret = process.env.SHOPIFY_WEBHOOK_SECRET;
 
   if (!secret) {
-    console.error('SHOPIFY_WEBHOOK_SECRET not configured');
+    console.error("SHOPIFY_WEBHOOK_SECRET not configured");
     return false;
   }
 
@@ -87,17 +88,16 @@ export function verifyShopifyWebhook(
   const bodyData = encoder.encode(body);
 
   // For Node.js environment, use native crypto
-  if (typeof process !== 'undefined' && process.versions?.node) {
-    const crypto = require('crypto');
+  if (typeof process !== "undefined" && process.versions?.node) {
+    const crypto = require("crypto");
     const hash = crypto
-      .createHmac('sha256', secret)
-      .update(body, 'utf8')
-      .digest('base64');
+      .createHmac("sha256", secret)
+      .update(body, "utf8")
+      .digest("base64");
     return hash === hmacHeader;
   }
 
   // This shouldn't happen in server context, but added for completeness
-  console.error('Webhook verification requires Node.js crypto');
+  console.error("Webhook verification requires Node.js crypto");
   return false;
 }
-

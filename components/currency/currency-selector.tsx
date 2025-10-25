@@ -32,7 +32,9 @@ export function CurrencySelector() {
             key={currency.code}
             onClick={() => setCurrency(currency.code)}
             className={`cursor-pointer ${
-              selectedCurrency === currency.code ? "bg-teal-50 dark:bg-teal-950/30" : ""
+              selectedCurrency === currency.code
+                ? "bg-teal-50 dark:bg-teal-950/30"
+                : ""
             }`}
           >
             <div className="flex flex-col gap-1 w-full">

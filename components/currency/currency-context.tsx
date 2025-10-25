@@ -1,13 +1,21 @@
 "use client";
 
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 interface CurrencyContextType {
   selectedCurrency: string;
   setCurrency: (code: string) => void;
 }
 
-const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
+const CurrencyContext = createContext<CurrencyContextType | undefined>(
+  undefined,
+);
 
 export function CurrencyProvider({ children }: { children: ReactNode }) {
   const [selectedCurrency, setSelectedCurrency] = useState("NZD");

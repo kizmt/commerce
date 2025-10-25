@@ -1,13 +1,13 @@
 /**
  * Points Badge Component
- * 
+ *
  * Compact points display for navigation/header
  */
 
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useLoyalty } from './loyalty-context';
+import Link from "next/link";
+import { useLoyalty } from "./loyalty-context";
 
 export function PointsBadge() {
   const { points, isLoading, error } = useLoyalty();
@@ -40,4 +40,3 @@ export function PointsBadge() {
     </Link>
   );
 }
-
