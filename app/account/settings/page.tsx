@@ -41,9 +41,11 @@ async function getCustomerSettings(token: string) {
 }
 
 export default async function SettingsPage() {
-  const token = (await cookies()).get("customer_access_token")?.value;
+  const cookieStore = await cookies();
+  const token = cookieStore.get("customer_access_token")?.value;
+  const idToken = cookieStore.get("customer_id_token")?.value;
 
-  if (!token) {
+  if (!token || !idToken) {
     return (
       <div className="space-y-4">
         <h1 className="text-2xl font-semibold">Settings</h1>
@@ -61,23 +63,18 @@ export default async function SettingsPage() {
     );
   }
 
-  const customer = await getCustomerSettings(token);
-
-  if (!customer) {
-    return (
-      <div className="space-y-4">
-        <h1 className="text-2xl font-semibold">Settings</h1>
-        <p className="text-neutral-600 dark:text-neutral-300">
-          Unable to load settings. Please try again later.
-        </p>
-      </div>
-    );
-  }
+  // We can't get acceptsMarketing from id_token, so default to false
+  // The form will still work to update it
+  const acceptsMarketing = false;
 
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-semibold">Settings</h1>
-      <SettingsForm initialAcceptsMarketing={customer.acceptsMarketing} />
+      <SettingsForm initialAcceptsMarketing={acceptsMarketing} />
+      <p className="text-sm text-neutral-500">
+        Note: Your current marketing preference status may not be displayed correctly due to API limitations.
+        Changes you make will still be saved.
+      </p>
     </div>
   );
 }

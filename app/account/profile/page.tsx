@@ -61,9 +61,11 @@ async function getCustomerProfile(token: string) {
 }
 
 export default async function ProfilePage() {
-  const token = (await cookies()).get("customer_access_token")?.value;
+  const cookieStore = await cookies();
+  const token = cookieStore.get("customer_access_token")?.value;
+  const idToken = cookieStore.get("customer_id_token")?.value;
 
-  if (!token) {
+  if (!token || !idToken) {
     return (
       <div className="space-y-4">
         <h1 className="text-2xl font-semibold">Profile</h1>
@@ -81,7 +83,24 @@ export default async function ProfilePage() {
     );
   }
 
-  const customer = await getCustomerProfile(token);
+  // Get basic customer info from id_token
+  let customer: any = null;
+  try {
+    const payload = JSON.parse(
+      Buffer.from(idToken.split(".")[1] || "", "base64").toString(),
+    );
+    if (payload?.email) {
+      customer = {
+        id: payload.sub || "me",
+        email: payload.email,
+        firstName: payload.given_name || null,
+        lastName: payload.family_name || null,
+        defaultAddress: null, // We don't have address in id_token
+      };
+    }
+  } catch (error) {
+    console.error("Failed to parse id_token:", error);
+  }
 
   if (!customer) {
     return (

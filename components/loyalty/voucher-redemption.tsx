@@ -194,7 +194,7 @@ export function VoucherRedemption() {
           How it works
         </h4>
         <ul className="text-xs text-blue-700 dark:text-blue-300 space-y-1">
-          <li>• Earn 1 point for every ¥1 spent</li>
+          <li>• Earn 1 point for every $1 spent</li>
           <li>• Points are awarded when your order is paid</li>
           <li>• Redeem points for discount codes</li>
           <li>• Discount codes are valid for 90 days</li>
