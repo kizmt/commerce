@@ -10,7 +10,7 @@ import { LoyaltyProvider } from "@/components/loyalty/loyalty-context";
 import { Suspense } from "react";
 
 // Make this page dynamic since it requires user authentication
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Loyalty Rewards",

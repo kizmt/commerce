@@ -3,10 +3,10 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
-    Field,
-    FieldDescription,
-    FieldGroup,
-    FieldLabel,
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
 } from "@/components/ui/field";
 import { useState } from "react";
 
@@ -18,7 +18,9 @@ export function SettingsForm({ initialAcceptsMarketing }: SettingsFormProps) {
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
-  const [acceptsMarketing, setAcceptsMarketing] = useState(initialAcceptsMarketing);
+  const [acceptsMarketing, setAcceptsMarketing] = useState(
+    initialAcceptsMarketing,
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,7 +48,9 @@ export function SettingsForm({ initialAcceptsMarketing }: SettingsFormProps) {
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to update settings");
+      setError(
+        err instanceof Error ? err.message : "Failed to update settings",
+      );
     } finally {
       setIsSaving(false);
     }
@@ -80,12 +84,15 @@ export function SettingsForm({ initialAcceptsMarketing }: SettingsFormProps) {
                   onCheckedChange={(checked) => setAcceptsMarketing(!!checked)}
                 />
                 <div className="flex-1">
-                  <FieldLabel htmlFor="acceptsMarketing" className="cursor-pointer">
+                  <FieldLabel
+                    htmlFor="acceptsMarketing"
+                    className="cursor-pointer"
+                  >
                     Subscribe to marketing emails
                   </FieldLabel>
                   <FieldDescription>
-                    Receive updates about new products, special offers, and exclusive deals.
-                    You can unsubscribe at any time.
+                    Receive updates about new products, special offers, and
+                    exclusive deals. You can unsubscribe at any time.
                   </FieldDescription>
                 </div>
               </div>
@@ -96,19 +103,27 @@ export function SettingsForm({ initialAcceptsMarketing }: SettingsFormProps) {
         {/* Privacy Information */}
         <div className="rounded-lg border border-neutral-200 p-6 dark:border-neutral-800">
           <h2 className="mb-4 text-lg font-semibold">Privacy & Data</h2>
-          
+
           <div className="space-y-3 text-sm text-neutral-600 dark:text-neutral-400">
             <p>
               Your data is stored securely and handled in accordance with our{" "}
-              <a href="/privacy" className="text-blue-600 hover:underline dark:text-blue-400">
+              <a
+                href="/privacy"
+                className="text-blue-600 hover:underline dark:text-blue-400"
+              >
                 Privacy Policy
-              </a>.
+              </a>
+              .
             </p>
             <p>
               To request deletion of your account and data, please{" "}
-              <a href="/contact" className="text-blue-600 hover:underline dark:text-blue-400">
+              <a
+                href="/contact"
+                className="text-blue-600 hover:underline dark:text-blue-400"
+              >
                 contact support
-              </a>.
+              </a>
+              .
             </p>
           </div>
         </div>
@@ -120,4 +135,3 @@ export function SettingsForm({ initialAcceptsMarketing }: SettingsFormProps) {
     </div>
   );
 }
-

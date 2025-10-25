@@ -1,6 +1,6 @@
 /**
  * API Route: Update Customer Settings
- * 
+ *
  * Updates customer preferences via Shopify Customer Account API
  */
 
@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
 
     const shopDomain = process.env.SHOPIFY_STORE_DOMAIN?.replace(
       /^https?:\/\//,
-      ""
+      "",
     );
     const endpoint = `https://${shopDomain}/account/customer/api/${SHOPIFY_CUSTOMER_API_VERSION}/graphql`;
 
@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
     if (data.errors) {
       return NextResponse.json(
         { error: "Failed to update settings", details: data.errors },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
           error: "Validation error",
           details: data.data.customerUpdate.userErrors,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -90,8 +90,7 @@ export async function POST(request: NextRequest) {
     console.error("Error updating customer settings:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
-

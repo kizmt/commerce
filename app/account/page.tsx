@@ -1,3 +1,4 @@
+import { LogoutButton } from "@/components/auth/logout-button";
 import { baseUrl } from "lib/utils";
 import { cookies } from "next/headers";
 import Link from "next/link";
@@ -238,13 +239,9 @@ export default async function AccountPage({
             >
               Open Shopify account portal
             </Link>
-            <Link
-              href="/api/auth/customer/logout"
-              prefetch={false}
-              className="inline-flex items-center rounded-md border border-neutral-300 px-4 py-2 text-sm hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-900"
-            >
+            <LogoutButton className="inline-flex items-center rounded-md border border-neutral-300 px-4 py-2 text-sm hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-900">
               Logout
-            </Link>
+            </LogoutButton>
           </div>
         </div>
       )}

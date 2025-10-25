@@ -1,5 +1,6 @@
 "use client";
 
+import { LogoutButton } from "@/components/auth/logout-button";
 import {
   Menu,
   MenuButton,
@@ -63,10 +64,8 @@ export default function UserMenu({ signedIn }: { signedIn?: boolean }) {
                   Rewards
                 </MenuItem>
                 <MenuItem
-                  as={Link}
-                  href="/api/auth/customer/logout"
-                  prefetch={false}
-                  className="block rounded px-3 py-2 data-[focus]:bg-neutral-100 dark:data-[focus]:bg-neutral-800"
+                  as={LogoutButton}
+                  className="block w-full rounded px-3 py-2 text-left data-[focus]:bg-neutral-100 dark:data-[focus]:bg-neutral-800"
                 >
                   Logout
                 </MenuItem>
