@@ -1,5 +1,6 @@
 import Footer from "components/layout/footer";
 import { Metadata } from "next";
+import { baseUrl } from "lib/utils";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -12,10 +13,17 @@ export const metadata: Metadata = {
     "about us TCG",
     "New Zealand card shop",
   ],
+  robots: {
+    index: true,
+    follow: true,
+  },
   openGraph: {
     title: "About Turtle Island Cards | Premier TCG Store NZ",
     description:
       "New Zealand's trusted source for trading cards. Learn about our journey and commitment to the TCG community.",
+  },
+  alternates: {
+    canonical: `${baseUrl}/about`,
   },
 };
 

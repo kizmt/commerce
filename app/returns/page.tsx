@@ -1,4 +1,5 @@
 import Prose from "components/prose";
+import { baseUrl } from "lib/utils";
 
 export const metadata = {
   title: "Returns Policy",
@@ -7,6 +8,9 @@ export const metadata = {
   robots: {
     index: true,
     follow: true,
+  },
+  alternates: {
+    canonical: `${baseUrl}/returns`,
   },
 };
 

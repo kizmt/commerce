@@ -19,7 +19,7 @@ const siteDescription =
   "New Zealand's premier TCG store for Magic: The Gathering, Pokémon, One Piece, Dragon Ball, and Final Fantasy TCG. Buy trading cards, sealed products, singles, and collectibles with fast NZ shipping.";
 
 export const metadata = {
-  metadataBase: new URL(baseUrl),
+  metadataBase: new URL(baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`),
   title: {
     default: `${siteName} | TCG & Trading Cards NZ | Pokémon, MTG, One Piece`,
     template: `%s | ${siteName}`,
@@ -50,6 +50,7 @@ export const metadata = {
   openGraph: {
     type: "website",
     locale: "en_NZ",
+    alternateLocale: ["en_AU"],
     url: baseUrl,
     siteName,
     title: `${siteName} | New Zealand's Premier TCG Store`,
@@ -65,10 +66,25 @@ export const metadata = {
   robots: {
     follow: true,
     index: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+      "max-image-preview": "large",
+      "max-video-preview": -1,
+    },
   },
   verification: NEXT_PUBLIC_GSC_VERIFICATION
     ? { google: NEXT_PUBLIC_GSC_VERIFICATION }
     : undefined,
+  alternates: {
+    canonical: baseUrl,
+    languages: {
+      "en-NZ": `${baseUrl}`,
+      "en-AU": `${baseUrl}`,
+      "en": `${baseUrl}`,
+    },
+  },
 };
 
 export default async function RootLayout({
@@ -82,6 +98,12 @@ export default async function RootLayout({
   return (
     <html lang="en" className={GeistSans.variable}>
       <head>
+        {/* Hreflang tags for geo-targeting */}
+        <link rel="alternate" hrefLang="en-NZ" href={baseUrl} />
+        <link rel="alternate" hrefLang="en-AU" href={baseUrl} />
+        <link rel="alternate" hrefLang="en" href={baseUrl} />
+        <link rel="alternate" hrefLang="x-default" href={baseUrl} />
+        
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -95,14 +117,31 @@ export default async function RootLayout({
                 "@type": "PostalAddress",
                 addressCountry: "NZ",
                 addressRegion: "Auckland",
+                streetAddress: "Auckland",
               },
               geo: {
                 "@type": "GeoCoordinates",
-                addressCountry: "NZ",
+                latitude: "-37.0742",
+                longitude: "174.6052",
               },
+              areaServed: [
+                {
+                  "@type": "Country",
+                  name: "NZ",
+                },
+                {
+                  "@type": "Country",
+                  name: "AU",
+                },
+              ],
               priceRange: "$$",
               telephone: "+64223537438",
               email: "turtleislandcards@gmail.com",
+              image: `${baseUrl}/turtleog.jpg`,
+              sameAs: [
+                "https://www.facebook.com/turtleislandcards",
+                "https://www.instagram.com/turtleislandcards",
+              ],
             }),
           }}
         />
