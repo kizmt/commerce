@@ -4,7 +4,7 @@ import { baseUrl } from "lib/utils";
 export const metadata = {
   title: "Shipping Policy",
   description:
-    "Shipping information for Turtle Island Cards. Fast TCG delivery across New Zealand. Learn about processing times, tracking, and free shipping on orders over $300 NZ.",
+    "Shipping information for Turtle Island. Fast TCG delivery across New Zealand. Learn about processing times, tracking, and free shipping on orders over $300 NZ.",
   robots: {
     index: true,
     follow: true,

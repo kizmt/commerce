@@ -4,7 +4,7 @@ import { baseUrl } from "lib/utils";
 export const metadata = {
   title: "Privacy Policy",
   description:
-    "Privacy policy for Turtle Island Cards. Learn how we collect, use, and protect your information when shopping for TCG products in New Zealand.",
+    "Privacy policy for Turtle Island. Learn how we collect, use, and protect your information when shopping for TCG products in New Zealand.",
   robots: {
     index: true,
     follow: true,

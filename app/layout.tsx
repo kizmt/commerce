@@ -14,9 +14,9 @@ const {
   TWITTER_SITE,
   NEXT_PUBLIC_GSC_VERIFICATION,
 } = process.env;
-const siteName = SITE_NAME || "Turtle Island Cards";
+const siteName = SITE_NAME || "Turtle Island";
 const siteDescription =
-  "New Zealand's premier TCG store for Magic: The Gathering, Pokémon, One Piece, Dragon Ball, and Final Fantasy TCG. Buy trading cards, sealed products, singles, and collectibles with fast NZ shipping.";
+  "New Zealand's premier TCG store for Magic: The Gathering, Pokémon, One Piece, Dragon Ball, Final Fantasy TCG and more. Buy trading cards, sealed products, singles, and collectibles with fast NZ shipping.";
 
 export const metadata = {
   metadataBase: new URL(baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`),

@@ -22,7 +22,7 @@ export async function generateMetadata(props: {
     "magic-the-gathering":
       "Buy Magic The Gathering Cards NZ | MTG Singles & Booster Boxes | Turtle Island",
     pokemon:
-      "Buy Pokemon TCG Cards NZ | Booster Boxes & Singles | Turtle Island Cards",
+      "Buy Pokemon TCG Cards NZ | Booster Boxes & Singles | Turtle Island",
     "one-piece":
       "Buy One Piece TCG Cards NZ | Sealed Booster Boxes & Singles | Turtle Island",
     "dragon-ball":
@@ -32,7 +32,7 @@ export async function generateMetadata(props: {
     "pre-order":
       "Pre-Order TCG Games & Trading Cards NZ | Upcoming Releases | Turtle Island",
     collectibles:
-      "TCG Collectibles & Rare Cards NZ | Graded & Sealed | Turtle Island Cards",
+      "TCG Collectibles & Rare Cards NZ | Graded & Sealed | Turtle Island",
   };
 
   // Keyword-optimized descriptions for CTR and relevance

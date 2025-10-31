@@ -4,7 +4,7 @@ import { baseUrl } from "lib/utils";
 export const metadata = {
   title: "Contact Us",
   description:
-    "Contact Turtle Island Cards for TCG product inquiries, order support, and event information. Based in Auckland, New Zealand. Email: turtleislandcards@gmail.com | Phone: 022 353 7438",
+    "Contact Turtle Island for TCG product inquiries, order support, and event information. Based in Auckland, New Zealand. Email: turtleislandcards@gmail.com | Phone: 022 353 7438",
   robots: {
     index: true,
     follow: true,

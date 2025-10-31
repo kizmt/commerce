@@ -1,13 +1,13 @@
 import Footer from "components/layout/footer";
-import { Metadata } from "next";
 import { baseUrl } from "lib/utils";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "Learn about Turtle Island Cards - New Zealand's premier trading card game store. Discover our story, mission, and passion for TCG in Auckland and across NZ.",
+    "Learn about Turtle Island - New Zealand's premier trading card game store. Discover our story, mission, and passion for TCG in Auckland and across NZ.",
   keywords: [
-    "about Turtle Island Cards",
+    "about Turtle Island",
     "TCG store Auckland",
     "trading card store NZ",
     "about us TCG",
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   openGraph: {
-    title: "About Turtle Island Cards | Premier TCG Store NZ",
+    title: "About Turtle Island | Premier TCG Store NZ",
     description:
       "New Zealand's trusted source for trading cards. Learn about our journey and commitment to the TCG community.",
   },
@@ -31,13 +31,13 @@ export default function AboutPage() {
   return (
     <>
       <div className="mx-auto max-w-4xl px-4 py-12 md:py-16">
-        <h1 className="mb-8 text-4xl font-bold">About Turtle Island Cards</h1>
+        <h1 className="mb-8 text-4xl font-bold">About Turtle Island</h1>
 
         <div className="prose prose-neutral dark:prose-invert max-w-none">
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">Our Story</h2>
             <p className="mb-4 text-neutral-700 dark:text-neutral-300 leading-relaxed">
-              Welcome to Turtle Island Cards, New Zealand's premier destination
+              Welcome to Turtle Island, New Zealand's premier destination
               for trading card games and collectibles. Based in Auckland, we've
               built our reputation on providing exceptional service, competitive
               pricing, and a carefully curated selection of products for TCG
@@ -82,7 +82,7 @@ export default function AboutPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">Our Mission</h2>
             <p className="mb-4 text-neutral-700 dark:text-neutral-300 leading-relaxed">
-              At Turtle Island Cards, our mission is to support and grow the TCG
+              At Turtle Island, our mission is to support and grow the TCG
               community in New Zealand. Whether you're a competitive player
               building the perfect deck, a collector hunting down rare cards, or
               a newcomer discovering the hobby for the first time, we're here to
@@ -129,7 +129,7 @@ export default function AboutPage() {
 
           <section>
             <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed italic">
-              Thank you for choosing Turtle Island Cards. We look forward to
+              Thank you for choosing Turtle Island. We look forward to
               serving the TCG community and helping you find exactly what you're
               looking for!
             </p>

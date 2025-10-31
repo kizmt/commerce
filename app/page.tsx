@@ -12,9 +12,9 @@ import { Truck } from "lucide-react";
 
 export const metadata = {
   title:
-    "Turtle Island Cards | TCG Store NZ | Pokémon, MTG, One Piece | Auckland",
+    "Turtle Island | TCG Store NZ | Pokémon, MTG, One Piece | Auckland",
   description:
-    "Turtle Island Cards - New Zealand's premier TCG store in Auckland. Shop Pokémon cards, Magic: The Gathering singles & sealed, One Piece TCG, Dragon Ball Super, Final Fantasy TCG. Pre-orders, booster boxes, and collectibles with fast NZ shipping.",
+    "Turtle Island - New Zealand's premier TCG store in Auckland. Shop Pokémon cards, Magic: The Gathering singles & sealed, One Piece TCG, Dragon Ball Super, Final Fantasy TCG. Pre-orders, booster boxes, and collectibles with fast NZ shipping.",
   keywords: [
     "TCG store Auckland",
     "trading card shop New Zealand",
@@ -32,7 +32,7 @@ export const metadata = {
   ],
   openGraph: {
     type: "website",
-    title: "Turtle Island Cards | TCG Store NZ | Pokémon, MTG, One Piece",
+    title: "Turtle Island | TCG Store NZ | Pokémon, MTG, One Piece",
     description:
       "New Zealand's trusted TCG store based in Auckland. Shop the latest trading card games with fast NZ shipping.",
   },
@@ -48,7 +48,7 @@ export default function HomePage() {
       <div className="mx-auto max-w-(--breakpoint-2xl) pb-8">
         <div className="sr-only">
           <h1>
-            Turtle Island Cards – New Zealand's Premier TCG Store | Pokémon,
+            Turtle Island – New Zealand's Premier TCG Store | Pokémon,
             MTG, One Piece
           </h1>
           <p>

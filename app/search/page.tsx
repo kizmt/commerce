@@ -24,7 +24,7 @@ export const metadata = {
     },
   },
   openGraph: {
-    title: "Search Trading Cards & TCG Products | Turtle Island Cards NZ",
+    title: "Search Trading Cards & TCG Products | Turtle Island NZ",
     description:
       "Browse our complete inventory of TCG products in New Zealand.",
   },

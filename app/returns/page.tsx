@@ -4,7 +4,7 @@ import { baseUrl } from "lib/utils";
 export const metadata = {
   title: "Returns Policy",
   description:
-    "Returns policy for Turtle Island Cards NZ. Learn about eligibility, timeframes, and our commitment to resolving issues with TCG and trading card orders.",
+    "Returns policy for Turtle Island NZ. Learn about eligibility, timeframes, and our commitment to resolving issues with TCG and trading card orders.",
   robots: {
     index: true,
     follow: true,

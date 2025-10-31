@@ -4,7 +4,7 @@ import { baseUrl } from "lib/utils";
 export const metadata = {
   title: "Terms of Use",
   description:
-    "Terms and conditions for purchasing TCG products from Turtle Island Cards in New Zealand. Read our terms for orders, payments, shipping, and returns.",
+    "Terms and conditions for purchasing TCG products from Turtle Island in New Zealand. Read our terms for orders, payments, shipping, and returns.",
   robots: {
     index: true,
     follow: true,

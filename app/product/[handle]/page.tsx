@@ -91,7 +91,7 @@ export default async function ProductPage(props: {
     image: product.featuredImage.url,
     brand: {
       "@type": "Brand",
-      name: product.vendor || "Turtle Island Cards",
+      name: product.vendor || "Turtle Island",
     },
     sku: product.id,
     offers: {
@@ -106,7 +106,7 @@ export default async function ProductPage(props: {
       url: `${baseUrl}/product/${product.handle}`,
       seller: {
         "@type": "Organization",
-        name: "Turtle Island Cards",
+        name: "Turtle Island",
         address: {
           "@type": "PostalAddress",
           addressCountry: "NZ",
