@@ -21,7 +21,7 @@ const siteDescription =
 export const metadata = {
   metadataBase: new URL(baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`),
   title: {
-    default: `${siteName} | TCG NZ | Pokémon, MTG, One Piece`,
+    default: `${siteName}`,
     template: `%s | ${siteName}`,
   },
   description: siteDescription,
