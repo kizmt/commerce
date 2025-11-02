@@ -10,6 +10,8 @@ import {
 } from "components/ui/carousel";
 import { Truck } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title:
     "Turtle Island TCG Store NZ - Pokémon, MTG, One Piece and more",
