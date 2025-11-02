@@ -39,6 +39,7 @@ export async function Carousel({
 
   // Duplicate exactly twice so the track is two identical halves; translateX(-50%) loops seamlessly.
   const carouselProducts = [...products, ...products];
+  const originalProductCount = products.length;
 
   return (
     <div className="w-full overflow-hidden pb-8 pt-1">
@@ -63,7 +64,7 @@ export async function Carousel({
                   src={product.featuredImage?.url}
                   fill
                   sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
-                  priority={i < 4}
+                  priority={true}
                 />
               </Link>
             </div>
