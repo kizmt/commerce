@@ -65,6 +65,8 @@ export async function Carousel({
                   fill
                   sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
                   priority={true}
+                  loading="eager"
+                  unoptimized={true}
                 />
               </Link>
             </div>

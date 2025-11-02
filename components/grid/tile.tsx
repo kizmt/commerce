@@ -39,7 +39,6 @@ export function GridTileImage({
               isInteractive,
           })}
           priority={priority}
-          loading={priority ? "eager" : "lazy"}
           fetchPriority={priority ? "high" : "auto"}
           {...props}
         />
