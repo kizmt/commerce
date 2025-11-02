@@ -72,6 +72,7 @@ export default async function CollectionRow({
                   src={product.featuredImage?.url}
                   fill
                   sizes="(min-width: 1024px) 20vw, (min-width: 640px) 33vw, 50vw"
+                  priority={i < 2}
                 />
               </Link>
               {/* Desktop: hover overlay with View + Add to cart */}

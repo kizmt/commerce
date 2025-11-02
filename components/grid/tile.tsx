@@ -8,6 +8,7 @@ export function GridTileImage({
   isInteractive = true,
   active,
   label,
+  priority = false,
   ...props
 }: {
   isInteractive?: boolean;
@@ -19,6 +20,7 @@ export function GridTileImage({
     position?: "bottom" | "center";
   };
   product?: Product;
+  priority?: boolean;
 } & React.ComponentProps<typeof Image>) {
   return (
     <div
@@ -36,6 +38,7 @@ export function GridTileImage({
             "transition duration-300 ease-in-out group-hover:scale-105":
               isInteractive,
           })}
+          priority={priority}
           {...props}
         />
       ) : null}
