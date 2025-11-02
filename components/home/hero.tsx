@@ -14,11 +14,12 @@ export default function Hero() {
         <CarouselContent>
           <CarouselItem>
             <Slide
-              imageSrc="/mtgavatarb.jpg"
+              imageSrc="/avatarpromo.jpg"
               imageAlt="Avatar banner"
               eyebrow="Pre‑order Now"
-              title="Avatar x Magic: The Gathering"
+              title=""
               description="Secure boosters and bundles before release. Limited quantities."
+              detailText="Release Date: November 21st"
               ctaHref="/search/pre-order"
               ctaText="Pre‑Order Avatar Set"
               secondaryHref="/search/magic-the-gathering"
@@ -27,11 +28,12 @@ export default function Hero() {
           </CarouselItem>
           <CarouselItem>
             <Slide
-              imageSrc="/flames.jpg"
+              imageSrc="/flames.png"
               imageAlt="Pokémon banner"
-              eyebrow="Shop Pokemon"
-              title="Discover Top Singles and Sealed Product"
+              eyebrow="Just Announced"
+              title="Phantasmal Flames" 
               description="Shop best‑sellers and new arrivals from your favorite TCGs."
+              detailText="Release Date: November 14th"
               ctaHref="/search/pokemon"
               ctaText="Browse Catalog"
               secondaryHref="/search/pokemon"
@@ -40,11 +42,12 @@ export default function Hero() {
           </CarouselItem>
           <CarouselItem>
             <Slide
-              imageSrc="/prb-02.jpg"
-              imageAlt="One Piece/DBS banner"
-              eyebrow="Just Released"
-              title="One Piece PRB-02"
+              imageSrc="/carry.png"
+              imageAlt="One Piece"
+              eyebrow="Pre-order Now"
+              title="Carrying On His Will"
               description="Secure launch‑day products for upcoming sets before they sell out."
+              detailText="Release Date: November 7th"
               ctaHref="/search/one-piece-sealed"
               ctaText="Shop One Piece"
               secondaryHref="/search/one-piece"
@@ -58,6 +61,7 @@ export default function Hero() {
               eyebrow="Shop MTG Final Fantasy"
               title=""
               description="Explore the latest Final Fantasy TCG singles and sealed product."
+              detailText=""
               ctaHref="/search/final-fantasy-sealed"
               ctaText="Shop Sealed Product"
               secondaryHref="/search/final-fantasy"
@@ -77,6 +81,7 @@ function Slide({
   eyebrow,
   title,
   description,
+  detailText,
   ctaHref,
   ctaText,
   secondaryHref,
@@ -87,13 +92,14 @@ function Slide({
   eyebrow: string;
   title: string;
   description: string;
+  detailText: string;
   ctaHref: string;
   ctaText: string;
   secondaryHref: string;
   secondaryText: string;
 }) {
   return (
-    <div className="relative h-[340px] w-full overflow-hidden md:h-[460px]">
+    <div className="relative h-[340px] w-full overflow-hidden md:h-[400px] lg:h-[460px]">
       <Image
         src={imageSrc}
         alt={imageAlt}
@@ -102,36 +108,45 @@ function Slide({
         className="object-cover"
         sizes="(min-width: 1024px) 100vw, 100vw"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
-      <div className="relative z-10 mx-auto h-full w-full max-w-(--breakpoint-2xl) px-6 py-10 md:px-12 md:py-14">
-        <div className="flex h-full max-w-2xl flex-col justify-between">
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
+      <div className="relative z-10 mx-auto h-full w-full max-w-(--breakpoint-2xl) px-4 py-6 md:px-6 md:py-8 lg:px-8">
+        <div className="flex h-full max-w-xl flex-col justify-between md:max-w-2xl">
           <div>
-            <Card className="mb-3 w-fit bg-white/85 px-3 py-1 text-black dark:bg-black/60 dark:text-white">
-              <span className="text-xs font-semibold uppercase tracking-widest md:text-sm">
+            <Card className="mb-2 w-fit bg-white/85 px-2.5 py-1 text-black md:mb-3 md:px-3 dark:bg-black/60 dark:text-white">
+              <span className="text-xs font-semibold uppercase tracking-wide md:tracking-widest md:text-sm">
                 {eyebrow}
               </span>
             </Card>
             {title?.trim() ? (
-              <Card className="mb-3 w-fit bg-white/35 px-3 py-2 text-black dark:bg-black/60 dark:text-white">
-                <h2 className="text-3xl font-extrabold leading-tight tracking-tight md:text-5xl">
+              <Card className="mb-2 w-fit bg-white/35 px-2.5 py-1.5 text-black md:mb-3 md:px-3 md:py-2 dark:bg-black/60 dark:text-white">
+                <h2 className="text-2xl font-extrabold leading-tight tracking-tight md:text-4xl lg:text-5xl">
                   {title}
                 </h2>
               </Card>
             ) : null}
+            {detailText && (
+              <Card className="mt-1.5 w-fit bg-white/35 px-2.5 py-1.5 text-white md:mt-2 md:px-3 md:py-2 dark:bg-black/60 dark:text-white">
+                <span className="text-xs font-semibold uppercase tracking-wide md:tracking-widest md:text-sm">
+                  {detailText}
+                </span>
+              </Card>
+            )}
           </div>
-          <div className="mt-6 flex flex-wrap gap-3 pb-2">
-            <a
-              href={ctaHref}
-              className="inline-flex items-center rounded-md bg-white px-5 py-2.5 text-sm font-semibold text-black transition-colors hover:bg-neutral-200 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-white/60"
-            >
-              {ctaText}
-            </a>
-            <a
-              href={secondaryHref}
-              className="inline-flex items-center rounded-md border border-white/80 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-white/10 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-white/40"
-            >
-              {secondaryText}
-            </a>
+          <div>
+            <div className="flex flex-wrap gap-2 pb-2 md:gap-3">
+              <a
+                href={ctaHref}
+                className="inline-flex items-center rounded-md bg-white px-4 py-2 text-sm font-semibold text-black transition-colors hover:bg-neutral-200 md:px-5 md:py-2.5 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-white/60"
+              >
+                {ctaText}
+              </a>
+              <a
+                href={secondaryHref}
+                className="inline-flex items-center rounded-md bg-white/20 px-4 py-2 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/30 md:px-5 md:py-2.5 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-white/40"
+              >
+                {secondaryText}
+              </a>
+            </div>
           </div>
         </div>
       </div>
