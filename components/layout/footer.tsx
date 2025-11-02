@@ -20,20 +20,20 @@ export default async function Footer() {
 
   return (
     <footer className="text-sm text-neutral-500 dark:text-neutral-400">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 border-t border-neutral-200 px-6 py-12 text-sm md:flex-row md:gap-12 md:px-4 min-[1320px]:px-0 dark:border-neutral-700">
-        <div className="flex items-center gap-4">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 border-t border-neutral-200 px-6 py-12 text-sm lg:flex-row lg:gap-12 md:px-4 min-[1320px]:px-0 dark:border-neutral-700">
+        {/* Logo and description section */}
+        <div className="flex flex-col gap-4 md:flex-row md:items-start md:gap-6">
           <Link
-            className="flex items-center gap-2 text-black md:pt-1 dark:text-white"
+            className="flex items-center gap-2 text-black dark:text-white"
             href="/"
           >
-            <FooterLogo className="h-16 w-auto md:h-20 lg:h-30" />
+            <FooterLogo className="h-16 w-auto md:h-20 lg:h-24" />
           </Link>
-          <div className="hidden max-w-xs sm:ml-4 md:block">
+          <div className="max-w-xs">
             <p className="text-sm text-neutral-600 dark:text-neutral-300">
               {`${SITE_NAME || "Turtle Island"} offers curated TCGs, sealed products, and accessories. Proudly based in Auckland, New Zealand, building community through events and giveaways.`}
             </p>
-            <br />
-            <p className="text-sm text-neutral-600 dark:text-neutral-300">
+            <p className="mt-3 text-sm text-neutral-600 dark:text-neutral-300">
               <a
                 href="mailto:info@turtleisland.co.nz"
                 className="underline"
@@ -43,7 +43,9 @@ export default async function Footer() {
             </p>
           </div>
         </div>
-        <div className="flex-1">
+        
+        {/* Footer menu - navigation links */}
+        <div className="flex-1 lg:ml-8">
           <Suspense
             fallback={
               <div className="flex h-[188px] w-[200px] flex-col gap-2">
@@ -59,8 +61,10 @@ export default async function Footer() {
             <FooterMenu menu={menu} />
           </Suspense>
         </div>
-        <div className="md:ml-auto flex flex-col items-end gap-4">
-          <div className="flex items-center gap-4">
+        
+        {/* Currency selector, payments and socials */}
+        <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between lg:ml-auto lg:flex-col lg:items-end lg:gap-4">
+          <div className="flex flex-col gap-4 md:flex-row md:items-start md:gap-8 lg:flex-col lg:items-end lg:gap-4">
             <CurrencySelector />
             <FooterPayments />
           </div>

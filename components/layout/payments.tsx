@@ -20,12 +20,12 @@ const payments: Payment[] = [
 
 export default function FooterPayments() {
   return (
-    <div className="w-full flex justify-end">
-      <div className="grid grid-cols-4 gap-2 sm:gap-3">
+    <div className="w-full md:w-auto flex justify-start md:justify-end">
+      <div className="grid grid-cols-4 gap-2">
         {payments.map((p) => (
           <span
             key={p.alt}
-            className="inline-flex items-center justify-center rounded-md border border-neutral-200 bg-white p-1 shadow-sm dark:border-neutral-700 dark:bg-neutral-900"
+            className="inline-flex items-center justify-center rounded-md border border-neutral-200 bg-white p-1.5 shadow-sm dark:border-neutral-700 dark:bg-neutral-900"
             title={p.alt}
           >
             <Image
@@ -33,8 +33,8 @@ export default function FooterPayments() {
               alt={p.alt}
               width={38}
               height={24}
-              className="h-6 w-auto"
-              style={{ height: "30px", width: "62px" }}
+              className="h-5 w-auto md:h-6"
+              style={{ height: "auto", width: "auto", maxHeight: "24px", maxWidth: "48px" }}
               unoptimized={true}
             />
           </span>

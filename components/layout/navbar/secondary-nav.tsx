@@ -76,11 +76,11 @@ const navItems: NavItem[] = [
 
 export default function SecondaryNav() {
   return (
-    <div className="sticky top-0 z-50 hidden border-t border-b border-border bg-background md:block">
-      <div className="mx-auto max-w-(--breakpoint-2xl) px-4 py-3">
-        <NavigationMenu viewport={false} className="relative">
-          <NavigationMenuList className="flex-nowrap gap-2">
-            {navItems.map((item) =>
+    <div className="sticky top-0 z-40 hidden border-t border-b border-border bg-background md:block">
+      <div className="mx-auto max-w-(--breakpoint-2xl) px-4 py-2.5 lg:py-3">
+        <NavigationMenu viewport={false} className="relative w-full">
+          <NavigationMenuList className="flex-wrap justify-center gap-1.5 xl:flex-nowrap xl:justify-start xl:gap-2">
+            {navItems.map((item, index) =>
               item.type === "link" ? (
                 <NavigationMenuItem key={item.label} className="shrink-0">
                   <NavigationMenuLink
@@ -88,14 +88,17 @@ export default function SecondaryNav() {
                     className={navigationMenuTriggerStyle()}
                   >
                     <Link href={item.href} prefetch={true}>
-                      {item.label}
+                      <span className="text-xs xl:text-sm">{item.label}</span>
                     </Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
               ) : (
-                <NavigationMenuItem key={item.label} className="shrink-0">
-                  <NavigationMenuTrigger className="shrink-0">
-                    {item.label}
+                <NavigationMenuItem 
+                  key={item.label} 
+                  className="shrink-0 [&[data-state=open]]:z-50" 
+                  style={{ zIndex: 10 }}
+                >                  <NavigationMenuTrigger className="shrink-0">
+                    <span className="text-xs xl:text-sm">{item.label}</span>
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid w-[280px] gap-1 p-1">

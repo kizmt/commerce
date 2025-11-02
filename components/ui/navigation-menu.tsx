@@ -52,7 +52,7 @@ function NavigationMenuItem({
   return (
     <NavigationMenuPrimitive.Item
       data-slot="navigation-menu-item"
-      className={cn("relative z-50", className)}
+      className={cn("relative", className)}
       {...props}
     />
   );
@@ -164,5 +164,5 @@ export {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-  NavigationMenuViewport,
+  NavigationMenuViewport
 };
