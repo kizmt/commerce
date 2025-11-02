@@ -136,7 +136,7 @@ export default async function RootLayout({
               ],
               priceRange: "$$",
               telephone: "+64223537438",
-              email: "turtleislandcards@gmail.com",
+              email: "info@turtleisland.co.nz",
               image: `${baseUrl}/turtleog.jpg`,
               sameAs: [
                 "https://www.facebook.com/turtleislandcards",

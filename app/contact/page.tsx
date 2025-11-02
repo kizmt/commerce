@@ -4,7 +4,7 @@ import { baseUrl } from "lib/utils";
 export const metadata = {
   title: "Contact Us",
   description:
-    "Contact Turtle Island for TCG product inquiries, order support, and event information. Based in Auckland, New Zealand. Email: turtleislandcards@gmail.com | Phone: 022 353 7438",
+    "Contact Turtle Island for TCG product inquiries, order support, and event information. Based in Auckland, New Zealand. Email: info@turtleisland.co.nz | Phone: 022 353 7438",
   robots: {
     index: true,
     follow: true,
@@ -20,7 +20,7 @@ function render() {
   <p>We’re happy to help with product questions, orders, and events.</p>
 
   <h2>Email</h2>
-  <p><a href="mailto:turtleislandcards@gmail.com">turtleislandcards@gmail.com</a></p>
+  <p><a href="mailto:info@turtleisland.co.nz">info@turtleisland.co.nz</a></p>
 
   <h2>Phone</h2>
   <p>Scott — <a href="tel:+64223537438">022 353 7438</a></p>

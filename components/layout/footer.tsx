@@ -35,10 +35,10 @@ export default async function Footer() {
             <br />
             <p className="text-sm text-neutral-600 dark:text-neutral-300">
               <a
-                href="mailto:turtleislandcards@gmail.com"
+                href="mailto:info@turtleisland.co.nz"
                 className="underline"
               >
-                turtleislandcards@gmail.com
+                info@turtleisland.co.nz
               </a>
             </p>
           </div>

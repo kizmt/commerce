@@ -48,7 +48,7 @@ function render() {
   <p>International customers are responsible for any customs duties, taxes, or import fees. We cannot control customs delays.</p>
 
   <h2>Questions</h2>
-  <p>For shipping questions, contact <a href="mailto:turtleislandcards@gmail.com">turtleislandcards@gmail.com</a>.</p>
+  <p>For shipping questions, contact <a href="mailto:info@turtleisland.co.nz">info@turtleisland.co.nz</a>.</p>
   `;
 
   return (

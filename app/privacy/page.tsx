@@ -64,7 +64,7 @@ function render() {
     <li>Port your data to another service.</li>
     <li>Withdraw consent where processing is based on consent.</li>
   </ul>
-  <p>To exercise these rights, contact us at <a href="mailto:turtleislandcards@gmail.com">turtleislandcards@gmail.com</a>.</p>
+  <p>To exercise these rights, contact us at <a href="mailto:info@turtleisland.co.nz">info@turtleisland.co.nz</a>.</p>
 
   <h2>Cookies</h2>
   <p>We use cookies and similar technologies for authentication (e.g., Shopify Customer Accounts), cart functionality, and analytics. You can control cookies through your browser settings; disabling some cookies may affect site functionality.</p>
@@ -79,7 +79,7 @@ function render() {
   <p>We may update this Privacy Policy from time to time. We will post the new effective date at the top of this page.</p>
 
   <h2>Contact Us</h2>
-  <p>If you have questions about this policy or our practices, contact us at <a href="mailto:turtleislandcards@gmail.com">turtleislandcards@gmail.com</a>.</p>
+  <p>If you have questions about this policy or our practices, contact us at <a href="mailto:info@turtleisland.co.nz">info@turtleisland.co.nz</a>.</p>
   `;
 
   return (

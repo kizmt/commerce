@@ -63,7 +63,7 @@ function render() {
   <p>We may update these Terms from time to time. Continued use of the site after changes indicates acceptance of the revised Terms.</p>
 
   <h2>Contact Us</h2>
-  <p>If you have questions about these Terms, contact us at <a href="mailto:turtleislandcards@gmail.com">turtleislandcards@gmail.com</a>.</p>
+  <p>If you have questions about these Terms, contact us at <a href="mailto:info@turtleisland.co.nz">info@turtleisland.co.nz</a>.</p>
   `;
 
   return (

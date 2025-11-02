@@ -106,10 +106,10 @@ export default function AboutPage() {
               <p className="text-neutral-900 dark:text-neutral-100">
                 <strong>Email:</strong>{" "}
                 <a
-                  href="mailto:turtleislandcards@gmail.com"
+                  href="mailto:info@turtleisland.co.nz"
                   className="text-primary hover:underline"
                 >
-                  turtleislandcards@gmail.com
+                  info@turtleisland.co.nz
                 </a>
               </p>
               <p className="text-neutral-900 dark:text-neutral-100">

@@ -61,7 +61,7 @@ function render() {
 
   <h2>Customer Support</h2>
   <p>We aim to uphold the highest standards with every customer. If something goes seriously wrong with your order, please contact us and we will work towards a fair resolution.</p>
-  <p>Contact: <a href="mailto:turtleislandcards@gmail.com">turtleislandcards@gmail.com</a></p>
+  <p>Contact: <a href="mailto:info@turtleisland.co.nz">info@turtleisland.co.nz</a></p>
   `;
 
   return (
