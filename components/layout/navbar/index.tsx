@@ -2,6 +2,7 @@ import CartModal from "components/cart/modal";
 import LogoTextIcon from "components/icons/logo-text";
 import { getMenu } from "lib/shopify";
 import { Menu } from "lib/shopify/types";
+import { Newspaper } from "lucide-react";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -21,7 +22,7 @@ export async function Navbar() {
       <nav className="relative flex items-center justify-between p-4 lg:px-6">
         <div className="block flex-none md:hidden">
           <Suspense fallback={null}>
-            <MobileMenu menu={menu} />
+            <MobileMenu menu={menu} signedIn={signedIn} />
           </Suspense>
         </div>
         <div className="flex w-full items-center">
@@ -55,7 +56,17 @@ export async function Navbar() {
             </Suspense>
           </div>
           <div className="flex justify-end md:w-1/3 gap-4">
-            <UserMenu signedIn={signedIn} />
+            <Link
+              href="/news"
+              prefetch={true}
+              aria-label="News & Updates"
+              className="hidden md:flex h-11 w-11 items-center justify-center rounded-md border border-border text-foreground transition-colors hover:bg-accent"
+            >
+              <Newspaper className="h-5 w-5" />
+            </Link>
+            <div className="hidden md:block">
+              <UserMenu signedIn={signedIn} />
+            </div>
             <CartModal />
           </div>
         </div>

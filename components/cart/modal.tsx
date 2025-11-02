@@ -1,6 +1,5 @@
 "use client";
 
-import { ShoppingCartIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import LoadingDots from "components/loading-dots";
 import Price from "components/price";
@@ -12,6 +11,7 @@ import {
 } from "components/ui/dialog";
 import { DEFAULT_OPTION } from "lib/constants";
 import { createUrl } from "lib/utils";
+import { ShoppingCart, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -72,7 +72,7 @@ export default function CartModal() {
 
           {!cart || cart.lines.length === 0 ? (
             <div className="mt-20 flex w-full flex-col items-center justify-center overflow-hidden">
-              <ShoppingCartIcon className="h-16" />
+              <ShoppingCart className="h-16 w-16" />
               <p className="mt-6 text-center text-2xl font-bold">
                 Your cart is empty.
               </p>
@@ -210,9 +210,9 @@ export default function CartModal() {
 function CloseCart({ className }: { className?: string }) {
   return (
     <div className="relative flex h-11 w-11 items-center justify-center rounded-md border border-border text-foreground transition-colors hover:bg-muted">
-      <XMarkIcon
+      <X
         className={clsx(
-          "h-6 transition-all ease-in-out hover:scale-110",
+          "h-6 w-6 transition-all ease-in-out hover:scale-110",
           className,
         )}
       />

@@ -13,13 +13,13 @@ import { Fragment, Suspense, useEffect, useState } from "react";
 import {
   Bars3Icon,
   ChevronDownIcon,
-  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { Menu } from "lib/shopify/types";
+import { Newspaper, UserRound, X } from "lucide-react";
 import Search, { SearchSkeleton } from "./search";
 import { navItems } from "./secondary-items";
 
-export default function MobileMenu({ menu }: { menu: Menu[] }) {
+export default function MobileMenu({ menu, signedIn }: { menu: Menu[]; signedIn?: boolean }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
@@ -91,7 +91,7 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
                   onClick={closeMobileMenu}
                   aria-label="Close mobile menu"
                 >
-                  <XMarkIcon className="h-5" />
+                  <X className="h-5 w-5" />
                 </button>
               </div>
 
@@ -126,6 +126,31 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
                       </ul>
                     </div>
                   ) : null}
+
+                  {/* Account & News Links */}
+                  <div className="border-t border-border pt-4 space-y-1">
+                    <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                      Account
+                    </p>
+                    <Link
+                      href="/account"
+                      prefetch={true}
+                      onClick={closeMobileMenu}
+                      className="flex items-center gap-3 px-3 py-2.5 text-base font-medium text-foreground rounded-md transition-colors hover:bg-accent"
+                    >
+                      <UserRound className="h-5 w-5" />
+                      <span>Login</span>
+                    </Link>
+                    <Link
+                      href="/news"
+                      prefetch={true}
+                      onClick={closeMobileMenu}
+                      className="flex items-center gap-3 px-3 py-2.5 text-base font-medium text-foreground rounded-md transition-colors hover:bg-accent"
+                    >
+                      <Newspaper className="h-5 w-5" />
+                      <span>News & Updates</span>
+                    </Link>
+                  </div>
 
                   {/* Browse Section */}
                   <div className="border-t border-border pt-4">

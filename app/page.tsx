@@ -67,16 +67,18 @@ export default function HomePage() {
             <BannerCarousel intervalMs={3500} className="w-full">
               <BannerCarouselContent>
                 <BannerCarouselItem>
-                  <p className="flex items-center justify-center gap-2 text-center w-full overflow-hidden">
+                  <p className="flex items-center justify-center gap-2 text-center w-full">
                     <Truck className="w-5 h-5 shrink-0" />
-                    <span className="truncate">
-                      Free Shipping on orders over $300
-                    </span>
+                    <span>Free Shipping on orders over $300</span>
                   </p>
                 </BannerCarouselItem>
                 <BannerCarouselItem>
-                  <p className="flex items-center justify-center gap-2 text-center">
-                    (Within New Zealand only)
+                  <p className="flex items-center justify-center text-center w-full">
+                    <span>(Within New Zealand only)</span>
+                  </p>
+                </BannerCarouselItem>
+                <BannerCarouselItem>
+                  <p className="flex items-center justify-center text-center w-full">
                     <span className="text-neutral-600 dark:text-neutral-400">
                       *Excludes large shipments*
                     </span>
@@ -86,10 +88,11 @@ export default function HomePage() {
             </BannerCarousel>
           </div>
           {/* Desktop/tablet: static text */}
-          <p className="hidden md:flex font-medium text-base text-center items-center justify-center gap-2">
-            <Truck className="w-6 h-6" />
-            Free Shipping on orders over $300 (within New Zealand only)
-            <span className="ml-2 text-base text-neutral-600 dark:text-neutral-400">
+          <p className="hidden md:flex font-medium text-sm lg:text-base text-center items-center justify-center gap-1.5 lg:gap-2 flex-wrap">
+            <Truck className="w-5 h-5 lg:w-6 lg:h-6 shrink-0" />
+            <span className="whitespace-nowrap">Free Shipping on orders over $300</span>
+            <span className="text-neutral-600 dark:text-neutral-400">(within New Zealand only)</span>
+            <span className="text-xs lg:text-sm text-neutral-600 dark:text-neutral-400">
               *Excludes Large shipments*
             </span>
           </p>

@@ -8,16 +8,16 @@ import {
   MenuItems,
   Transition,
 } from "@headlessui/react";
-import { UserIcon } from "@heroicons/react/24/outline";
+import { UserRound } from "lucide-react";
 import Link from "next/link";
 import { Fragment } from "react";
 
 export default function UserMenu({ signedIn }: { signedIn?: boolean }) {
   return (
-    <Menu as="div" className="relative mr-2 inline-block text-left">
+    <Menu as="div" className="relative inline-block text-left">
       <MenuButton aria-label="Open user menu" className="focus:outline-none">
         <div className="relative flex h-11 w-11 items-center justify-center rounded-md border border-neutral-200 text-black transition-colors hover:bg-neutral-50 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-900">
-          <UserIcon className="h-4 transition-all ease-in-out group-hover:scale-110" />
+          <UserRound className="h-4 w-4 transition-all ease-in-out group-hover:scale-110" />
           {signedIn && (
             <span className="absolute -right-1 -top-1 inline-flex h-3 w-3 items-center justify-center rounded-full bg-green-500" />
           )}
