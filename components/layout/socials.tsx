@@ -53,8 +53,8 @@ function TwitterX() {
 }
 
 const socials: Social[] = [
-  { label: "Facebook", href: "", icon: <Facebook /> },
-  { label: "Instagram", href: "", icon: <Instagram /> },
+  { label: "Facebook", href: "https://www.facebook.com/people/Turtle-Island/61583393482378/", icon: <Facebook /> },
+  { label: "Instagram", href: "https://www.instagram.com/turtleislandtcg/", icon: <Instagram /> },
   { label: "X", href: "https://x.com/turtleislandtcg", icon: <TwitterX /> },
 ];
 

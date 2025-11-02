@@ -139,8 +139,8 @@ export default async function RootLayout({
               email: "info@turtleisland.co.nz",
               image: `${baseUrl}/turtleog.jpg`,
               sameAs: [
-                "https://www.facebook.com/turtleislandcards",
-                "https://www.instagram.com/turtleislandcards",
+                "https://www.facebook.com/people/Turtle-Island/61583393482378/",
+                "https://www.instagram.com/turtleislandtcg/",
               ],
             }),
           }}
