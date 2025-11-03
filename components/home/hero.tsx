@@ -14,6 +14,21 @@ export default function Hero() {
         <CarouselContent>
           <CarouselItem>
             <Slide
+              imageSrc="/turtlewelcomebanner.png"
+              mobileImageSrc="/mobileversion.png"
+              imageAlt="Welcome to our store"
+              eyebrow="Welcome"
+              title="Your TCG Headquarters"
+              description="Discover the latest releases, pre-orders, and best-sellers from Magic: The Gathering, Pokémon, One Piece, and more."
+              detailText=""
+              ctaHref="/search"
+              ctaText="Shop All Products"
+              secondaryHref="/news"
+              secondaryText="See News"
+            />
+          </CarouselItem>
+          <CarouselItem>
+            <Slide
               imageSrc="/avatarpromo.jpg"
               imageAlt="Avatar banner"
               eyebrow="Pre‑order Now"
@@ -77,6 +92,7 @@ export default function Hero() {
 
 function Slide({
   imageSrc,
+  mobileImageSrc,
   imageAlt,
   eyebrow,
   title,
@@ -88,6 +104,7 @@ function Slide({
   secondaryText,
 }: {
   imageSrc: string;
+  mobileImageSrc?: string;
   imageAlt: string;
   eyebrow: string;
   title: string;
@@ -100,12 +117,24 @@ function Slide({
 }) {
   return (
     <div className="relative h-[340px] w-full overflow-hidden md:h-[400px] lg:h-[460px]">
+      {/* Mobile image - shown only on mobile */}
+      {mobileImageSrc && (
+        <Image
+          src={mobileImageSrc}
+          alt={imageAlt}
+          fill
+          priority={true}
+          className="object-cover md:hidden"
+          sizes="100vw"
+        />
+      )}
+      {/* Desktop image - hidden on mobile if mobileImageSrc is provided */}
       <Image
         src={imageSrc}
         alt={imageAlt}
         fill
         priority={true}
-        className="object-cover"
+        className={`object-cover ${mobileImageSrc ? 'hidden md:block' : ''}`}
         sizes="(min-width: 1024px) 100vw, 100vw"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
@@ -119,7 +148,7 @@ function Slide({
             </Card>
             {title?.trim() ? (
               <Card className="mb-2 w-fit bg-white/35 px-2.5 py-1.5 text-black md:mb-3 md:px-3 md:py-2 dark:bg-black/60 dark:text-white">
-                <h2 className="text-2xl font-extrabold leading-tight tracking-tight md:text-4xl lg:text-5xl">
+                <h2 className="text-xl font-extrabold leading-tight tracking-tight md:text-4xl lg:text-5xl">
                   {title}
                 </h2>
               </Card>

@@ -1,3 +1,4 @@
+import Footer from "components/layout/footer";
 import { Card } from "components/ui/card";
 import { Calendar, Tag } from "lucide-react";
 import type { Metadata } from "next";
@@ -72,23 +73,26 @@ const newsPosts: NewsPost[] = [
 
 export default function NewsPage() {
   return (
-    <div className="mx-auto max-w-4xl px-4 py-8 md:py-12">
-      <div className="mb-8 md:mb-12">
-        <h1 className="mb-3 text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-          News & Updates
-        </h1>
-        <p className="text-base text-muted-foreground md:text-lg">
-          Stay up to date with the latest releases, restocks, and store
-          announcements from Turtle Island TCG.
-        </p>
-      </div>
+    <>
+      <div className="mx-auto max-w-4xl px-4 py-8 md:py-12">
+        <div className="mb-8 md:mb-12">
+          <h1 className="mb-3 text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+            News & Updates
+          </h1>
+          <p className="text-base text-muted-foreground md:text-lg">
+            Stay up to date with the latest releases, restocks, and store
+            announcements from Turtle Island TCG.
+          </p>
+        </div>
 
-      <div className="space-y-6">
-        {newsPosts.map((post) => (
-          <NewsPostCard key={post.id} post={post} />
-        ))}
+        <div className="space-y-6">
+          {newsPosts.map((post) => (
+            <NewsPostCard key={post.id} post={post} />
+          ))}
+        </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 }
 
