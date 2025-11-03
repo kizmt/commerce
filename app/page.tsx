@@ -12,7 +12,7 @@ import { Truck } from "lucide-react";
 
 export const metadata = {
   title:
-    "Turtle Island TCG Store NZ - Pokémon, MTG, One Piece and more",
+    "Turtle Island | TCG Store New Zealand",
   description:
     "New Zealand's premier TCG store in Auckland. Shop Pokémon cards, Magic: The Gathering singles & sealed, One Piece TCG, Dragon Ball Super, Final Fantasy TCG. Pre-orders, booster boxes, and collectibles with fast NZ shipping.",
   keywords: [
