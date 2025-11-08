@@ -43,18 +43,21 @@ export default async function SearchPage(props: {
   const { sortKey, reverse } =
     sorting.find((item) => item.slug === sort) || defaultSort;
 
-  // Build Shopify product query
-  const queryParts: string[] = [];
-  if (searchValue) queryParts.push(searchValue);
-  if (stock === "in") queryParts.push("available_for_sale:true");
-  if (stock === "out") queryParts.push("available_for_sale:false");
-  // if stock === 'both' or undefined, don't add a filter (show all)
-
-  const products = await getProducts({
+  // Fetch all products matching the search query
+  let products = await getProducts({
     sortKey,
     reverse,
-    query: queryParts.length ? queryParts.join(" ") : undefined,
+    query: searchValue,
   });
+
+  // Filter by availability client-side (Shopify's available_for_sale query filter doesn't work)
+  if (stock === "in") {
+    products = products.filter((p) => p.availableForSale);
+  } else if (stock === "out") {
+    products = products.filter((p) => !p.availableForSale);
+  }
+  // if stock === 'both' or undefined, show all
+
   const resultsText = products.length > 1 ? "results" : "result";
 
   return (

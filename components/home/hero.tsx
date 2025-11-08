@@ -35,9 +35,9 @@ export default function Hero() {
               title=""
               description="Secure boosters and bundles before release. Limited quantities."
               detailText="Release Date: November 21st"
-              ctaHref="/search/pre-order"
+              ctaHref="/collection/pre-order"
               ctaText="Pre‑Order Avatar Set"
-              secondaryHref="/search/magic-the-gathering"
+              secondaryHref="/collection/magic-the-gathering"
               secondaryText="Browse MTG"
             />
           </CarouselItem>
@@ -49,9 +49,9 @@ export default function Hero() {
               title="Phantasmal Flames" 
               description="Shop best‑sellers and new arrivals from your favorite TCGs."
               detailText="Release Date: November 14th"
-              ctaHref="/search/pokemon"
+              ctaHref="/collection/pokemon"
               ctaText="Browse Catalog"
-              secondaryHref="/search/pokemon"
+              secondaryHref="/collection/pokemon"
               secondaryText="Top Sellers"
             />
           </CarouselItem>
@@ -63,9 +63,9 @@ export default function Hero() {
               title="Carrying On His Will"
               description="Secure launch‑day products for upcoming sets before they sell out."
               detailText="Release Date: November 7th"
-              ctaHref="/search/one-piece-sealed"
+              ctaHref="/collection/one-piece-sealed"
               ctaText="Shop One Piece"
-              secondaryHref="/search/one-piece"
+              secondaryHref="/collection/one-piece"
               secondaryText="Explore All"
             />
           </CarouselItem>
@@ -77,9 +77,9 @@ export default function Hero() {
               title=""
               description="Explore the latest Final Fantasy TCG singles and sealed product."
               detailText=""
-              ctaHref="/search/final-fantasy-sealed"
+              ctaHref="/collection/final-fantasy-sealed"
               ctaText="Shop Sealed Product"
-              secondaryHref="/search/final-fantasy"
+              secondaryHref="/collection/final-fantasy"
               secondaryText="Explore All"
             />
           </CarouselItem>

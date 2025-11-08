@@ -10,34 +10,19 @@ export async function GET(req: Request) {
 
     // When on /search (no collection): use product search.
     if (!collection) {
-      // Compute counts by issuing two lightweight queries to respect Shopify's search.
-      const queryBase: string[] = [];
-      if (q) queryBase.push(q);
+      // Fetch all products matching the search query and count locally
+      const products = await getProducts({
+        sortKey: defaultSort.sortKey,
+        reverse: defaultSort.reverse,
+        query: q,
+      });
 
-      const inQuery =
-        [...queryBase, "available_for_sale:true"].join(" ") || undefined;
-      const outQuery =
-        [...queryBase, "available_for_sale:false"].join(" ") || undefined;
-
-      const [inStockProducts, outStockProducts] = await Promise.all([
-        getProducts({
-          sortKey: defaultSort.sortKey,
-          reverse: defaultSort.reverse,
-          query: inQuery,
-        }),
-        getProducts({
-          sortKey: defaultSort.sortKey,
-          reverse: defaultSort.reverse,
-          query: outQuery,
-        }),
-      ]);
-
-      const inStock = inStockProducts.length;
-      const outOfStock = outStockProducts.length;
+      const inStock = products.filter((p) => p.availableForSale).length;
+      const outOfStock = products.length - inStock;
       return NextResponse.json({
         inStock,
         outOfStock,
-        total: inStock + outOfStock,
+        total: products.length,
       });
     }
 

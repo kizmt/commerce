@@ -143,7 +143,7 @@ const reshapeCollection = (
 
   return {
     ...collection,
-    path: `/search/${collection.handle}`,
+    path: `/collection/${collection.handle}`,
   };
 };
 

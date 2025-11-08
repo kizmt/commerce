@@ -140,7 +140,7 @@ export async function generateMetadata(props: {
       type: "website",
     },
     alternates: {
-      canonical: `${baseUrl}/search/${handle}`,
+      canonical: `${baseUrl}/collection/${handle}`,
     },
   };
 }
@@ -180,14 +180,8 @@ export default async function CategoryPage(props: {
       {
         "@type": "ListItem",
         position: 2,
-        name: "Search",
-        item: `${baseUrl}/search`,
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
         name: collection?.title || params.collection,
-        item: `${baseUrl}/search/${params.collection}`,
+        item: `${baseUrl}/collection/${params.collection}`,
       },
     ],
   };

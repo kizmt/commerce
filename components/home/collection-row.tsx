@@ -121,7 +121,7 @@ export default async function CollectionRow({
         <a
           href={
             fallbackMode === "collection"
-              ? `/search/${handle}`
+              ? `/collection/${handle}`
               : fallbackMode === "query"
                 ? `/search?q=${encodeURIComponent(handle.replace(/-/g, " "))}`
                 : "/search"

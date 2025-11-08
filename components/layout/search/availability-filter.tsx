@@ -21,9 +21,8 @@ export default function AvailabilityFilter() {
   } | null>(null);
   const paramsString = searchParams.toString();
   const context = useMemo(() => {
-    // Determine whether we are on /search or /search/[collection]
-    const isCollection =
-      pathname.startsWith("/search/") && pathname !== "/search";
+    // Determine whether we are on /search or /collection/[collection]
+    const isCollection = pathname.startsWith("/collection/");
     const q = searchParams.get("q") || undefined;
     const collection = isCollection
       ? decodeURIComponent(pathname.split("/")[2] || "")
