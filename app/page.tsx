@@ -74,7 +74,7 @@ export default function HomePage() {
       <div className="mx-auto max-w-(--breakpoint-2xl) pb-8">
         <div className="sr-only">
           <h1>
-            Turtle Island – New Zealand's Premier TCG Store | Pokémon,
+            New Zealand's Premier TCG Store | Pokémon,
             MTG, One Piece
           </h1>
           <p>
