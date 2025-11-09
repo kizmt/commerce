@@ -59,10 +59,10 @@ export default function Hero() {
             <Slide
               imageSrc="/carry.png"
               imageAlt="One Piece"
-              eyebrow="Pre-order Now"
+              eyebrow="Just Released"
               title="Carrying On His Will"
               description="Secure launch‑day products for upcoming sets before they sell out."
-              detailText="Release Date: November 7th"
+              detailText=""
               ctaHref="/collection/one-piece-sealed"
               ctaText="Shop One Piece"
               secondaryHref="/collection/one-piece"
